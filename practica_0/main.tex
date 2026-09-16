@@ -21,15 +21,47 @@
 \section{Introducción y Justificación}
 
 \subsection{Introducción}
-La presente práctica tiene como objetivo capacitar a los estudiantes en el manejo adecuado de los equipos fundamentales de medición en electrónica análoga: el generador de señales, el osciloscopio digital de doble traza y el multímetro digital \cite{guia_practica0}. Durante el desarrollo del laboratorio se aplicarán conceptos de medición de impedancias de entrada y de salida, tensiones eficaces (RMS) y continuas (DC), y potencia disipada, evaluando el comportamiento de estos instrumentos ante señales senoidales, cuadradas y triangulares \cite{sedra2020}. Este pre-informe recoge los cálculos analíticos y las simulaciones previas solicitadas antes de la sesión de laboratorio.
+La presente práctica tiene como objetivo capacitar a los estudiantes en
+ el manejo adecuado de los equipos fundamentales de medición en 
+ electrónica análoga: el generador de señales, el osciloscopio digital 
+ de doble canal y el multímetro digital \cite{guia_practica0}. 
+ Durante el desarrollo del laboratorio se aplicarán conceptos de 
+ medición de impedancias de entrada y de salida, tensiones eficaces 
+ (RMS) y continuas (DC), y potencia disipada; evaluando el 
+ comportamiento de estos instrumentos ante señales sinusoidales, 
+ cuadradas y triangulares \cite{sedra2020}. %Este pre-informe recoge los cálculos analíticos y las simulaciones previas solicitadas antes de la sesión de laboratorio.
 
 \subsection{Justificación}
-El correcto manejo de los instrumentos de medición no es solo un requisito académico, sino una habilidad crítica en la industria tecnológica: una medición inexacta del valor RMS, del nivel DC o de la impedancia de carga puede traducirse en un mal diseño o en el fallo prematuro de un circuito. En el sector aeroespacial y de aviónica, los osciloscopios se emplean para verificar la integridad de señal de sistemas de radar, comunicaciones y buses de datos como el MIL-STD-1553, permitiendo a los técnicos identificar fallas de conexión, degradación de la señal o componentes defectuosos antes de que comprometan la operación de la aeronave \cite{militaryaerospace_scopes,pilotjohn_scopes}. De manera similar, en instrumentación biomédica, los osciloscopios digitales combinados con preamplificadores diferenciales de bajo ruido permiten capturar señales del orden de microvoltios --como las registradas en electrocardiogramas (ECG) o electroencefalogramas (EEG)-- separándolas del ruido de modo común generado por el entorno de laboratorio \cite{tektronix_biomedical}. Estos dos casos evidencian que dominar el manejo de estos equipos es un paso indispensable para el diseño de sistemas confiables en sectores donde un error de medición puede tener consecuencias críticas.
+El correcto manejo de los instrumentos de medición no es únicamente un requisito 
+académico que se limíte a la materia de electrónica análoga 1,
+sino que también es una habilidad crítica en la industria tecnológica: 
+una medición inexacta del valor RMS, del nivel DC o de la impedancia 
+de carga puede traducirse en un mal diseño y consecuentemente en el fallo prematuro de 
+un circuito y sus componentes. \\
+Uno de los sectores industriales en los que la precisión, exactitud y buen juicio de las medidas se vuelven críticos, 
+es el sector aeroespacial y de aviónica. Los osciloscopios
+se emplean para verificar la integridad de señal de sistemas de radar,
+comunicaciones y buses de datos como el MIL-STD-1553, permitiendo a 
+los técnicos identificar fallas de conexión, degradación de la señal 
+o componentes defectuosos antes de que comprometan la operación de alguna
+aeronave \cite{militaryaerospace_scopes,pilotjohn_scopes}. 
+De manera similar, en instrumentación biomédica, los osciloscopios 
+digitales combinados con preamplificadores diferenciales de bajo ruido 
+permiten capturar señales del orden de microvoltios 
+--como las registradas en electrocardiogramas (ECG) o 
+electroencefalogramas (EEG)-- separándolas del ruido de modo común 
+generado por el entorno de laboratorio \cite{tektronix_biomedical}. 
+Estos dos casos evidencian que dominar el manejo de estos equipos es 
+un paso indispensable para el diseño de sistemas confiables en 
+sectores donde un error de medición puede tener consecuencias destacables y peligrosas.
 
 \section{Cálculos}
 
 \subsection{Análisis del Circuito Resistivo DC}
-Para el circuito propuesto en la guía de laboratorio (ver Fig. \ref{fig:circuito_sim}), se calculan las tensiones, corrientes y potencias disipadas aplicando las leyes de Kirchhoff y Ohm \cite{sedra2020}. Dado que $V_1 = 5\text{ V}$, $R_1=1\text{ k}\Omega$, $R_2=2.2\text{ k}\Omega$, $R_3=2.2\text{ k}\Omega$ y $R_4=1\text{ k}\Omega$, se determinan primero las resistencias equivalentes. La rama derecha (R2 en serie con R4) es:
+Para el circuito propuesto en la guía de laboratorio (ver Fig. \ref{fig:circuito_sim}), se calculan las tensiones, 
+corrientes y potencias disipadas aplicando las leyes de Kirchhoff y Ohm \cite{sedra2020}. 
+Dado que $V_1 = 5\text{ V}$, $R_1=1\text{ k}\Omega$, $R_2=2.2\text{ k}\Omega$, $R_3=2.2\text{ k}\Omega$ y 
+$R_4=1\text{ k}\Omega$, se determinan primero las resistencias equivalentes. La rama derecha (R2 en serie con R4) es:
 \begin{equation}
     R_{eq,24} = R_2 + R_4 = 3.2\text{ k}\Omega
 \end{equation}
@@ -52,7 +84,7 @@ Con este resultado se obtienen las demás tensiones y corrientes del circuito:
 \end{itemize}
 La potencia disipada por cada resistencia, calculada como $P = V \cdot I$, se resume en la Tabla \ref{tab:potencias}.
 
-\begin{table}[t]
+\begin{table}[h]
 \centering
 \caption{Potencia disipada teórica en cada resistencia}
 \label{tab:potencias}
@@ -90,14 +122,14 @@ Para las cuatro señales complejas del numeral 3.1.1(3), se aprovecha que, para 
 \section{Simulación}
 En la Fig. \ref{fig:circuito_sim} y la Fig. \ref{fig:op_point} se observan, respectivamente, el esquema simulado del circuito resistivo y su punto de operación (\texttt{.op}). Los valores de tensión en los nodos coinciden con los cálculos analíticos de la Sección II-A: $V(n1)=5\text{ V}$, $V(n2)=2.830\text{ V}$ y $V(n3)=0.884\text{ V}$, al igual que las corrientes por cada resistencia.
 
-\begin{figure}[t]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.45\textwidth]{analoga_practica1_3.1.2.png}
     \caption{Esquema del circuito resistivo en el simulador SPICE.}
     \label{fig:circuito_sim}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.45\textwidth]{analoga_grafica_sinoidal_2.png}
     \caption{Punto de operación (\texttt{.op}) del circuito resistivo simulado.}
@@ -106,7 +138,7 @@ En la Fig. \ref{fig:circuito_sim} y la Fig. \ref{fig:op_point} se observan, resp
 
 Para las señales AC, se generaron las cuatro formas de onda complejas indicadas en el numeral 3.1.1(3) y se obtuvo su valor promedio (DC) y RMS mediante la herramienta de medición de forma de onda del simulador (ver Anexo, Figs. \ref{fig:anexo_sin}--\ref{fig:anexo_cuad_asim}). La Tabla \ref{tab:senales} compara estos resultados con los cálculos teóricos de la Sección II-B.
 
-\begin{table}[t]
+\begin{table}[h]
 \centering
 \caption{Comparación de señales: valor teórico vs. simulado}
 \label{tab:senales}
