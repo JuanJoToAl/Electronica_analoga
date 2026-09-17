@@ -151,6 +151,50 @@ Con onda cuadrada de 10 V, $t_{rr}=t_s+t_f$ \cite{guia}.
 
 Teóricamente $t_{rr}$ no debería depender de la frecuencia, pues obedece a la recombinación de portadores de la unión P-N; discrepancias a 100 kHz frente a la hoja de datos se atribuyen a aproximaciones numéricas del simulador. Al cambiar $R_1$ a 500 $\Omega$, $I_R$ aumenta y $t_s$ disminuye. En SPICE, $t_s$ y $t_f$ están gobernados por el tiempo de tránsito ($TT$) y la capacitancia de unión ($CJ0$), no por $I_s$ ni $\eta$ \cite{guia}.
 
+\subsubsection{Resultados de simulacion 1N4148}
+Respecto al diodo 1N4148 se hizo el análisis con 
+el circuito planteado en la guía con frecuencias de: 10 Hz, 50 Hz, 100 Hz, 500 Hz, 1 kHz, 5 kHz, 10 kHz, 25 kHz, 50 kHz y 100kHz.
+\\
+Tras observar el comportamiento de este circuito, 
+dentro del software se evidencia que la onda de corriente no es completamente cuadrada, sino que 
+presenta picos al momento de la conmutación, los cuales luego regresan a la corriente esperada.
+Este comportamiento coincide con lo descrito en la guía, es decir; un momento en el cual el diodo no recupera inmediatamente su estado de corte, por lo que se presentan dichos picos de corriente.
+\\
+Al exportar los datos del simulador y analizarlos con un programa hecho en Python, el cual grafíca el momento de estos picos de corriente,
+junto con sus valores; se puede apreciar detalladamente que este tiempo de recuperación es de alrededor de $2,5x10^{-6} ms$ o $2.5ns$, 
+adicionalmente este tiempo se mantiene constante, independientemente de la frecuencia a la que se haya simulado. Respecto a esto,
+la teoría no justifica que el \textit{trr} cambie dependiendo de la frecuencia, y por su parte el datasheet del 1n4148 \cite{1n4148} no indica un parametro
+de frecuencia en la sección referente a la caracterización del \textit{trr} del diodo, por lo que se descarta que la frecuencia sea una variable que pueda afectar al \textit{trr}.
+\\
+Considerando que el circuito está configurado para permitir un paso máximo de corriente de $10mA$, este valor concuerda perfectamente concuerda perfectamente 
+con el valor dado en el datasheet del 1n4148 \cite{1n4148}, Pues en este se menciona que la corriente máxima en conducción que se usó para la caracterización
+del \textit{trr} fue de $10mA$, y se obtuvo un \textit{trr}  máximo de $4ns$.
+
+\begin{center}
+    \begin{minipage}{\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{primera_simulacion_diodo.png}
+        \captionof{figure}{trr de 1n4148 con resistencia de 1k$\Omega$}
+        \label{fig:nombre-imagen}
+    \end{minipage}
+\end{center}
+% La figura se referencia en el texto con: \cref{fig:nombre-imagen}.
+Por otro lado, al momento de cambiar la resistencia siguiendo las indicaciones de la guía, se evidencia que el tiempo de recuperación inversa del diodo 
+se ve disminuido, esto por el cambio en la corriente que pasa por el diodo en este nuevo circuito, la cual aumenta.
+
+\begin{center}
+    \begin{minipage}{\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{simulacion_diodo_500_hz_tiempo_recuperacion.png}
+        \captionof{figure}{trr de 1n4148 con resistencia de 500$\Omega$}
+        \label{fig:simulacion-500-ohm}
+    \end{minipage}
+\end{center}
+Finalmente, tras comparar las directivas SPICE que caracterizan ambos diodos, se encuentra que en el parametro \textit{tt} 
+es sumamente mayor en el modelo del 1N4004 ($\approx 1500n $) frente a este mismo en el modelo del 1N4148 ($20n$), siendo 
+esta la diferencia más significativa entre ambos modelos, por lo que es posible afirmar que esta es la diferencia de mayor peso frente a la configuración
+ del tiempo de recuperación inversa.
+
 \section{Montaje}
 % Sección dejada en blanco de acuerdo con las instrucciones del pre-informe.
 
@@ -172,6 +216,8 @@ El diodo 1N4004 responde coherentemente con la ecuación de Shockley \cite{guia}
 \bibitem{allpcb} AllPCB, \textit{Defibrillator PCB Design for Beginners: A Step-by-Step Guide}, 2025. [En línea]. Disponible en: https://www.allpcb.com/blog/pcb-knowledge/defibrillator-pcb-design-for-beginners-a-step-by-step-guide.html
 \bibitem{grafica1} LTSpice Simulation Data Export, \textit{Grafica1.txt}.
 \bibitem{grafica2} LTSpice Simulation Data Export, \textit{Grafica2.txt}.
+\bibitem{1n4148}
+Won-Top Electronics, ``1N4148 / LL4148 Fast Switching Diode,'' [En línea]. Disponible en: \url{https://www.alldatasheet.com/datasheet-pdf/view/33884/WTE/1N4148.html}. [Accedido: 16-sep-2026].
 \end{thebibliography}
 
 \end{document}
