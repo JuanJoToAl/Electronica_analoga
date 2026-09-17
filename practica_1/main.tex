@@ -6,6 +6,8 @@
 \usepackage{pgfplots}
 \usepackage{booktabs}
 \usepackage{siunitx}
+\usepackage{float}
+\usepackage{caption}
 
 \pgfplotsset{compat=1.18}
 
@@ -30,7 +32,228 @@ Esta caracterización es relevante en entornos de alta exigencia: en electrónic
 Para $I_{max}=50$ mA con $V_{fuente}=25$ V y asumiendo $V_d\approx0.7$ V:
 $$R_{1} = \frac{25 - 0.7}{0.05} = 486~\Omega \;\approx\; 500~\Omega \text{ (valor de montaje)}$$
 
+\subsection{Posibles variaciones de voltaje en el diodo}
+
+Las posibles variaciones en el voltaje del diodo suceden por cambios en la temperatura o por cambios en la corriente de operación que atraviesa el diodo. Para estimar las posibles variaciones de voltaje del diodo se usa la ecuación de corriente del diodo:
+
+\begin{equation}
+I_d = I_s \left( e^{\frac{V_d}{\eta V_T}} \right)
+\label{eq:diodo1}
+\end{equation}
+
+Despejando $V_d$:
+
+\begin{equation}
+V_d = \eta V_T \ln \left( \frac{I_d}{I_s} \right)
+\label{eq:diodo2}
+\end{equation}
+
+Como en el datasheet no aparecen los valores $n$ ni $I_s$, para los diodos se usan los del modelo LTspice.
+
+\subsubsection{1N4004}
+
+Con $I_s = 14.11$ nA, $n = 1.984$.
+
+Estableciendo una temperatura de $27\ ^\circ\text{C} = 300.15\ \text{K} \approx 300\ \text{K}$:
+
+\begin{equation}
+V_T = 25.85\ \text{mV}
+\end{equation}
+
+Cuando por el diodo está circulando una corriente de 50 mA:
+
+\begin{align}
+V_D &= 1.984 \times 0.02585 \times \ln \left( \frac{0.05}{14.11 \times 10^{-9}} \right) \\
+V_D &= 0.05129 \times \ln(3.543 \times 10^{6}) \\
+V_D &= 0.05129 \times 15.08 = 0.7735\ \text{V}
+\end{align}
+
+que es aproximadamente 0.774 V.
+
+Evaluando $V_D$ en el rango de corriente que el diodo puede manejar según el datasheet se obtiene la siguiente tabla.
+
+\begin{table}[H]
+\centering
+\caption{Variación de $V_D$ por corriente (a $T = 27\ ^\circ$C) -- 1N4004}
+\label{tab:1n4004_corriente}
+\begin{tabular}{|l|l|}
+\hline
+$I_D$ & $V_D$ calculado \\
+\hline
+1 mA & 0.573 V \\
+\hline
+50 mA & 0.774 V \\
+\hline
+\end{tabular}
+\end{table}
+
+Evaluando $V_D$ en el rango de temperatura ($-65\ ^\circ$C a $165\ ^\circ$C) que el diodo puede manejar según el datasheet se obtiene la siguiente tabla.
+
+\begin{table}[H]
+\centering
+\caption{Variación de $V_D$ por temperatura (a $I_D = 50$ mA) -- 1N4004}
+\label{tab:1n4004_temperatura}
+\begin{tabular}{|l|l|}
+\hline
+$T$ & $V_D$ estimado \\
+\hline
+$-65\ ^\circ$C (mínimo datasheet) & 0.958 V \\
+\hline
+$27\ ^\circ$C (referencia) & 0.774 V \\
+\hline
+$+150\ ^\circ$C (máximo datasheet) & 0.528 V \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{1N4148}
+
+Con $I_s = 2.52$ nA, $n = 1.52$.
+
+Se procede de la misma forma que con el diodo 1N4004, pero con los valores del modelo Spice $I_s$ y $n$.
+
+Se llega a que $V_D$ es aproximadamente 0.761 V cuando lo atraviesan 50 mA.
+
+Evaluando $V_D$ en el rango de corriente que el diodo puede manejar según el datasheet se obtiene la siguiente tabla.
+
+\begin{table}[H]
+\centering
+\caption{Variación de $V_D$ por corriente (a $T = 27\ ^\circ$C) -- 1N4148}
+\label{tab:1n4148_corriente}
+\begin{tabular}{|l|l|}
+\hline
+$I_D$ & $V_D$ calculado \\
+\hline
+1 mA & 0.584 V \\
+\hline
+50 mA & 0.761 V \\
+\hline
+\end{tabular}
+\end{table}
+
+Evaluando $V_D$ en el rango de temperatura que el diodo puede manejar según el datasheet se obtiene la siguiente tabla.
+
+\begin{table}[H]
+\centering
+\caption{Variación de $V_D$ por temperatura (a $I_D = 50$ mA) -- 1N4148}
+\label{tab:1n4148_temperatura}
+\begin{tabular}{|l|l|}
+\hline
+$T$ & $V_D$ estimado \\
+\hline
+$-65\ ^\circ$C (mínimo datasheet) & 0.945 V \\
+\hline
+$27\ ^\circ$C (referencia) & 0.761 V \\
+\hline
+$+200\ ^\circ$C (máximo datasheet) & 0.415 V \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
 \section{Simulación}
+
+Se hizo la simulación de la figura 2 del diodo 1N4004 y 1N4148 en LTspice variando la fuente de 3.13 a 25 V y posteriormente se exportaron los datos como texto.
+
+\begin{table}[H]
+\centering
+\caption{Datos de simulación -- 1N4004}
+\label{tab:datos_1n4004}
+\begin{tabular}{|l|l|l|}
+\hline
+$v$ & $V(n002)$ & $I(D1)$ \\
+\hline
+3.130000000000000e+00 & 6.567972e-01 & 5.088895e-03 \\
+\hline
+5.560000000000000e+00 & 6.917182e-01 & 1.001704e-02 \\
+\hline
+7.990000000000000e+00 & 7.125158e-01 & 1.497425e-02 \\
+\hline
+1.042000000000000e+01 & 7.273903e-01 & 1.994364e-02 \\
+\hline
+1.285000000000000e+01 & 7.389898e-01 & 2.491977e-02 \\
+\hline
+1.528000000000000e+01 & 7.485084e-01 & 2.990019e-02 \\
+\hline
+1.771000000000000e+01 & 7.565877e-01 & 3.488357e-02 \\
+\hline
+2.014000000000000e+01 & 7.636123e-01 & 3.986911e-02 \\
+\hline
+2.257000000000000e+01 & 7.698290e-01 & 4.485632e-02 \\
+\hline
+2.500000000000000e+01 & 7.754095e-01 & 4.984483e-02 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Datos de simulación -- 1N4148}
+\label{tab:datos_1n4148}
+\begin{tabular}{|l|l|l|}
+\hline
+$v$ & $V(n002)$ & $I(D1)$ \\
+\hline
+3.130000000000000e+00 & 6.607172e-01 & 5.080829e-03 \\
+\hline
+5.560000000000000e+00 & 6.942555e-01 & 1.001182e-02 \\
+\hline
+7.990000000000000e+00 & 7.152955e-01 & 1.496853e-02 \\
+\hline
+1.042000000000000e+01 & 7.311038e-01 & 1.993600e-02 \\
+\hline
+1.285000000000000e+01 & 7.440209e-01 & 2.490942e-02 \\
+\hline
+1.528000000000000e+01 & 7.551029e-01 & 2.988662e-02 \\
+\hline
+1.771000000000000e+01 & 7.649153e-01 & 3.486643e-02 \\
+\hline
+2.014000000000000e+01 & 7.737966e-01 & 3.984816e-02 \\
+\hline
+2.257000000000000e+01 & 7.819667e-01 & 4.483134e-02 \\
+\hline
+2.500000000000000e+01 & 7.895759e-01 & 4.981569e-02 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Caracterización del diodo}
+
+Una vez exportados los datos como texto se procedió a hacer un código en Python, que reciba los datos txt y que a partir del archivo calcule los valores $I_s$ y $n$ para los diodos y grafique los datos como en el modelo exponencial de corriente del diodo en la guía.
+
+\subsubsection{1N4004}
+
+Corriente de saturación: $I_s = 1.823119 \times 10^{-8}$ A ($\pm 4.48 \times 10^{-10}$)
+
+Factor de idealidad: $n = 2.023523$ ($\pm 0.003422$)
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{grafica ID vs VD diodo 1n4004.png}
+    \caption{grafica ID vs VD diodo 1n4004.}
+    \label{fig:grafica_1n4004}
+\end{figure}
+
+\subsubsection{1N4148}
+
+Corriente de saturación: $I_s = 1.482981 \times 10^{-7}$ A ($\pm 4.41 \times 10^{-8}$)
+
+Factor de idealidad: $n = 2.396443$ ($\pm 0.057231$)
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{grafica ID vs VD diodo 1N4148.png}
+    \caption{grafica ID vs VD diodo 1N4148.}
+    \label{fig:grafica_1n4148}
+\end{figure}
+
+\subsection{Limitantes de identificación de los parámetros}
+
+Los datos encontrados en el diodo 1N4004 dan valores cercanos o parecidos a los del modelo Spice, en cuanto al diodo 1N4148 dan valores un tanto alejados al del modelo Spice, dado a que hay pocos puntos experimentales (solo 10 pares $I_D$, $V_D$) y un ajuste no lineal con solo 10 datos y 2 parámetros libres tiene poco margen para promediar ruido o desviaciones puntuales, y es más sensible a cualquier imprecisión de los primeros puntos.
+
+Resistencia serie del diodo ($R_s$) no incluida en el código de ajuste: el modelo SPICE real del 1N4148 sí tiene $R_s$. A corrientes de decenas de mA, la caída $I \cdot R_s$ es no despreciable.
+
 
 \subsection{Efecto de la Temperatura (4.3.1)}
 Se simuló el diodo a -25°C, 25°C y 75°C.
@@ -93,6 +316,7 @@ Como muestra la Fig. \ref{fig:temp_variation}, al aumentar $T$ crecen $V_T$ e $I
     \label{tab:temp_vd}
 \end{table}
 El coeficiente térmico resultante, $\Delta V_d/\Delta T\approx-1.71$ mV/°C, es cercano al valor típico de $-2$ mV/°C para uniones de silicio.
+
 
 \subsection{Modelamiento del Diodo (4.3.2)}
 $R_d$ y $V_t$ \cite{guia} se estiman con la secante entre el punto de máxima corriente y un punto de baja corriente de la curva a 25°C (Tabla \ref{tab:parametros}).
