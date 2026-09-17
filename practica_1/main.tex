@@ -22,38 +22,30 @@
 \maketitle
 
 \section{Introducción y Justificación}
+Este pre-informe caracteriza el diodo rectificador 1N4004, determinando su relación tensión-corriente, tiempo de recuperación inversa y corriente de saturación inversa \cite{guia}, a partir de la ecuación de Shockley $I_{d}=I_{s}(e^{V_d/\eta V_{T}})$, donde $I_s$ es la corriente de saturación inversa, $\eta$ el coeficiente de emisión y $V_T$ el voltaje térmico \cite{guia}.
 
-\subsection{Introducción}
-El presente pre-informe detalla el estudio y la caracterización del diodo rectificador 1N4004. El propósito principal de la práctica es determinar las características básicas de los diodos semiconductores, tales como la relación tensión-corriente, los tiempos de recuperación inversa y la corriente de saturación inversa[cite: 5]. El comportamiento estático de la unión P-N está regido por la ecuación de Shockley, definida como $I_{d}=I_{s}(e^{\frac{V_{d}}{\eta V_{T}}})$[cite: 5]. En esta expresión, $I_{s}$ representa la corriente inversa de saturación, $\eta$ es el coeficiente de emisión, y $V_{T}$ equivale al voltaje térmico[cite: 5]. 
-
-\subsection{Justificación}
-La caracterización térmica y dinámica de diodos es fundamental en entornos profesionales de alta exigencia. Por ejemplo, en aplicaciones aeroespaciales desarrolladas por agencias como la NASA, los sistemas de rectificación de potencia de los satélites enfrentan fluctuaciones extremas de temperatura. Comprender cómo varía el voltaje umbral y la corriente de saturación ante estos cambios climáticos asegura que los sistemas de soporte vital y telecomunicaciones no fallen en órbita. De igual manera, en la industria médica, equipos de soporte crítico como los desfibriladores dependen del tiempo de recuperación inversa ($t_{rr}$) de los diodos para garantizar que los pulsos de alta energía se administren de forma controlada y segura al paciente, rectificando la señal rápidamente tras el cruce por cero.
+Esta caracterización es relevante en entornos de alta exigencia: en electrónica espacial, los rectificadores calificados para satélites deben operar de forma confiable hasta 175 °C de temperatura de unión, lo que exige conocer con precisión el desplazamiento de $V_t$ e $I_s$ con la temperatura \cite{strad}; en el sector médico, el diseño de desfibriladores externos requiere diodos de recuperación rápida para controlar la descarga de energía y evitar corrientes inversas indeseadas \cite{allpcb}.
 
 \section{Cálculos}
-Para caracterizar el diodo 1N4004 obteniendo una corriente máxima de 50 mA con una fuente de 25 V[cite: 5], se debe calcular el valor nominal de la resistencia limitadora $R_{1}$. Asumiendo una caída de tensión típica en polarización directa para un diodo de silicio de aproximadamente 0.7 V:
-
-$$R_{1} = \frac{V_{fuente} - V_{d}}{I_{max}}$$
-
-$$R_{1} = \frac{25 - 0.7}{0.05} = 486~\Omega$$
-
-Para propósitos prácticos de montaje y simulación, se aproxima el valor al estándar comercial más cercano, que es 500 $\Omega$.
+Para $I_{max}=50$ mA con $V_{fuente}=25$ V y asumiendo $V_d\approx0.7$ V:
+$$R_{1} = \frac{25 - 0.7}{0.05} = 486~\Omega \;\approx\; 500~\Omega \text{ (valor de montaje)}$$
 
 \section{Simulación}
 
-\subsection{Efecto de la Temperatura en la Caracterización (4.3.1)}
-Se evaluó el diodo 1N4004 bajo tres escalones de temperatura: -25°C, 25°C y 75°C. 
+\subsection{Efecto de la Temperatura (4.3.1)}
+Se simuló el diodo a -25°C, 25°C y 75°C.
 
 \begin{figure}[htbp]
     \centering
-    \pgfplotstableset{comment chars={S}} 
-    
+    \pgfplotstableset{comment chars={S}}
+ 
     \begin{tikzpicture}
         \begin{axis}[
             title={Curva Característica V-I a diferentes Temperaturas},
             xlabel={Voltaje en el diodo $V_{D}$ (mV)},
             ylabel={Corriente I(D1) (mA)},
             grid=major,
-            width=\columnwidth, % Ahora encajará perfectamente en la columna
+            width=\columnwidth,
             height=6cm,
             xmin=0, xmax=780,
             ymin=0, ymax=54,
@@ -64,52 +56,66 @@ Se evaluó el diodo 1N4004 bajo tres escalones de temperatura: -25°C, 25°C y 7
             scaled y ticks=false
         ]
             % Curva 1: Temp = -25 (Color Azul)
-            \addplot[color=blue, thick, restrict expr to domain={\coordindex}{0:250}] 
+            \addplot[color=blue, thick, restrict expr to domain={\coordindex}{0:250}]
                 table[x expr=\thisrow{V(n002)}*1000, y expr=\thisrow{I(D1)}*1000] {Grafica1.txt};
             \addlegendentry{-25$^\circ$C}
-
+ 
             % Curva 2: Temp = 25 (Color Verde)
-            \addplot[color=green, thick, restrict expr to domain={\coordindex}{251:501}] 
+            \addplot[color=green, thick, restrict expr to domain={\coordindex}{251:501}]
                 table[x expr=\thisrow{V(n002)}*1000, y expr=\thisrow{I(D1)}*1000] {Grafica1.txt};
             \addlegendentry{25$^\circ$C}
-
+ 
             % Curva 3: Temp = 75 (Color Rojo)
-            \addplot[color=red, thick, restrict expr to domain={\coordindex}{502:752}] 
+            \addplot[color=red, thick, restrict expr to domain={\coordindex}{502:752}]
                 table[x expr=\thisrow{V(n002)}*1000, y expr=\thisrow{I(D1)}*1000] {Grafica1.txt};
             \addlegendentry{75$^\circ$C}
-
+ 
         \end{axis}
     \end{tikzpicture}
-    \caption{Efecto de la temperatura en la curva del diodo 1N4004.}
+    \caption{Efecto de la temperatura en la curva del diodo 1N4004. Datos de simulación exportados desde LTSpice \cite{grafica1}.}
     \label{fig:temp_variation}
 \end{figure}
 
-En la Fig. 1 es posible observar los escalones de simulación consolidados. De acuerdo con la ecuación $I_{d}=I_{s}(e^{\frac{V_{d}}{\eta V_{T}}})$[cite: 5], un aumento en la temperatura incrementa significativamente el voltaje térmico $V_{T}$ y la corriente de saturación inversa $I_{s}$[cite: 5]. Físicamente, el aumento de temperatura genera mayor energía cinética en los portadores de carga, disminuyendo la tensión umbral necesaria para que el diodo entre en conducción.
+Como muestra la Fig. \ref{fig:temp_variation}, al aumentar $T$ crecen $V_T$ e $I_s$ \cite{guia}, reduciendo la tensión umbral necesaria para conducir. Frente al modelo ideal ($I_d>0,V_d=0$) \cite{guia}, a baja temperatura el diodo se \emph{aleja} de la idealidad en la caída de tensión (requiere más $V_d$), pero se \emph{acerca} en la nitidez de la transición corte-conducción (curva más abrupta) y en la menor fuga inversa. $I_s$ es el parámetro con dependencia térmica dominante; $\eta$, asociado al mecanismo de conducción, debería variar poco con $T$.
 
-Bajo el modelo ideal de diodo ($I_{d}>0, V_{d}=0$)[cite: 5], a bajas temperaturas (-25°C) el dispositivo se aleja de la idealidad respecto a la caída de tensión, ya que requiere un mayor voltaje directo para vencer la barrera de potencial. Sin embargo, su curva de encendido se vuelve más abrupta (similar a un interruptor ideal) y su corriente de fuga inversa disminuye. Los parámetros $I_{s}$ y $\eta$ se ven alterados directamente; $I_{s}$ es altamente dependiente de la temperatura intrínseca del material.
+\begin{table}[h]
+    \centering
+    \caption{$V_d$ a $I_d\approx50$ mA según temperatura}
+    \begin{tabular}{ccc}
+        \toprule
+        \textbf{T} & \textbf{$V_d$ (V)} & \textbf{$I_d$ (mA)} \\
+        \midrule
+        -25°C & 0.7597 & 49.88 \\
+        25°C & 0.6751 & 50.05 \\
+        75°C & 0.5884 & 50.23 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:temp_vd}
+\end{table}
+El coeficiente térmico resultante, $\Delta V_d/\Delta T\approx-1.71$ mV/°C, es cercano al valor típico de $-2$ mV/°C para uniones de silicio.
 
 \subsection{Modelamiento del Diodo (4.3.2)}
-Para encontrar la resistencia dinámica $R_{d}$ y la tensión umbral $V_{t}$[cite: 5], se evalúan los puntos de operación de la curva simulada a 25°C.
+$R_d$ y $V_t$ \cite{guia} se estiman con la secante entre el punto de máxima corriente y un punto de baja corriente de la curva a 25°C (Tabla \ref{tab:parametros}).
 
-\begin{table}[htbp]
+\begin{table}[h]
     \centering
-    \caption{Parámetros del Diodo 1N4004 a 25°C}
+    \caption{Puntos de la curva a 25°C \cite{grafica1}}
     \begin{tabular}{lcc}
         \toprule
-        \textbf{Punto Evaluado} & \textbf{Voltaje (V)} & \textbf{Corriente (mA)} \\
+        \textbf{Punto} & \textbf{$V_d$ (V)} & \textbf{$I_d$ (mA)} \\
         \midrule
-        Corte (x-intercept) & 0.65 & 0.0 \\
-        Operación Máximo & 25.0 & 50.0 \\
-        Operación Medio & 12.5 & 24.6 \\
+        Bajo ($V_1=5$ V) & 0.5868 & 9.08 \\
+        Medio ($V_1=12.5$ V) & 0.6380 & 24.41 \\
+        Máximo ($V_1=25$ V) & 0.6751 & 50.05 \\
         \bottomrule
     \end{tabular}
     \label{tab:parametros}
 \end{table}
 
-Trazando una recta secante desde el punto máximo, obtenemos una resistencia dinámica equivalente al inverso de la pendiente[cite: 5]. Si tomamos un punto medio en la curva, el valor de $R_{d}$ se incrementa levemente debido al comportamiento no lineal (exponencial) del semiconductor en etapas tempranas de conducción, y el voltaje umbral $V_{t}$ proyectado disminuye ligeramente al adaptarse a una tangente de menor pendiente.
+Con Bajo-Máximo: $R_d\approx2.16~\Omega$, $V_t\approx0.567$ V. Con Bajo-Medio (en vez del máximo): $R_d'\approx3.34~\Omega$, $V_t'\approx0.557$ V. Es decir, $R_d$ \emph{aumenta} y $V_t$ \emph{disminuye} levemente al usar el punto medio, por la curvatura exponencial de la característica.
 
 \subsection{Tiempo de Recuperación Inversa (4.3.3)}
-Para evaluar los tiempos de recuperación, se aplicó una onda cuadrada de 10 V de amplitud. El tiempo de recuperación inversa ($t_{rr}$) es la suma del tiempo de almacenamiento ($t_{s}$) y el tiempo de caída ($t_{f}$)[cite: 5].
+Con onda cuadrada de 10 V, $t_{rr}=t_s+t_f$ \cite{guia}.
 
 \begin{figure}[htbp]
     \centering
@@ -119,14 +125,13 @@ Para evaluar los tiempos de recuperación, se aplicó una onda cuadrada de 10 V 
             xlabel={Tiempo ($\mu$s)},
             ylabel={I(D1) (mA)},
             grid=both,
-        % Reducido de 4 a 2 para que se vea menos saturado
             width=\columnwidth,
             height=5.5cm,
             legend pos=south east,
             scaled x ticks=false,
             scaled y ticks=false,
-            xtick distance=3,     % Fuerza los números del eje X a ir de 3 en 3
-            ytick distance=3,     % Fuerza los números del eje Y a ir de 3 en 3
+            xtick distance=3,
+            ytick distance=3,
             tick label style={
                 /pgf/number format/fixed,
                 /pgf/number format/precision=1,
@@ -140,36 +145,33 @@ Para evaluar los tiempos de recuperación, se aplicó una onda cuadrada de 10 V 
             \addlegendentry{Corriente}
         \end{axis}
     \end{tikzpicture}
-    \caption{Tiempo de recuperación inversa para el diodo 1N4004.}
+    \caption{Tiempo de recuperación inversa para el diodo 1N4004. Datos de simulación exportados desde LTSpice \cite{grafica2}.}
     \label{fig:trr}
 \end{figure}
 
-En la Fig. 2 es posible observar el comportamiento inicial de la recuperación inversa[cite: 6]. A nivel teórico, el $t_{rr}$ no debería cambiar sustancialmente en función de la frecuencia del generador, ya que depende de la física interna de recombinación de portadores de la unión P-N. Si al aumentar a 100 kHz el simulador arroja discrepancias frente a la hoja de datos, esto se debe a las limitaciones del software computacional, que aproxima las ecuaciones diferenciales e ignora inductancias parásitas de los terminales.
-
-Al cambiar la resistencia $R_{1}$ a 500 $\Omega$, el pico de corriente inversa $I_{R}$ aumenta. Esto acelera la extracción de la carga almacenada en la zona de deplexión, reduciendo el tiempo de almacenamiento ($t_{s}$). En el modelo computacional SPICE, estos tiempos están gobernados fuertemente por el parámetro de tiempo de tránsito ($TT$) y la capacitancia de unión de polarización cero ($CJ0$), no por $I_{s}$ ni $\eta$[cite: 5].
+Teóricamente $t_{rr}$ no debería depender de la frecuencia, pues obedece a la recombinación de portadores de la unión P-N; discrepancias a 100 kHz frente a la hoja de datos se atribuyen a aproximaciones numéricas del simulador. Al cambiar $R_1$ a 500 $\Omega$, $I_R$ aumenta y $t_s$ disminuye. En SPICE, $t_s$ y $t_f$ están gobernados por el tiempo de tránsito ($TT$) y la capacitancia de unión ($CJ0$), no por $I_s$ ni $\eta$ \cite{guia}.
 
 \section{Montaje}
-% Se deja en blanco y comentada de acuerdo a las instrucciones específicas del pre-informe.
-% En esta sección se documentará el montaje en protoboard utilizando la fuente variable, 
-% generador de señales, osciloscopio y multímetros, conforme a la Figura 1 y Figura 4 de la guía.
+% Sección dejada en blanco de acuerdo con las instrucciones del pre-informe.
 
 \section{Análisis de Resultados}
-Desde el punto de vista de la simulación, el diodo 1N4004 responde de forma coherente a la ecuación de Shockley[cite: 5]. La alteración térmica desplaza efectivamente la rodilla de conducción. Respecto al transitorio, el modelo de software demuestra fielmente la existencia de $t_{s}$ y $t_{f}$ al forzar el corte[cite: 5], corroborando que a altas frecuencias, los rectificadores de propósito general como el 1N4004 sufren de fuertes ineficiencias dinámicas comparados con los diodos de conmutación rápida (como el 1N4148).
-% Análisis de resultados experimentales omitidos/comentados por ser pre-informe.
-% Faltan datos empíricos de los osciloscopios para realizar la comparación de error relativo.
+El diodo 1N4004 responde coherentemente con la ecuación de Shockley \cite{guia}: la temperatura desplaza la rodilla de conducción, y el transitorio evidencia $t_s$ y $t_f$ al forzar el corte \cite{guia}, confirmando que rectificadores de propósito general como el 1N4004 son más lentos que diodos de conmutación rápida (1N4148).
+% Comparación con datos experimentales pendiente por falta de mediciones de laboratorio.
 
 \section{Conclusiones}
 \begin{itemize}
-    \item La temperatura impacta de manera inversamente proporcional a la tensión umbral del diodo 1N4004 y de manera directamente proporcional a su corriente de saturación inversa, validando teóricamente el comportamiento termodinámico de los portadores mayoritarios en la simulación.
-    \item La obtención de la resistencia dinámica $R_{d}$ depende enteramente de los puntos de interpolación seleccionados; escoger un punto medio resulta en un valor resistivo diferente frente a evaluar el punto máximo de operación debido a la naturaleza exponencial de la curva característica.
-    \item El tiempo de recuperación inversa ($t_{rr}$) está determinado por la tasa de recombinación del semiconductor y no debe verse afectado por la frecuencia de excitación de la fuente. Sin embargo, modificar la resistencia limitadora del circuito impacta la amplitud de la corriente de barrido, alterando los tiempos parciales de almacenamiento ($t_{s}$) y de caída ($t_{f}$).
+    \item La temperatura afecta inversamente a $V_t$ y directamente a $I_s$, con un coeficiente medido de $-1.71$ mV/°C, coherente con la teoría.
+    \item $R_d$ y $V_t$ dependen del tramo de la curva usado para la secante: el punto medio da mayor $R_d$ y menor $V_t$ que el punto máximo, por la no linealidad exponencial del diodo.
+    \item $t_{rr}$ depende de la recombinación del semiconductor, no de la frecuencia de excitación; sin embargo, $R_1$ sí modifica $t_s$ y $t_f$ al alterar la amplitud de la corriente de barrido.
 \end{itemize}
 
 \section{Referencias}
 \begin{thebibliography}{1}
 \bibitem{guia} Universidad Nacional de Colombia, \textit{Práctica 1: Caracterización del Diodo}, Electrónica Análoga I, 2026-II.
-\bibitem{datos_txt1} LTSpice Simulation Data Export, \textit{Grafica1.txt}.
-\bibitem{datos_txt2} LTSpice Simulation Data Export, \textit{Grafica2.txt}.
+\bibitem{strad} STMicroelectronics, \textit{Rad-hard Diodes and Rectifiers}. [En línea]. Disponible en: https://www.st.com/en/space-products/rad-hard-diodes-and-rectifiers.html
+\bibitem{allpcb} AllPCB, \textit{Defibrillator PCB Design for Beginners: A Step-by-Step Guide}, 2025. [En línea]. Disponible en: https://www.allpcb.com/blog/pcb-knowledge/defibrillator-pcb-design-for-beginners-a-step-by-step-guide.html
+\bibitem{grafica1} LTSpice Simulation Data Export, \textit{Grafica1.txt}.
+\bibitem{grafica2} LTSpice Simulation Data Export, \textit{Grafica2.txt}.
 \end{thebibliography}
 
 \end{document}
