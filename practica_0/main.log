@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  16 SEP 2026 16:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  16 SEP 2026 19:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -507,97 +507,103 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.75     \item \textbf
-                      {Triangular ($2\text{ V}_{pp}$):} al oscilar simétric...
+l.107     \item \textbf
+                       {Triangular ($2\text{ V}_{pp}$):} al oscilar simétri...
 ]
-Underfull \hbox (badness 1478) in paragraph at lines 80--81
+Underfull \hbox (badness 1478) in paragraph at lines 112--113
 \OT1/ptm/m/n/10 es $\OT1/cmr/m/n/10 2[]5[]$\OT1/ptm/m/n/10 , por lo que $\OML/c
 mm/m/it/10 V[] \OT1/cmr/m/n/10 = 1[]$ \OT1/ptm/m/n/10 y $\OML/cmm/m/it/10 V[] \
 OT1/cmr/m/n/10 =
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 9
-1.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
+23.
 (C:\Users\neujo\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 <analoga_practica1_3.1.2.png, id=86, 551.661pt x 332.442pt>
 File: analoga_practica1_3.1.2.png Graphic file (type png)
 <use analoga_practica1_3.1.2.png>
-Package pdftex.def Info: analoga_practica1_3.1.2.png  used on input line 95.
+Package pdftex.def Info: analoga_practica1_3.1.2.png  used on input line 127.
 (pdftex.def)             Requested size: 232.19843pt x 139.92397pt.
 <analoga_grafica_sinoidal_2.png, id=88, 452.892pt x 124.66576pt>
 File: analoga_grafica_sinoidal_2.png Graphic file (type png)
 <use analoga_grafica_sinoidal_2.png>
-Package pdftex.def Info: analoga_grafica_sinoidal_2.png  used on input line 102
+Package pdftex.def Info: analoga_grafica_sinoidal_2.png  used on input line 134
 .
 (pdftex.def)             Requested size: 232.19843pt x 63.91537pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 [2
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.140 
+l.172 
       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.140 
+l.172 
       
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.140 
+l.172 
        <./analoga_practica1_3.1.2.png> <./analoga_grafica_sinoidal_2.png>]
 Underfull \vbox (badness 2469) has occurred while \output is active []
 
 
-Underfull \hbox (badness 5817) in paragraph at lines 162--163
+Underfull \hbox (badness 5817) in paragraph at lines 194--195
 []\OT1/ptm/m/n/8 J. Paul, ``The sig-ni-fi-can-ce of os-ci-llos-co-pes in ae-ros
 -pa-ce and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--163
+Underfull \hbox (badness 10000) in paragraph at lines 194--195
 \OT1/ptm/m/n/8 de-fen-se,'' \OT1/ptm/m/it/8 Mi-li-tary Ae-ros-pa-ce Elec-tro-ni
 cs\OT1/ptm/m/n/8 . [On-li-ne]. Avai-la-ble:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--163
+Underfull \hbox (badness 10000) in paragraph at lines 194--195
 []$\OT1/ptm/m/n/8 https : / / www . militaryaerospace . com / commercial-[]aero
 space / article /
  []
 
 
-Underfull \hbox (badness 3098) in paragraph at lines 168--169
+Underfull \hbox (badness 3098) in paragraph at lines 200--201
 []\OT1/ptm/m/n/8 Tektronix, ``Ma-king Mi-cro-Volt Bio-me-di-cal Mea-su-re-ments
 ,'' Tech-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--175
+Underfull \hbox (badness 10000) in paragraph at lines 206--207
 \OT1/ptm/m/n/8 [On-li-ne]. Avai-la-ble: []$https : / / www . keysight . com / u
 s / en / lib / resources /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--175
+Underfull \hbox (badness 10000) in paragraph at lines 206--207
 \OT1/ptm/m/n/8 training-[]materials / tip-[]1-[]understand-[]true-[]rms-[]measu
 rements-[]458364 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 177--178
+Underfull \hbox (badness 10000) in paragraph at lines 209--210
 \OT1/ptm/m/n/8 com / threads / digital-[]analog-[]multimeter-[]frecuency-[]limi
 t-[]in-[]ac-[]reading .
  []
 
 
-Underfull \hbox (badness 3138) in paragraph at lines 183--184
+Underfull \hbox (badness 3138) in paragraph at lines 215--216
 []\OT1/ptm/m/n/8 Boston Uni-ver-sity Ad-van-ced Tea-ching Labs, ``In-put and ou
 t-put
  []
@@ -606,51 +612,51 @@ t-put
 <analoga_grafica_sinoidal_3.png, id=150, 1151.502pt x 413.74574pt>
 File: analoga_grafica_sinoidal_3.png Graphic file (type png)
 <use analoga_grafica_sinoidal_3.png>
-Package pdftex.def Info: analoga_grafica_sinoidal_3.png  used on input line 195
+Package pdftex.def Info: analoga_grafica_sinoidal_3.png  used on input line 227
 .
 (pdftex.def)             Requested size: 232.19843pt x 83.4295pt.
 <analoga_grafica_cuadrada_2.png, id=151, 1151.502pt x 437.2335pt>
 File: analoga_grafica_cuadrada_2.png Graphic file (type png)
 <use analoga_grafica_cuadrada_2.png>
-Package pdftex.def Info: analoga_grafica_cuadrada_2.png  used on input line 202
+Package pdftex.def Info: analoga_grafica_cuadrada_2.png  used on input line 234
 .
 (pdftex.def)             Requested size: 232.19843pt x 88.16568pt.
 <analoga_grafica_triangular_2.png, id=152, 1154.51324pt x 398.6895pt>
 File: analoga_grafica_triangular_2.png Graphic file (type png)
 <use analoga_grafica_triangular_2.png>
 Package pdftex.def Info: analoga_grafica_triangular_2.png  used on input line 2
-09.
+41.
 (pdftex.def)             Requested size: 232.19843pt x 80.18057pt.
 <analoga_grafica_cuadrada_2_2.png, id=153, 1151.502pt x 415.5525pt>
 File: analoga_grafica_cuadrada_2_2.png Graphic file (type png)
 <use analoga_grafica_cuadrada_2_2.png>
 Package pdftex.def Info: analoga_grafica_cuadrada_2_2.png  used on input line 2
-16.
+48.
 (pdftex.def)             Requested size: 232.19843pt x 83.79382pt.
  [4
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.221 \end{document}
+l.253 \end{document}
                     
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.221 \end{document}
+l.253 \end{document}
                     
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.221 \end{document}
+l.253 \end{document}
                     
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.221 \end{document}
+l.253 \end{document}
                     
 
  <./analoga_grafica_sinoidal_3.png> <./analoga_grafica_cuadrada_2.png> <./analo
@@ -668,11 +674,11 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Here is how much of TeX's memory you used:
  11706 strings out of 467871
  188812 string characters out of 5418377
- 646662 words of memory out of 5000000
+ 647662 words of memory out of 5000000
  40415 multiletter control sequences out of 15000+600000
  666437 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,12n,79p,1333b,550s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,79p,810b,552s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmex10.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmmi10.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/p
@@ -690,7 +696,7 @@ r/ucrr8a.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/time
 s/utmb8a.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/time
 s/utmr8a.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/time
 s/utmri8a.pfb>
-Output written on main.pdf (4 pages, 388008 bytes).
+Output written on main.pdf (4 pages, 388146 bytes).
 PDF statistics:
  240 PDF objects out of 1000 (max. 8388607)
  41 named destinations out of 1000 (max. 500000)
