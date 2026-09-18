@@ -21,47 +21,17 @@
 \section{Introducción y Justificación}
 
 \subsection{Introducción}
-La presente práctica tiene como objetivo capacitar a los estudiantes en
- el manejo adecuado de los equipos fundamentales de medición en 
- electrónica análoga: el generador de señales, el osciloscopio digital 
- de doble canal y el multímetro digital \cite{guia_practica0}. 
- Durante el desarrollo del laboratorio se aplicarán conceptos de 
- medición de impedancias de entrada y de salida, tensiones eficaces 
- (RMS) y continuas (DC), y potencia disipada; evaluando el 
- comportamiento de estos instrumentos ante señales sinusoidales, 
- cuadradas y triangulares \cite{sedra2020}. %Este pre-informe recoge los cálculos analíticos y las simulaciones previas solicitadas antes de la sesión de laboratorio.
+La presente práctica tiene como objetivo capacitar a los estudiantes en el manejo adecuado de los equipos fundamentales de medición en electrónica análoga: el generador de señales, el osciloscopio digital de doble canal y el multímetro digital \cite{guia_practica0}. Durante el desarrollo del laboratorio se aplicarán conceptos de medición de impedancias de entrada y de salida, tensiones eficaces (RMS) y continuas (DC), y potencia disipada; evaluando el comportamiento de estos instrumentos ante señales sinusoidales, cuadradas y triangulares \cite{sedra2020}.
 
 \subsection{Justificación}
-El correcto manejo de los instrumentos de medición no es únicamente un requisito 
-académico que se limíte a la materia de electrónica análoga 1,
-sino que también es una habilidad crítica en la industria tecnológica: 
-una medición inexacta del valor RMS, del nivel DC o de la impedancia 
-de carga puede traducirse en un mal diseño y consecuentemente en el fallo prematuro de 
-un circuito y sus componentes. \\
-Uno de los sectores industriales en los que la precisión, exactitud y buen juicio de las medidas se vuelven críticos, 
-es el sector aeroespacial y de aviónica. Los osciloscopios
-se emplean para verificar la integridad de señal de sistemas de radar,
-comunicaciones y buses de datos como el MIL-STD-1553, permitiendo a 
-los técnicos identificar fallas de conexión, degradación de la señal 
-o componentes defectuosos antes de que comprometan la operación de alguna
-aeronave \cite{militaryaerospace_scopes,pilotjohn_scopes}. 
-De manera similar, en instrumentación biomédica, los osciloscopios 
-digitales combinados con preamplificadores diferenciales de bajo ruido 
-permiten capturar señales del orden de microvoltios 
---como las registradas en electrocardiogramas (ECG) o 
-electroencefalogramas (EEG)-- separándolas del ruido de modo común 
-generado por el entorno de laboratorio \cite{tektronix_biomedical}. 
-Estos dos casos evidencian que dominar el manejo de estos equipos es 
-un paso indispensable para el diseño de sistemas confiables en 
-sectores donde un error de medición puede tener consecuencias destacables y peligrosas.
+El correcto manejo de los instrumentos de medición no es únicamente un requisito académico que se limite a la materia de electrónica análoga, sino que también es una habilidad crítica en la industria tecnológica: una medición inexacta del valor RMS, del nivel DC o de la impedancia de carga puede traducirse en un mal diseño y consecuentemente en el fallo prematuro de un circuito. 
+
+Uno de los sectores industriales en los que la precisión de las medidas se vuelve crítica es el sector aeroespacial. Los osciloscopios se emplean para verificar la integridad de señal de sistemas de radar, comunicaciones y buses de datos como el MIL-STD-1553, permitiendo a los técnicos identificar fallas antes de que comprometan la operación de una aeronave \cite{militaryaerospace_scopes,pilotjohn_scopes}. De manera similar, en la industria médica, los osciloscopios combinados con preamplificadores diferenciales de bajo ruido permiten capturar señales del orden de microvoltios (como las registradas en electrocardiogramas) separándolas del ruido generado por el entorno \cite{tektronix_biomedical}. Estos casos evidencian que dominar el manejo de estos equipos es indispensable para el diseño de sistemas confiables en la vida real.
 
 \section{Cálculos}
 
 \subsection{Análisis del Circuito Resistivo DC}
-Para el circuito propuesto en la guía de laboratorio (ver Fig. \ref{fig:circuito_sim}), se calculan las tensiones, 
-corrientes y potencias disipadas aplicando las leyes de Kirchhoff y Ohm \cite{sedra2020}. 
-Dado que $V_1 = 5\text{ V}$, $R_1=1\text{ k}\Omega$, $R_2=2.2\text{ k}\Omega$, $R_3=2.2\text{ k}\Omega$ y 
-$R_4=1\text{ k}\Omega$, se determinan primero las resistencias equivalentes. La rama derecha (R2 en serie con R4) es:
+Para el circuito propuesto en la guía de laboratorio (Fig. 1 de \cite{guia_practica0}), se calculan las tensiones, corrientes y potencias disipadas aplicando las leyes de Kirchhoff y Ohm \cite{sedra2020}. Dado que $V_1 = 5\text{ V}$, $R_1=1\text{ k}\Omega$, $R_2=2.2\text{ k}\Omega$, $R_3=2.2\text{ k}\Omega$ y $R_4=1\text{ k}\Omega$, se determinan primero las resistencias equivalentes. La rama derecha ($R_2$ en serie con $R_4$) es:
 \begin{equation}
     R_{eq,24} = R_2 + R_4 = 3.2\text{ k}\Omega
 \end{equation}
@@ -69,7 +39,7 @@ Esta rama está en paralelo con $R_3$, de modo que la resistencia vista desde el
 \begin{equation}
     R_{eq,324} = \frac{R_3 \cdot R_{eq,24}}{R_3 + R_{eq,24}} = \frac{2.2\text{k} \cdot 3.2\text{k}}{5.4\text{k}} \approx 1.3037\text{ k}\Omega
 \end{equation}
-La resistencia total vista por la fuente es $R_T = R_1 + R_{eq,324} \approx 2.3037\text{ k}\Omega$. Por Ley de Ohm, la corriente total entregada por la fuente (que atraviesa $R_1$) es:
+La resistencia total vista por la fuente es $R_T = R_1 + R_{eq,324} \approx 2.3037\text{ k}\Omega$. Por Ley de Ohm, la corriente total entregada por la fuente es:
 \begin{equation}
     I_{R1} = \frac{V_1}{R_T} = \frac{5\text{ V}}{2.3037\text{ k}\Omega} \approx 2.170\text{ mA}
 \end{equation}
@@ -82,9 +52,9 @@ Con este resultado se obtienen las demás tensiones y corrientes del circuito:
     \item $V_{R2} = I_{R2} \cdot R_2 \approx 1.945\text{ V}$
     \item $V_{R4} = I_{R4} \cdot R_4 \approx 0.884\text{ V}$
 \end{itemize}
-La potencia disipada por cada resistencia, calculada como $P = V \cdot I$, se resume en la Tabla \ref{tab:potencias}.
+La potencia disipada por cada resistencia ($P = V \cdot I$) se resume en la Tabla \ref{tab:potencias}.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Potencia disipada teórica en cada resistencia}
 \label{tab:potencias}
@@ -100,45 +70,69 @@ El valor medio ($V_{DC}$) y el valor eficaz ($V_{RMS}$) de una señal periódica
 \begin{equation}
     V_{DC} = \frac{1}{T}\int_{0}^{T} v(t)\,dt \: ; \quad V_{RMS} = \sqrt{\frac{1}{T}\int_{0}^{T} v^2(t)\,dt}
 \end{equation}
-Para las tres señales básicas solicitadas en el numeral 3.1.1(2) de la guía:
+Para las tres señales básicas solicitadas en la guía:
 \begin{itemize}
     \item \textbf{Senoidal ($1\text{ V}_p$):} $V_{DC} = 0\text{ V}$, $V_{RMS} = 1/\sqrt{2} \approx 0.707\text{ V}$.
-    \item \textbf{Cuadrada ($2\text{ V}_{pp}$, offset $1\text{ V}_p$, ciclo útil 50\%):} la señal oscila entre 0 V y 2 V con igual duración en ambos niveles, por lo que $V_{DC} = 1\text{ V}$ y $V_{RMS} = \sqrt{0.5(2\text{ V})^2 + 0.5(0\text{ V})^2} \approx 1.414\text{ V}$.
-    \item \textbf{Triangular ($2\text{ V}_{pp}$):} al oscilar simétricamente entre $-1\text{ V}$ y $1\text{ V}$, $V_{DC} = 0\text{ V}$ y $V_{RMS} = 1/\sqrt{3} \approx 0.577\text{ V}$.
+    \item \textbf{Cuadrada ($2\text{ V}_{pp}$, offset $1\text{ V}_p$, ciclo útil 50\%):} $V_{DC} = 1\text{ V}$ y $V_{RMS} = \sqrt{0.5(2)^2 + 0.5(0)^2} \approx 1.414\text{ V}$.
+    \item \textbf{Triangular ($2\text{ V}_{pp}$):} $V_{DC} = 0\text{ V}$ y $V_{RMS} = 1/\sqrt{3} \approx 0.577\text{ V}$.
 \end{itemize}
 
-Para las cuatro señales complejas del numeral 3.1.1(3), se aprovecha que, para una señal con componente DC ($V_{DC}$) y componente AC de valor eficaz $V_{RMS,AC}$, el valor eficaz total cumple $V_{RMS}=\sqrt{V_{DC}^2+V_{RMS,AC}^2}$ \cite{sedra2020}:
+Para las cuatro señales complejas, se aprovecha la relación $V_{RMS}=\sqrt{V_{DC}^2+V_{RMS,AC}^2}$ \cite{sedra2020}:
 \begin{itemize}
-    \item \textbf{Senoidal ($5\text{ V}_{pp}$, DC $1\text{ V}$, $500\text{ Hz}$):} la amplitud AC es $2.5\text{ V}$, por lo que $V_{DC}=1\text{ V}$ y $V_{RMS} = \sqrt{1^2 + (2.5/\sqrt{2})^2} \approx 2.031\text{ V}$.
-    \item \textbf{Cuadrada simétrica ($5\text{ V}_{pp}$, DC $3\text{ V}$, $120\text{ Hz}$):} amplitud $2.5\text{ V}$, así $V_{DC}=3\text{ V}$ y $V_{RMS} = \sqrt{3^2 + 2.5^2} \approx 3.905\text{ V}$.
-    \item \textbf{Triangular ($8\text{ V}_{pp}$, DC $-4\text{ V}$, $300\text{ Hz}$):} amplitud $4\text{ V}$, así $V_{DC}=-4\text{ V}$ y $V_{RMS} = \sqrt{(-4)^2 + (4/\sqrt{3})^2} \approx 4.619\text{ V}$.
-    \item \textbf{Cuadrada ($8\text{ V}_{pp}$, DC $2\text{ V}$, $1\text{ kHz}$, ciclo útil 70\%):} una cuadrada de $8\text{ V}_{pp}$ sin offset oscila entre $-4\text{ V}$ y $4\text{ V}$; al sumar un nivel DC de $2\text{ V}$, oscila entre $-2\text{ V}$ y $6\text{ V}$. Con ciclo útil del 70\% en el nivel alto:
+    \item \textbf{Senoidal ($5\text{ V}_{pp}$, DC $1\text{ V}$):} amplitud AC es $2.5\text{ V}$, por lo que $V_{DC}=1\text{ V}$ y $V_{RMS} = \sqrt{1^2 + (2.5/\sqrt{2})^2} \approx 2.031\text{ V}$.
+    \item \textbf{Cuadrada simétrica ($5\text{ V}_{pp}$, DC $3\text{ V}$):} amplitud $2.5\text{ V}$, $V_{DC}=3\text{ V}$ y $V_{RMS} = \sqrt{3^2 + 2.5^2} \approx 3.905\text{ V}$.
+    \item \textbf{Triangular ($8\text{ V}_{pp}$, DC $-4\text{ V}$):} amplitud $4\text{ V}$, $V_{DC}=-4\text{ V}$ y $V_{RMS} = \sqrt{(-4)^2 + (4/\sqrt{3})^2} \approx 4.619\text{ V}$.
+    \item \textbf{Cuadrada ($8\text{ V}_{pp}$, DC $2\text{ V}$, ciclo útil 70\%):} oscila entre $-2\text{ V}$ y $6\text{ V}$. Con ciclo útil del 70\%:
     \begin{align}
-        V_{DC} &= 0.7(6\text{ V}) + 0.3(-2\text{ V}) = 3.6\text{ V} \\
+        V_{DC} &= 0.7(6) + 0.3(-2) = 3.6\text{ V} \\
         V_{RMS} &= \sqrt{0.7(6)^2 + 0.3(-2)^2} \approx 5.138\text{ V}
     \end{align}
 \end{itemize}
 
 \section{Simulación}
-En la Fig. \ref{fig:circuito_sim} y la Fig. \ref{fig:op_point} se observan, respectivamente, el esquema simulado del circuito resistivo y su punto de operación (\texttt{.op}). Los valores de tensión en los nodos coinciden con los cálculos analíticos de la Sección II-A: $V(n1)=5\text{ V}$, $V(n2)=2.830\text{ V}$ y $V(n3)=0.884\text{ V}$, al igual que las corrientes por cada resistencia.
+El circuito resistivo de la Fig. 1 de la guía \cite{guia_practica0} se simuló en SPICE, obteniendo tensiones nodales $V(n1)=5\text{ V}$, $V(n2)=2.830\text{ V}$ y $V(n3)=0.884\text{ V}$, resultados que coinciden exactamente con los cálculos teóricos.
 
-\begin{figure}[h]
+Para las señales AC, se generaron las cuatro formas de onda complejas solicitadas.
+
+En la Fig. \ref{fig:sen} es posible observar la señal senoidal simulada, comprobando su oscilación respecto al nivel DC calculado.
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.45\textwidth]{analoga_practica1_3.1.2.png}
-    \caption{Esquema del circuito resistivo en el simulador SPICE.}
-    \label{fig:circuito_sim}
+    \includegraphics[width=0.48\textwidth]{grafica_senoidal.png}
+    \caption{Señal senoidal simulada ($5\text{ V}_{pp}$, DC $1\text{ V}$, $500\text{ Hz}$).}
+    \label{fig:sen}
 \end{figure}
 
-\begin{figure}[h]
+En la Fig. \ref{fig:cuad_sim} es posible observar la onda cuadrada simétrica manteniendo la excursión de voltaje teórica.
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.45\textwidth]{analoga_grafica_sinoidal_2.png}
-    \caption{Punto de operación (\texttt{.op}) del circuito resistivo simulado.}
-    \label{fig:op_point}
+    \includegraphics[width=0.48\textwidth]{grafica_cuadrada_sim.png}
+    \caption{Onda cuadrada simétrica simulada ($5\text{ V}_{pp}$, DC $3\text{ V}$, $120\text{ Hz}$).}
+    \label{fig:cuad_sim}
 \end{figure}
 
-Para las señales AC, se generaron las cuatro formas de onda complejas indicadas en el numeral 3.1.1(3) y se obtuvo su valor promedio (DC) y RMS mediante la herramienta de medición de forma de onda del simulador (ver Anexo, Figs. \ref{fig:anexo_sin}--\ref{fig:anexo_cuad_asim}). La Tabla \ref{tab:senales} compara estos resultados con los cálculos teóricos de la Sección II-B.
+En la Fig. \ref{fig:triang} es posible observar el comportamiento de la onda triangular con su respectivo offset negativo.
 
-\begin{table}[h]
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{grafica_triangular.png}
+    \caption{Onda triangular simulada ($8\text{ V}_{pp}$, DC $-4\text{ V}$, $300\text{ Hz}$).}
+    \label{fig:triang}
+\end{figure}
+
+En la Fig. \ref{fig:cuad_asim} es posible observar la onda cuadrada asimétrica con su ciclo útil del 70\%.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{grafica_cuadrada_asim.png}
+    \caption{Onda cuadrada asimétrica simulada ($8\text{ V}_{pp}$, offset $2\text{ V}$, ciclo útil 70\%, $1\text{ kHz}$).}
+    \label{fig:cuad_asim}
+\end{figure}
+
+A partir de estas mediciones obtenidas en el simulador, se construye la Tabla \ref{tab:senales}, que compara los resultados medidos con los teóricos.
+
+\begin{table}[htbp]
 \centering
 \caption{Comparación de señales: valor teórico vs. simulado}
 \label{tab:senales}
@@ -152,102 +146,43 @@ Cuadrada asim. $8\text{V}_{pp}$ & 3.600 / 3.600 V   & 5.138 / 5.138 V \\ \bottom
 \end{tabular}
 \end{table}
 
-Como se observa en la Tabla \ref{tab:senales}, el error entre los valores teóricos y los obtenidos por integración numérica en el simulador es prácticamente nulo (inferior al 0.03\% en el peor caso, la señal triangular), lo cual valida tanto el planteamiento analítico como la correcta configuración de las fuentes de señal en el simulador.
-
 \section{Montaje}
-% Esta sección permanece en blanco intencionalmente. Se completará tras la realización de la práctica en el laboratorio, con las fotografías y descripciones pertinentes de los circuitos implementados en la protoboard, así como con la respuesta a las preguntas sobre la región punteada de las Figs. 2 y 3 de la guía y el significado de $R_g$.
+% Sección en blanco intencionalmente. Se completará tras la práctica.
 
 \section{Análisis de resultados}
-% NOTA: Los resultados prácticos (mediciones con multímetro/osciloscopio en la protoboard) y el barrido de frecuencia se añadirán tras la sesión de laboratorio, junto con la comparación teórico-simulado-medido. A continuación se resuelven las preguntas teóricas de la Sección 4 de la guía.
+En la Tabla \ref{tab:potencias} es posible observar que la mayor potencia se disipa en $R_1$, al conducir la corriente total; en contraste, $R_4$ disipa la menor potencia. En la Tabla \ref{tab:senales} es posible observar que el error entre valores teóricos y simulados es prácticamente nulo.
 
-En la Tabla \ref{tab:potencias} es posible observar que la mayor potencia se disipa en $R_1$, al ser la resistencia que conduce la corriente total entregada por la fuente; en contraste, $R_4$ disipa la menor potencia por transportar únicamente la corriente de la rama derecha. La Tabla \ref{tab:senales}, por su parte, evidencia que la fórmula general $V_{RMS}=\sqrt{2}/2 \cdot V_p$, válida solo para señales senoidales puras y sin offset, no es aplicable a las señales cuadradas o asimétricas; en su lugar, la definición integral (o su equivalente en potencias, $V_{RMS}=\sqrt{V_{DC}^2+V_{RMS,AC}^2}$) es la que permite obtener el valor correcto, como se comprobó en la onda cuadrada de ciclo útil del 70\%.
+Respuestas a la Sección 4 de la guía \cite{guia_practica0}:
 
-A continuación se responden las preguntas sugeridas en la Sección 4 de la guía de laboratorio \cite{guia_practica0}.
+\textbf{1) Multímetros:} Un multímetro \emph{promedio} rectifica la señal y multiplica el valor medio por un factor de forma (1.11), siendo correcto solo para señales senoidales puras \cite{fluke_truerms,keysight_truerms}. Un multímetro \emph{True RMS} digitaliza la señal, eleva al cuadrado cada muestra, promedia y extrae la raíz cuadrada, entregando el valor eficaz real de cualquier forma de onda \cite{fluke_truerms}.
 
-\textbf{1) Proceso de medición de cada tipo de multímetro:} un multímetro de tipo \emph{promedio} (average-responding) rectifica la señal AC y multiplica el valor medio resultante por un factor de forma constante (1.11 para una onda senoidal), por lo que su lectura es correcta únicamente cuando la señal medida es senoidal pura \cite{fluke_truerms,keysight_truerms}. Un multímetro \emph{True RMS}, en cambio, digitaliza la señal, eleva al cuadrado cada muestra, promedia estos valores a lo largo de un periodo y extrae la raíz cuadrada del resultado, lo que le permite entregar el valor eficaz real de cualquier forma de onda, incluidas las señales distorsionadas o no senoidales como las cuadradas o triangulares \cite{fluke_truerms}.
+\textbf{2) Variables medibles:} El osciloscopio permite observar la señal en el tiempo y medir amplitud pico a pico, periodo, frecuencia y nivel DC \cite{sedra2020}. El multímetro entrega valores integrados (RMS, DC, corriente) pero no visualiza la onda \cite{sedra2020}.
 
-\textbf{2) Variables medibles con cada equipo:} el osciloscopio permite observar la señal en el dominio del tiempo y medir parámetros como la amplitud pico a pico, el periodo, la frecuencia, el nivel DC y el tiempo de subida \cite{sedra2020}. El multímetro, en cambio, entrega valores integrados de la señal --tensión RMS, tensión DC, corriente y resistencia-- pero no permite visualizar la forma de onda \cite{sedra2020}.
+\textbf{3) Límite de frecuencia:} Se debe a la capacitancia parásita en las puntas y la etapa de entrada, que forma un filtro pasa-bajos que atenúa las componentes de alta frecuencia \cite{allaboutcircuits_freqlimit}.
 
-\textbf{3) Límite de frecuencia en los multímetros:} este límite se debe principalmente a la capacitancia parásita presente en las puntas de prueba y en la etapa de entrada del instrumento, la cual, en conjunto con la impedancia de entrada, forma un filtro pasa-bajos no intencional que atenúa las componentes de alta frecuencia de la señal \cite{allaboutcircuits_freqlimit}. A esto se suma el ancho de banda finito de los amplificadores operacionales y del conversor análogo-digital (ADC) empleados en la etapa de rectificación interna del equipo, lo cual impide una conversión fiel de la señal por encima de cierta frecuencia \cite{allaboutcircuits_freqlimit}.
+\textbf{4) Precisión vertical del osciloscopio:} Depende de la resolución en bits del ADC interno y del nivel de ruido propio del amplificador de entrada (\emph{front-end}), ya que el ruido degrada la resolución vertical efectiva \cite{keysight_vertacc}.
 
-\textbf{4) Precisión vertical en el osciloscopio:} la precisión (o exactitud) vertical de un osciloscopio indica qué tan cercana es la tensión mostrada en pantalla respecto al valor real de la señal. Depende principalmente de dos factores: la resolución en bits del ADC interno, que determina el número de niveles de cuantización disponibles para representar la escala vertical seleccionada, y el nivel de ruido propio del amplificador de entrada (\emph{front-end}) del equipo, ya que dicho ruido se superpone a la señal medida y degrada la resolución vertical efectiva incluso cuando el ADC tiene muchos bits \cite{keysight_vertacc}.
-
-\textbf{5) Impedancias de entrada y de salida:} la impedancia de entrada de un equipo de medición representa la oposición que este presenta al recibir una señal; en instrumentos como el osciloscopio o el multímetro debe ser muy alta (típicamente $1\text{ M}\Omega$ o más) para no cargar el circuito bajo prueba ni drenar corriente adicional que altere la tensión que se desea medir \cite{buadlab_impedance}. La impedancia de salida, por su parte, es la resistencia interna equivalente de una fuente de señal (como el generador de funciones) que se opone a la entrega de corriente hacia una carga; idealmente debe ser baja, de manera que la mayor parte de la tensión generada se transfiera a la carga y no se pierda en la propia fuente \cite{buadlab_impedance}.
+\textbf{5) Impedancias:} La impedancia de entrada representa la oposición al recibir una señal (debe ser alta para no cargar el circuito) \cite{buadlab_impedance}. La impedancia de salida es la resistencia interna de la fuente; debe ser baja para transferir la mayor tensión posible a la carga \cite{buadlab_impedance}.
 
 \section{Conclusiones}
 \begin{itemize}
-    \item Los cálculos analíticos de corrientes y tensiones en la malla puramente resistiva de la Fig. \ref{fig:circuito_sim} presentaron un margen de error nulo respecto al modelo simulado en SPICE, lo cual verifica el cumplimiento preciso de las Leyes de Kirchhoff y de Ohm en el circuito propuesto.
-    \item El análisis de las señales AC evidencia que las fórmulas generalistas de RMS (válidas solo para senoidales puras) no son aplicables a ondas cuadradas, triangulares o asimétricas; es necesario recurrir a la definición integral o a la relación $V_{RMS}=\sqrt{V_{DC}^2+V_{RMS,AC}^2}$, la cual coincidió con el valor $V_{RMS}=5.138\text{ V}$ obtenido numéricamente en el simulador para la onda cuadrada de 70\% de ciclo útil.
-    \item Conocer la arquitectura interna de los equipos de medición --como el efecto de la capacitancia parásita en los multímetros o la relación entre bits de ADC y ruido de entrada en los osciloscopios-- permite anticipar los límites de validez de una medición y evitar interpretaciones erróneas al trabajar con señales de alta frecuencia o con formas de onda distorsionadas en el laboratorio.
+    \item Los cálculos analíticos presentaron un margen de error casi nulo respecto al modelo simulado en SPICE, verificando el cumplimiento de las Leyes de Kirchhoff y Ohm.
+    \item Las fórmulas generalistas de RMS no son aplicables a ondas cuadradas o asimétricas; se debe recurrir a la definición integral, la cual coincidió con el valor de $5.138\text{ V}$ obtenido en el simulador.
+    \item Conocer la arquitectura interna de los equipos de medición permite anticipar los límites de validez de una medición y evitar errores al trabajar con señales de alta frecuencia.
 \end{itemize}
 
 \renewcommand{\refname}{Referencias}
 \begin{thebibliography}{99}
-
-\bibitem{guia_practica0}
-Universidad Nacional de Colombia, Departamento de Ingeniería Eléctrica y Electrónica, ``Práctica 0: Manejo de Equipos,'' Guía de Laboratorio, Electrónica Análoga I, 2026-II.
-
-\bibitem{sedra2020}
-A. S. Sedra, K. C. Smith, T. C. Carusone, and V. Gaudet, \textit{Microelectronic Circuits}, 8th ed. Oxford University Press, 2020.
-
-\bibitem{militaryaerospace_scopes}
-J. Paul, ``The significance of oscilloscopes in aerospace and defense,'' \textit{Military Aerospace Electronics}. [Online]. Available: \url{https://www.militaryaerospace.com/commercial-aerospace/article/14228899/the-significance-of-oscilloscopes-in-aerospace-and-defense}
-
-\bibitem{pilotjohn_scopes}
-PilotJohn, ``Oscilloscopes -- Aircraft Electrical System Analysis.'' [Online]. Available: \url{https://pilotjohn.com/c/avionics/aircraft-test-equipment/oscilloscopes}
-
-\bibitem{tektronix_biomedical}
-Tektronix, ``Making MicroVolt Biomedical Measurements,'' Technical Brief. [Online]. Available: \url{https://www.tek.com/en/documents/technical-brief/making-microvolt-biomedical-measurements}
-
-\bibitem{fluke_truerms}
-Fluke Corporation, ``When Do You Actually Need a True-RMS Multimeter?'' [Online]. Available: \url{https://www.fluke.com/en-us/learn/blog/digital-multimeters/when-do-you-need-a-true-rms-multimeter}
-
-\bibitem{keysight_truerms}
-Keysight Technologies, ``Tip 1: Understand True RMS Measurements.'' [Online]. Available: \url{https://www.keysight.com/us/en/lib/resources/training-materials/tip-1-understand-true-rms-measurements-458364.html}
-
-\bibitem{allaboutcircuits_freqlimit}
-All About Circuits Forum, ``Digital/Analog Multimeter, Frequency Limit in AC reading,'' 2018. [Online]. Available: \url{https://forum.allaboutcircuits.com/threads/digital-analog-multimeter-frecuency-limit-in-ac-reading.147430/}
-
-\bibitem{keysight_vertacc}
-Keysight Technologies, ``Why is Oscilloscope Vertical Accuracy Important?'' Application Note. [Online]. Available: \url{https://www.keysight.com/us/en/assets/7018-04317/application-notes/5991-4088.pdf}
-
-\bibitem{buadlab_impedance}
-Boston University Advanced Teaching Labs, ``Input and output impedance.'' [Online]. Available: \url{http://physics.bu.edu/adlab_and_elab/input-and-output-impedance/}
-
+\bibitem{guia_practica0} Universidad Nacional de Colombia, ``Práctica 0: Manejo de Equipos,'' Guía de Laboratorio, Electrónica Análoga I, 2026.
+\bibitem{sedra2020} A. S. Sedra, et al., \textit{Microelectronic Circuits}, 8th ed. Oxford University Press, 2020.
+\bibitem{militaryaerospace_scopes} J. Paul, ``The significance of oscilloscopes in aerospace and defense,'' \textit{Military Aerospace Electronics}.
+\bibitem{pilotjohn_scopes} PilotJohn, ``Oscilloscopes -- Aircraft Electrical System Analysis.''
+\bibitem{tektronix_biomedical} Tektronix, ``Making MicroVolt Biomedical Measurements.''
+\bibitem{fluke_truerms} Fluke Corporation, ``When Do You Actually Need a True-RMS Multimeter?''
+\bibitem{keysight_truerms} Keysight Technologies, ``Tip 1: Understand True RMS Measurements.''
+\bibitem{allaboutcircuits_freqlimit} All About Circuits Forum, ``Digital/Analog Multimeter, Frequency Limit in AC reading.''
+\bibitem{keysight_vertacc} Keysight Technologies, ``Why is Oscilloscope Vertical Accuracy Important?''
+\bibitem{buadlab_impedance} Boston University, ``Input and output impedance.''
 \end{thebibliography}
-
-\newpage
-\section*{Anexo: Imágenes de Simulación}
-\label{sec:anexo}
-
-Se incluyen a continuación las capturas del simulador donde se muestran los valores promedio (DC) y RMS obtenidos por integración numérica para cada una de las señales complejas del numeral 3.1.1(3) de la guía, utilizados para construir la Tabla \ref{tab:senales}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.45\textwidth]{analoga_grafica_sinoidal_3.png}
-    \caption{Señal senoidal (5$\text{V}_{pp}$, DC 1 V, 500 Hz): Average $=1\text{ V}$, RMS $=2.0309\text{ V}$.}
-    \label{fig:anexo_sin}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.45\textwidth]{analoga_grafica_cuadrada_2.png}
-    \caption{Onda cuadrada simétrica (5$\text{V}_{pp}$, DC 3 V, 120 Hz): Average $=3.0003\text{ V}$, RMS $=3.9054\text{ V}$.}
-    \label{fig:anexo_cuad_sim}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.45\textwidth]{analoga_grafica_triangular_2.png}
-    \caption{Onda triangular (8$\text{V}_{pp}$, DC $-4$ V, 300 Hz): Average $=-3.9992\text{ V}$, RMS $=4.6179\text{ V}$.}
-    \label{fig:anexo_triang}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.45\textwidth]{analoga_grafica_cuadrada_2_2.png}
-    \caption{Onda cuadrada asimétrica (8$\text{V}_{pp}$, offset 2 V, 70\% ciclo útil, 1 kHz): Average $=3.6\text{ V}$, RMS $=5.1381\text{ V}$.}
-    \label{fig:anexo_cuad_asim}
-\end{figure}
 
 \end{document}

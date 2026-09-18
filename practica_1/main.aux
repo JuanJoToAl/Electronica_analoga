@@ -6,79 +6,75 @@
 \catcode `>\active 
 \@nameuse{es@quoting}
 \citation{guia}
+\citation{sedra}
+\citation{stspace}
+\citation{nasa}
 \citation{guia}
-\citation{strad}
-\citation{allpcb}
+\citation{guia,sedra}
+\citation{guia}
+\citation{sedra}
 \babel@aux{spanish}{}
-\@writefile{toc}{\contentsline {section}{\numberline {I}Introducción y Justificación}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introducción/Justificación}{1}{}\protected@file@percent }
+\newlabel{eq:shockley}{{1}{1}{}{equation.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Cálculos}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Posibles variaciones de voltaje en el diodo}{1}{}\protected@file@percent }
-\newlabel{eq:diodo1}{{1}{1}{}{equation.1}{}}
-\newlabel{eq:diodo2}{{2}{1}{}{equation.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}1}1N4004}{1}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Variación de $V_D$ por corriente (a $T = 27\ ^\circ $C) -- 1N4004}}{1}{}\protected@file@percent }
+\newlabel{eq:r1}{{2}{1}{}{equation.2}{}}
+\newlabel{eq:vd}{{3}{1}{}{equation.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Modelamiento lineal local}{1}{}\protected@file@percent }
+\newlabel{eq:rd}{{4}{1}{}{equation.4}{}}
+\newlabel{eq:vt}{{5}{1}{}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Tiempo de recuperación inversa}{1}{}\protected@file@percent }
+\newlabel{eq:trr}{{6}{1}{}{equation.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Simulación}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Caracterización de la curva $I_D$-$V_D$}{1}{}\protected@file@percent }
+\citation{datos4148temp}
+\citation{sedra}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Ajuste de la ecuación de Shockley para el diodo 1N4004 a partir de los datos de LTspice.}}{2}{}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{tab:1n4004_corriente}{{I}{1}{}{table.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Variación de $V_D$ por temperatura (a $I_D = 50$ mA) -- 1N4004}}{1}{}\protected@file@percent }
-\newlabel{tab:1n4004_temperatura}{{II}{1}{}{table.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}2}1N4148}{1}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Variación de $V_D$ por corriente (a $T = 27\ ^\circ $C) -- 1N4148}}{1}{}\protected@file@percent }
-\newlabel{tab:1n4148_corriente}{{III}{1}{}{table.3}{}}
-\citation{grafica1}
-\citation{grafica1}
+\newlabel{fig:curva4004}{{1}{2}{}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Ajuste de la ecuación de Shockley para el diodo 1N4148 a partir de los datos de LTspice.}}{2}{}\protected@file@percent }
+\newlabel{fig:curva4148}{{2}{2}{}{figure.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Parámetros obtenidos a \SI {25}{\celsius }: caracterización y modelamiento lineal.}}{2}{}\protected@file@percent }
+\newlabel{tab:cuadroVIII}{{I}{2}{}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Efecto de la temperatura}{2}{}\protected@file@percent }
+\newlabel{fig:temp4004}{{3a}{2}{}{subfigure.3.1}{}}
+\newlabel{sub@fig:temp4004}{{a}{2}{}{subfigure.3.1}{}}
+\newlabel{fig:temp4148}{{3b}{2}{}{subfigure.3.2}{}}
+\newlabel{sub@fig:temp4148}{{b}{2}{}{subfigure.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Curvas $I_D$-$V_D$ a \SI {-25}{\celsius }, \SI {25}{\celsius } y \SI {75}{\celsius }: (a) 1N4004; (b) 1N4148, con el ajuste de Shockley superpuesto.}}{2}{}\protected@file@percent }
+\newlabel{fig:temp}{{3}{2}{}{figure.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Parámetros efectivos ajustados en el intervalo $I_D\in [5,50]$ mA para las tres temperaturas.}}{2}{}\protected@file@percent }
+\newlabel{tab:temperatura}{{II}{2}{}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Modelamiento de ambos diodos}{2}{}\protected@file@percent }
+\citation{datos4004,datos4148frecuencia}
+\citation{d4004,d4148}
 \citation{guia}
 \citation{guia}
-\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Variación de $V_D$ por temperatura (a $I_D = 50$ mA) -- 1N4148}}{2}{}\protected@file@percent }
-\newlabel{tab:1n4148_temperatura}{{IV}{2}{}{table.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {III}Simulación}{2}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Datos de simulación -- 1N4004}}{2}{}\protected@file@percent }
-\newlabel{tab:datos_1n4004}{{V}{2}{}{table.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Datos de simulación -- 1N4148}}{2}{}\protected@file@percent }
-\newlabel{tab:datos_1n4148}{{VI}{2}{}{table.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Caracterización del diodo}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-A}1}1N4004}{2}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces grafica ID vs VD diodo 1n4004.}}{2}{}\protected@file@percent }
-\newlabel{fig:grafica_1n4004}{{1}{2}{}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-A}2}1N4148}{2}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces grafica ID vs VD diodo 1N4148.}}{2}{}\protected@file@percent }
-\newlabel{fig:grafica_1n4148}{{2}{2}{}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Limitantes de identificación de los parámetros}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Efecto de la Temperatura (4.3.1)}{2}{}\protected@file@percent }
-\citation{guia}
-\citation{grafica1}
-\citation{grafica1}
-\citation{guia}
-\citation{grafica2}
-\citation{grafica2}
-\citation{guia}
-\citation{1n4148}
-\citation{1n4148}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Efecto de la temperatura en la curva del diodo 1N4004. Datos de simulación exportados desde LTSpice \cite  {grafica1}.}}{3}{}\protected@file@percent }
-\newlabel{fig:temp_variation}{{3}{3}{}{figure.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces $V_d$ a $I_d\approx 50$ mA según temperatura}}{3}{}\protected@file@percent }
-\newlabel{tab:temp_vd}{{VII}{3}{}{table.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Modelamiento del Diodo (4.3.2)}{3}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Puntos de la curva a 25°C \cite  {grafica1}}}{3}{}\protected@file@percent }
-\newlabel{tab:parametros}{{VIII}{3}{}{table.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Tiempo de Recuperación Inversa (4.3.3)}{3}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Tiempo de recuperación inversa para el diodo 1N4004. Datos de simulación exportados desde LTSpice \cite  {grafica2}.}}{3}{}\protected@file@percent }
-\newlabel{fig:trr}{{4}{3}{}{figure.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-E}1}Resultados de simulacion 1N4148}{3}{}\protected@file@percent }
-\citation{guia}
-\citation{guia}
-\bibcite{guia}{1}
-\bibcite{strad}{2}
-\bibcite{allpcb}{3}
-\bibcite{grafica1}{4}
-\bibcite{grafica2}{5}
-\bibcite{1n4148}{6}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces trr de 1n4148 con resistencia de 1k$\Omega $}}{4}{}\protected@file@percent }
-\newlabel{fig:nombre-imagen}{{5}{4}{}{figure.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces trr de 1n4148 con resistencia de 500$\Omega $}}{4}{}\protected@file@percent }
-\newlabel{fig:simulacion-500-ohm}{{6}{4}{}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Tiempo de recuperación inversa y barrido de frecuencia}{3}{}\protected@file@percent }
+\newlabel{eq:trr4004}{{7}{3}{}{equation.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Extracción del $t_{rr}$ del 1N4004 a \SI {10}{Hz}; la línea de referencia corresponde al \SI {10}{\percent } del pico de corriente inversa.}}{3}{}\protected@file@percent }
+\newlabel{fig:trr4004}{{4}{3}{}{figure.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Barrido de frecuencia para la recuperación inversa.}}{3}{}\protected@file@percent }
+\newlabel{tab:barrido}{{III}{3}{}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces $t_{rr}$ del 1N4004 obtenido para diez frecuencias entre \SI {10}{Hz} y \SI {100}{kHz}.}}{3}{}\protected@file@percent }
+\newlabel{fig:trrfrecuencia}{{5}{3}{}{figure.5}{}}
+\newlabel{fig:trr4148_1k}{{6a}{3}{}{subfigure.6.1}{}}
+\newlabel{sub@fig:trr4148_1k}{{a}{3}{}{subfigure.6.1}{}}
+\newlabel{fig:trr4148_500}{{6b}{3}{}{subfigure.6.2}{}}
+\newlabel{sub@fig:trr4148_500}{{b}{3}{}{subfigure.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Respuesta transitoria del 1N4148 al reducir $R_1$ de \SI {1}{k$\ohm $} (a) a \SI {500}{$\ohm $} (b).}}{3}{}\protected@file@percent }
+\newlabel{fig:trr4148}{{6}{3}{}{figure.6}{}}
+\citation{sedra}
+\bibcite{sedra}{1}
+\bibcite{guia}{2}
+\bibcite{nasa}{3}
+\bibcite{stspace}{4}
+\bibcite{d4004}{5}
+\bibcite{d4148}{6}
+\bibcite{datos4004}{7}
+\bibcite{datos4148temp}{8}
+\bibcite{datos4148frecuencia}{9}
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Montaje}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {V}Análisis de Resultados}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Análisis de resultados}{4}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusiones}{4}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {VII}Referencias}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Referencias}{4}{}\protected@file@percent }
 \gdef \@abspage@last{4}

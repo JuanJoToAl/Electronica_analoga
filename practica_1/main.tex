@@ -1,447 +1,346 @@
-\documentclass[journal, a4paper]{IEEEtran}
+\documentclass[journal,a4paper]{IEEEtran}
+
 \usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
-\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{amsmath,amssymb}
 \usepackage{graphicx}
-\usepackage{pgfplots}
 \usepackage{booktabs}
 \usepackage{siunitx}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{microtype}
 \usepackage{float}
-\usepackage{caption}
+\usepackage{subcaption}
 
-\pgfplotsset{compat=1.18}
+% Se conserva el estilo de referencias IEEE, pero se evita el encabezado adicional
+% que thebibliography genera automáticamente, pues el informe ya contiene
+% la sección numerada ``Referencias''.
+\makeatletter
+\def\thebibliography#1{\footnotesize\vskip 0.3\baselineskip plus 0.1\baselineskip minus 0.1\baselineskip%
+  \list{\@biblabel{\@arabic\c@enumiv}}%
+  {\settowidth\labelwidth{\@biblabel{#1}}%
+   \leftmargin\labelwidth
+   \advance\leftmargin\labelsep\relax
+   \itemsep \IEEEbibitemsep\relax
+   \usecounter{enumiv}%
+   \let\p@enumiv\@empty
+   \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+  \let\@IEEElatexbibitem\bibitem
+  \def\bibitem{\@IEEEbibitemprefix\@IEEElatexbibitem}%
+  \def\newblock{\hskip .11em plus .33em minus .07em}%
+  \sloppy\clubpenalty4000\widowpenalty4000\interlinepenalty500\relax
+  \sfcode`\.=1000\relax}
+\let\endthebibliography=\endlist
+\makeatother
+
+\sisetup{output-decimal-marker = {,}, per-mode=symbol, detect-all}
+\graphicspath{{./}}
 
 \begin{document}
 
-\title{Pre-informe: Caracterización y Análisis Transitorio del Diodo 1N4004}
+\title{Pre-informe: Caracterización estática, efecto térmico y recuperación inversa de los diodos 1N4004 y 1N4148}
 
 \author{
-    Juan José Tobar Álvarez, \textit{jutobara@unal.edu.co}\\
-    Estudiante 2, \textit{correo2@e-mail.com}\\
-    Estudiante 3, \textit{correo3@e-mail.com}
+Juan José Tobar Álvarez, \textit{jutobara@unal.edu.co}\\
+Estudiante 2, \textit{correo2@e-mail.com}\\
+Estudiante 3, \textit{correo3@e-mail.com}
 }
 
 \maketitle
 
-\section{Introducción y Justificación}
-Este pre-informe caracteriza el diodo rectificador 1N4004, determinando su relación tensión-corriente, tiempo de recuperación inversa y corriente de saturación inversa \cite{guia}, a partir de la ecuación de Shockley $I_{d}=I_{s}(e^{V_d/\eta V_{T}})$, donde $I_s$ es la corriente de saturación inversa, $\eta$ el coeficiente de emisión y $V_T$ el voltaje térmico \cite{guia}.
+\section{Introducción/Justificación}
 
-Esta caracterización es relevante en entornos de alta exigencia: en electrónica espacial, los rectificadores calificados para satélites deben operar de forma confiable hasta 175 °C de temperatura de unión, lo que exige conocer con precisión el desplazamiento de $V_t$ e $I_s$ con la temperatura \cite{strad}; en el sector médico, el diseño de desfibriladores externos requiere diodos de recuperación rápida para controlar la descarga de energía y evitar corrientes inversas indeseadas \cite{allpcb}.
+La práctica estudia dos referencias de diodos con comportamientos dinámicos marcadamente distintos: el rectificador de propósito general 1N4004 y el diodo de conmutación rápida 1N4148. El objetivo es relacionar la corriente y la tensión en polarización directa, estimar los parámetros $I_s$ y $\eta$ de la ecuación de Shockley, observar el efecto de la temperatura, obtener un modelo lineal local mediante $R_d$ y $V_t$, y determinar el tiempo de recuperación inversa $t_{rr}$. La guía establece además el barrido de frecuencia y el análisis del efecto de $R_1$ sobre la respuesta transitoria \cite{guia}.
+
+Para la unión P-N, el modelo de Shockley puede escribirse como
+
+\begin{equation}
+I_D=I_s\left(\exp\!\left(\frac{V_D}{\eta V_T}\right)-1\right),
+\label{eq:shockley}
+\end{equation}
+
+donde $I_s$ es la corriente de saturación inversa, $\eta$ es el coeficiente de emisión y $V_T=kT/q$ es el voltaje térmico. En conducción directa, cuando $I_D\gg I_s$, el término $-1$ resulta despreciable y se obtiene la forma exponencial usada en el ajuste de la práctica \cite{sedra}.
+
+La caracterización no es únicamente académica. En sistemas espaciales, los diodos de potencia se emplean, entre otras funciones, en rectificación secundaria, convertidores DC-DC, protección contra polaridad inversa y caminos de rueda libre; existen dispositivos rad-hard diseñados para operar con alta confiabilidad hasta temperaturas de unión de \SI{175}{\celsius} y para programas espaciales \cite{stspace}. NASA también ha documentado el uso de diodos de potencia de SiC para conversión y control de potencia en vehículos y bases lunares, resaltando la importancia de sus pérdidas, tensión, corriente y comportamiento frente a radiación \cite{nasa}. Por tanto, comprender la variación de $I_s$, $\eta$, $R_d$, $V_t$ y $t_{rr}$ permite seleccionar y modelar dispositivos con márgenes de operación térmicos y temporales adecuados.
 
 \section{Cálculos}
-Para $I_{max}=50$ mA con $V_{fuente}=25$ V y asumiendo $V_d\approx0.7$ V:
-$$R_{1} = \frac{25 - 0.7}{0.05} = 486~\Omega \;\approx\; 500~\Omega \text{ (valor de montaje)}$$
 
-\subsection{Posibles variaciones de voltaje en el diodo}
-
-Las posibles variaciones en el voltaje del diodo suceden por cambios en la temperatura o por cambios en la corriente de operación que atraviesa el diodo. Para estimar las posibles variaciones de voltaje del diodo se usa la ecuación de corriente del diodo:
+Para el circuito de caracterización se fija $I_{D,\max}=\SI{50}{mA}$ cuando la fuente vale \SI{25}{V} y se toma inicialmente $V_D\approx\SI{0.7}{V}$. Así,
 
 \begin{equation}
-I_d = I_s \left( e^{\frac{V_d}{\eta V_T}} \right)
-\label{eq:diodo1}
+R_1=\frac{25-0.7}{0.05}=\SI{486}{\ohm}\approx\SI{500}{\ohm}.
+\label{eq:r1}
 \end{equation}
 
-Despejando $V_d$:
+Este valor limita la corriente del circuito y permite realizar el barrido solicitado por la guía \cite{guia}.
+
+Despejando $V_D$ de (1) en la región directa se obtiene
 
 \begin{equation}
-V_d = \eta V_T \ln \left( \frac{I_d}{I_s} \right)
-\label{eq:diodo2}
+V_D=\eta V_T\ln\left(\frac{I_D}{I_s}\right),
+\label{eq:vd}
 \end{equation}
 
-Como en el datasheet no aparecen los valores $n$ ni $I_s$, para los diodos se usan los del modelo LTspice.
+que se utiliza para estimar el cambio de $V_D$ con corriente y temperatura. A \SI{27}{\celsius}, $V_T\approx\SI{25.85}{mV}$. Con los parámetros del modelo LTspice usados inicialmente, 1N4004: $I_s=\SI{14.11}{nA}$ y $\eta=1.984$; 1N4148: $I_s=\SI{2.52}{nA}$ y $\eta=1.52$.
 
-\subsubsection{1N4004}
+\subsection{Modelamiento lineal local}
 
-Con $I_s = 14.11$ nA, $n = 1.984$.
-
-Estableciendo una temperatura de $27\ ^\circ\text{C} = 300.15\ \text{K} \approx 300\ \text{K}$:
+Para la recta secante de la guía se emplea
 
 \begin{equation}
-V_T = 25.85\ \text{mV}
+R_d=\frac{\Delta V_D}{\Delta I_D},
+\label{eq:rd}
 \end{equation}
 
-Cuando por el diodo está circulando una corriente de 50 mA:
+y el intercepto con el eje de tensión se obtiene como
 
-\begin{align}
-V_D &= 1.984 \times 0.02585 \times \ln \left( \frac{0.05}{14.11 \times 10^{-9}} \right) \\
-V_D &= 0.05129 \times \ln(3.543 \times 10^{6}) \\
-V_D &= 0.05129 \times 15.08 = 0.7735\ \text{V}
-\end{align}
+\begin{equation}
+V_t=V_D-R_dI_D.
+\label{eq:vt}
+\end{equation}
 
-que es aproximadamente 0.774 V.
+El procedimiento permite representar localmente la característica exponencial alrededor del intervalo de corriente seleccionado \cite{guia,sedra}.
 
-Evaluando $V_D$ en el rango de corriente que el diodo puede manejar según el datasheet se obtiene la siguiente tabla.
+\subsection{Tiempo de recuperación inversa}
 
-\begin{table}[H]
-\centering
-\caption{Variación de $V_D$ por corriente (a $T = 27\ ^\circ$C) -- 1N4004}
-\label{tab:1n4004_corriente}
-\begin{tabular}{|l|l|}
-\hline
-$I_D$ & $V_D$ calculado \\
-\hline
-1 mA & 0.573 V \\
-\hline
-50 mA & 0.774 V \\
-\hline
-\end{tabular}
-\end{table}
+La recuperación inversa se define como
 
-Evaluando $V_D$ en el rango de temperatura ($-65\ ^\circ$C a $165\ ^\circ$C) que el diodo puede manejar según el datasheet se obtiene la siguiente tabla.
+\begin{equation}
+t_{rr}=t_s+t_f,
+\label{eq:trr}
+\end{equation}
 
-\begin{table}[H]
-\centering
-\caption{Variación de $V_D$ por temperatura (a $I_D = 50$ mA) -- 1N4004}
-\label{tab:1n4004_temperatura}
-\begin{tabular}{|l|l|}
-\hline
-$T$ & $V_D$ estimado \\
-\hline
-$-65\ ^\circ$C (mínimo datasheet) & 0.958 V \\
-\hline
-$27\ ^\circ$C (referencia) & 0.774 V \\
-\hline
-$+150\ ^\circ$C (máximo datasheet) & 0.528 V \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsubsection{1N4148}
-
-Con $I_s = 2.52$ nA, $n = 1.52$.
-
-Se procede de la misma forma que con el diodo 1N4004, pero con los valores del modelo Spice $I_s$ y $n$.
-
-Se llega a que $V_D$ es aproximadamente 0.761 V cuando lo atraviesan 50 mA.
-
-Evaluando $V_D$ en el rango de corriente que el diodo puede manejar según el datasheet se obtiene la siguiente tabla.
-
-\begin{table}[H]
-\centering
-\caption{Variación de $V_D$ por corriente (a $T = 27\ ^\circ$C) -- 1N4148}
-\label{tab:1n4148_corriente}
-\begin{tabular}{|l|l|}
-\hline
-$I_D$ & $V_D$ calculado \\
-\hline
-1 mA & 0.584 V \\
-\hline
-50 mA & 0.761 V \\
-\hline
-\end{tabular}
-\end{table}
-
-Evaluando $V_D$ en el rango de temperatura que el diodo puede manejar según el datasheet se obtiene la siguiente tabla.
-
-\begin{table}[H]
-\centering
-\caption{Variación de $V_D$ por temperatura (a $I_D = 50$ mA) -- 1N4148}
-\label{tab:1n4148_temperatura}
-\begin{tabular}{|l|l|}
-\hline
-$T$ & $V_D$ estimado \\
-\hline
-$-65\ ^\circ$C (mínimo datasheet) & 0.945 V \\
-\hline
-$27\ ^\circ$C (referencia) & 0.761 V \\
-\hline
-$+200\ ^\circ$C (máximo datasheet) & 0.415 V \\
-\hline
-\end{tabular}
-\end{table}
-
-
+donde $t_s$ es el tiempo de almacenamiento y $t_f$ el tiempo de caída de la corriente inversa. En la extracción numérica se toma como final del intervalo el instante en que la corriente alcanza el \SI{10}{\percent} del pico inverso, siguiendo la definición operacional indicada por la guía \cite{guia} y el tratamiento del comportamiento de diodos en circuitos de microelectrónica \cite{sedra}. Por tanto, $t_{rr}$ debe interpretarse junto con las condiciones de excitación y la resistencia del circuito.
 
 \section{Simulación}
 
-Se hizo la simulación de la figura 2 del diodo 1N4004 y 1N4148 en LTspice variando la fuente de 3.13 a 25 V y posteriormente se exportaron los datos como texto.
+\subsection{Caracterización de la curva $I_D$-$V_D$}
 
-\begin{table}[H]
-\centering
-\caption{Datos de simulación -- 1N4004}
-\label{tab:datos_1n4004}
-\begin{tabular}{|l|l|l|}
-\hline
-$v$ & $V(n002)$ & $I(D1)$ \\
-\hline
-3.130000000000000e+00 & 6.567972e-01 & 5.088895e-03 \\
-\hline
-5.560000000000000e+00 & 6.917182e-01 & 1.001704e-02 \\
-\hline
-7.990000000000000e+00 & 7.125158e-01 & 1.497425e-02 \\
-\hline
-1.042000000000000e+01 & 7.273903e-01 & 1.994364e-02 \\
-\hline
-1.285000000000000e+01 & 7.389898e-01 & 2.491977e-02 \\
-\hline
-1.528000000000000e+01 & 7.485084e-01 & 2.990019e-02 \\
-\hline
-1.771000000000000e+01 & 7.565877e-01 & 3.488357e-02 \\
-\hline
-2.014000000000000e+01 & 7.636123e-01 & 3.986911e-02 \\
-\hline
-2.257000000000000e+01 & 7.698290e-01 & 4.485632e-02 \\
-\hline
-2.500000000000000e+01 & 7.754095e-01 & 4.984483e-02 \\
-\hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Datos de simulación -- 1N4148}
-\label{tab:datos_1n4148}
-\begin{tabular}{|l|l|l|}
-\hline
-$v$ & $V(n002)$ & $I(D1)$ \\
-\hline
-3.130000000000000e+00 & 6.607172e-01 & 5.080829e-03 \\
-\hline
-5.560000000000000e+00 & 6.942555e-01 & 1.001182e-02 \\
-\hline
-7.990000000000000e+00 & 7.152955e-01 & 1.496853e-02 \\
-\hline
-1.042000000000000e+01 & 7.311038e-01 & 1.993600e-02 \\
-\hline
-1.285000000000000e+01 & 7.440209e-01 & 2.490942e-02 \\
-\hline
-1.528000000000000e+01 & 7.551029e-01 & 2.988662e-02 \\
-\hline
-1.771000000000000e+01 & 7.649153e-01 & 3.486643e-02 \\
-\hline
-2.014000000000000e+01 & 7.737966e-01 & 3.984816e-02 \\
-\hline
-2.257000000000000e+01 & 7.819667e-01 & 4.483134e-02 \\
-\hline
-2.500000000000000e+01 & 7.895759e-01 & 4.981569e-02 \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Caracterización del diodo}
-
-Una vez exportados los datos como texto se procedió a hacer un código en Python, que reciba los datos txt y que a partir del archivo calcule los valores $I_s$ y $n$ para los diodos y grafique los datos como en el modelo exponencial de corriente del diodo en la guía.
-
-\subsubsection{1N4004}
-
-Corriente de saturación: $I_s = 1.823119 \times 10^{-8}$ A ($\pm 4.48 \times 10^{-10}$)
-
-Factor de idealidad: $n = 2.023523$ ($\pm 0.003422$)
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{grafica ID vs VD diodo 1n4004.png}
-    \caption{grafica ID vs VD diodo 1n4004.}
-    \label{fig:grafica_1n4004}
-\end{figure}
-
-\subsubsection{1N4148}
-
-Corriente de saturación: $I_s = 1.482981 \times 10^{-7}$ A ($\pm 4.41 \times 10^{-8}$)
-
-Factor de idealidad: $n = 2.396443$ ($\pm 0.057231$)
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{grafica ID vs VD diodo 1N4148.png}
-    \caption{grafica ID vs VD diodo 1N4148.}
-    \label{fig:grafica_1n4148}
-\end{figure}
-
-\subsection{Limitantes de identificación de los parámetros}
-
-Los datos encontrados en el diodo 1N4004 dan valores cercanos o parecidos a los del modelo Spice, en cuanto al diodo 1N4148 dan valores un tanto alejados al del modelo Spice, dado a que hay pocos puntos experimentales (solo 10 pares $I_D$, $V_D$) y un ajuste no lineal con solo 10 datos y 2 parámetros libres tiene poco margen para promediar ruido o desviaciones puntuales, y es más sensible a cualquier imprecisión de los primeros puntos.
-
-Resistencia serie del diodo ($R_s$) no incluida en el código de ajuste: el modelo SPICE real del 1N4148 sí tiene $R_s$. A corrientes de decenas de mA, la caída $I \cdot R_s$ es no despreciable.
-
-
-\subsection{Efecto de la Temperatura (4.3.1)}
-Se simuló el diodo a -25°C, 25°C y 75°C.
+Los datos de LTspice del barrido DC se ajustaron mediante (1). En la Fig.~\ref{fig:curva4004} se observa que el 1N4004 presenta una relación exponencial entre corriente y tensión en el rango estudiado; el ajuste reproduce los diez puntos de corriente empleados en la caracterización. Para el 1N4148, la Fig.~\ref{fig:curva4148} muestra la misma tendencia general, pero con un ajuste más sensible a la selección de los puntos, en parte porque la resistencia serie del modelo deja de ser despreciable a corrientes del orden de decenas de mA.
 
 \begin{figure}[htbp]
     \centering
-    \pgfplotstableset{comment chars={S}}
- 
-    \begin{tikzpicture}
-        \begin{axis}[
-            title={Curva Característica V-I a diferentes Temperaturas},
-            xlabel={Voltaje en el diodo $V_{D}$ (mV)},
-            ylabel={Corriente I(D1) (mA)},
-            grid=major,
-            width=\columnwidth,
-            height=6cm,
-            xmin=0, xmax=780,
-            ymin=0, ymax=54,
-            xtick distance=70,
-            ytick distance=8,
-            legend pos=north west,
-            scaled x ticks=false,
-            scaled y ticks=false
-        ]
-            % Curva 1: Temp = -25 (Color Azul)
-            \addplot[color=blue, thick, restrict expr to domain={\coordindex}{0:250}]
-                table[x expr=\thisrow{V(n002)}*1000, y expr=\thisrow{I(D1)}*1000] {Grafica1.txt};
-            \addlegendentry{-25$^\circ$C}
- 
-            % Curva 2: Temp = 25 (Color Verde)
-            \addplot[color=green, thick, restrict expr to domain={\coordindex}{251:501}]
-                table[x expr=\thisrow{V(n002)}*1000, y expr=\thisrow{I(D1)}*1000] {Grafica1.txt};
-            \addlegendentry{25$^\circ$C}
- 
-            % Curva 3: Temp = 75 (Color Rojo)
-            \addplot[color=red, thick, restrict expr to domain={\coordindex}{502:752}]
-                table[x expr=\thisrow{V(n002)}*1000, y expr=\thisrow{I(D1)}*1000] {Grafica1.txt};
-            \addlegendentry{75$^\circ$C}
- 
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Efecto de la temperatura en la curva del diodo 1N4004. Datos de simulación exportados desde LTSpice \cite{grafica1}.}
-    \label{fig:temp_variation}
+    \includegraphics[width=\columnwidth]{grafica ID vs VD diodo 1n4004.png}
+    \caption{Ajuste de la ecuación de Shockley para el diodo 1N4004 a partir de los datos de LTspice.}
+    \label{fig:curva4004}
 \end{figure}
-
-Como muestra la Fig. \ref{fig:temp_variation}, al aumentar $T$ crecen $V_T$ e $I_s$ \cite{guia}, reduciendo la tensión umbral necesaria para conducir. Frente al modelo ideal ($I_d>0,V_d=0$) \cite{guia}, a baja temperatura el diodo se \emph{aleja} de la idealidad en la caída de tensión (requiere más $V_d$), pero se \emph{acerca} en la nitidez de la transición corte-conducción (curva más abrupta) y en la menor fuga inversa. $I_s$ es el parámetro con dependencia térmica dominante; $\eta$, asociado al mecanismo de conducción, debería variar poco con $T$.
-
-\begin{table}[h]
-    \centering
-    \caption{$V_d$ a $I_d\approx50$ mA según temperatura}
-    \begin{tabular}{ccc}
-        \toprule
-        \textbf{T} & \textbf{$V_d$ (V)} & \textbf{$I_d$ (mA)} \\
-        \midrule
-        -25°C & 0.7597 & 49.88 \\
-        25°C & 0.6751 & 50.05 \\
-        75°C & 0.5884 & 50.23 \\
-        \bottomrule
-    \end{tabular}
-    \label{tab:temp_vd}
-\end{table}
-El coeficiente térmico resultante, $\Delta V_d/\Delta T\approx-1.71$ mV/°C, es cercano al valor típico de $-2$ mV/°C para uniones de silicio.
-
-
-\subsection{Modelamiento del Diodo (4.3.2)}
-$R_d$ y $V_t$ \cite{guia} se estiman con la secante entre el punto de máxima corriente y un punto de baja corriente de la curva a 25°C (Tabla \ref{tab:parametros}).
-
-\begin{table}[h]
-    \centering
-    \caption{Puntos de la curva a 25°C \cite{grafica1}}
-    \begin{tabular}{lcc}
-        \toprule
-        \textbf{Punto} & \textbf{$V_d$ (V)} & \textbf{$I_d$ (mA)} \\
-        \midrule
-        Bajo ($V_1=5$ V) & 0.5868 & 9.08 \\
-        Medio ($V_1=12.5$ V) & 0.6380 & 24.41 \\
-        Máximo ($V_1=25$ V) & 0.6751 & 50.05 \\
-        \bottomrule
-    \end{tabular}
-    \label{tab:parametros}
-\end{table}
-
-Con Bajo-Máximo: $R_d\approx2.16~\Omega$, $V_t\approx0.567$ V. Con Bajo-Medio (en vez del máximo): $R_d'\approx3.34~\Omega$, $V_t'\approx0.557$ V. Es decir, $R_d$ \emph{aumenta} y $V_t$ \emph{disminuye} levemente al usar el punto medio, por la curvatura exponencial de la característica.
-
-\subsection{Tiempo de Recuperación Inversa (4.3.3)}
-Con onda cuadrada de 10 V, $t_{rr}=t_s+t_f$ \cite{guia}.
 
 \begin{figure}[htbp]
     \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-            title={Respuesta Transitoria: Corriente vs Tiempo},
-            xlabel={Tiempo ($\mu$s)},
-            ylabel={I(D1) (mA)},
-            grid=both,
-            width=\columnwidth,
-            height=5.5cm,
-            legend pos=south east,
-            scaled x ticks=false,
-            scaled y ticks=false,
-            xtick distance=3,
-            ytick distance=3,
-            tick label style={
-                /pgf/number format/fixed,
-                /pgf/number format/precision=1,
-                /pgf/number format/fixed zerofill
-            }
-        ]
-            \addplot[color=red, thick] table[
-                x expr=\thisrow{time}*1e6,
-                y expr=\thisrow{I(D1)}*1000
-            ] {Grafica2.txt};
-            \addlegendentry{Corriente}
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Tiempo de recuperación inversa para el diodo 1N4004. Datos de simulación exportados desde LTSpice \cite{grafica2}.}
-    \label{fig:trr}
+    \includegraphics[width=\columnwidth]{grafica ID vs VD diodo 1N4148.png}
+    \caption{Ajuste de la ecuación de Shockley para el diodo 1N4148 a partir de los datos de LTspice.}
+    \label{fig:curva4148}
 \end{figure}
 
-Teóricamente $t_{rr}$ no debería depender de la frecuencia, pues obedece a la recombinación de portadores de la unión P-N; discrepancias a 100 kHz frente a la hoja de datos se atribuyen a aproximaciones numéricas del simulador. Al cambiar $R_1$ a 500 $\Omega$, $I_R$ aumenta y $t_s$ disminuye. En SPICE, $t_s$ y $t_f$ están gobernados por el tiempo de tránsito ($TT$) y la capacitancia de unión ($CJ0$), no por $I_s$ ni $\eta$ \cite{guia}.
+\begin{table}[htbp]
+\centering
+\caption{Parámetros obtenidos a \SI{25}{\celsius}: caracterización y modelamiento lineal.}
+\label{tab:cuadroVIII}
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+Diodo & $I_s$ modelo & $\eta$ modelo & $I_s$ ajuste & $\eta$ ajuste & $R_d$ & $V_t$ \\
+\midrule
+1N4004 & \SI{14.11}{nA} & 1.984 & \SI{18.23}{nA} & 2.024 & \SI{2.16}{$\ohm$} & \SI{0.567}{V} \\
+1N4148 & \SI{2.52}{nA} & 1.52 & \SI{148.30}{nA} & 2.396 & \SI{2.45}{$\ohm$} & \SI{0.670}{V} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
-\subsubsection{Resultados de simulacion 1N4148}
-Respecto al diodo 1N4148 se hizo el análisis con 
-el circuito planteado en la guía con frecuencias de: 10 Hz, 50 Hz, 100 Hz, 500 Hz, 1 kHz, 5 kHz, 10 kHz, 25 kHz, 50 kHz y 100kHz.
-\\
-Tras observar el comportamiento de este circuito, 
-dentro del software se evidencia que la onda de corriente no es completamente cuadrada, sino que 
-presenta picos al momento de la conmutación, los cuales luego regresan a la corriente esperada.
-Este comportamiento coincide con lo descrito en la guía, es decir; un momento en el cual el diodo no recupera inmediatamente su estado de corte, por lo que se presentan dichos picos de corriente.
-\\
-Al exportar los datos del simulador y analizarlos con un programa hecho en Python, el cual grafíca el momento de estos picos de corriente,
-junto con sus valores; se puede apreciar detalladamente que este tiempo de recuperación es de alrededor de $2,5x10^{-6} ms$ o $2.5ns$, 
-adicionalmente este tiempo se mantiene constante, independientemente de la frecuencia a la que se haya simulado. Respecto a esto,
-la teoría no justifica que el \textit{trr} cambie dependiendo de la frecuencia, y por su parte el datasheet del 1n4148 \cite{1n4148} no indica un parametro
-de frecuencia en la sección referente a la caracterización del \textit{trr} del diodo, por lo que se descarta que la frecuencia sea una variable que pueda afectar al \textit{trr}.
-\\
-Considerando que el circuito está configurado para permitir un paso máximo de corriente de $10mA$, este valor concuerda perfectamente concuerda perfectamente 
-con el valor dado en el datasheet del 1n4148 \cite{1n4148}, Pues en este se menciona que la corriente máxima en conducción que se usó para la caracterización
-del \textit{trr} fue de $10mA$, y se obtuvo un \textit{trr}  máximo de $4ns$.
+En el Cuadro~\ref{tab:cuadroVIII}, los parámetros de ajuste del 1N4004 resultan cercanos a los valores usados por el modelo; en el 1N4148 la discrepancia de $I_s$ es mucho mayor. Esta diferencia debe interpretarse como una propiedad del procedimiento de identificación y no como una modificación arbitraria del modelo: solo se ajustan dos parámetros mientras que el modelo SPICE completo incorpora efectos adicionales, entre ellos la resistencia serie.
 
-\begin{center}
-    \begin{minipage}{\columnwidth}
+\subsection{Efecto de la temperatura}
+
+La Fig.~\ref{fig:temp4004} muestra el corrimiento de la curva del 1N4004 al pasar de \SI{-25}{\celsius} a \SI{75}{\celsius}. A una corriente cercana a \SI{50}{mA}, la tensión disminuye de aproximadamente \SI{0.7597}{V} a \SI{0.5884}{V}. Por otro lado, la Fig.~\ref{fig:temp4148} muestra el mismo comportamiento cualitativo en el 1N4148, para el cual $V_D$ disminuye de \SI{0.8625}{V} a \SI{0.7213}{V} en el mismo intervalo térmico \cite{datos4148temp}.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\columnwidth]{primera_simulacion_diodo.png}
-        \captionof{figure}{trr de 1n4148 con resistencia de 1k$\Omega$}
-        \label{fig:nombre-imagen}
-    \end{minipage}
-\end{center}
-% La figura se referencia en el texto con: \cref{fig:nombre-imagen}.
-Por otro lado, al momento de cambiar la resistencia siguiendo las indicaciones de la guía, se evidencia que el tiempo de recuperación inversa del diodo 
-se ve disminuido, esto por el cambio en la corriente que pasa por el diodo en este nuevo circuito, la cual aumenta.
-
-\begin{center}
-    \begin{minipage}{\columnwidth}
+        \includegraphics[width=\linewidth]{temperatura_1n4004.png}
+        \caption{1N4004}
+        \label{fig:temp4004}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\columnwidth]{simulacion_diodo_500_hz_tiempo_recuperacion.png}
-        \captionof{figure}{trr de 1n4148 con resistencia de 500$\Omega$}
-        \label{fig:simulacion-500-ohm}
-    \end{minipage}
-\end{center}
-Finalmente, tras comparar las directivas SPICE que caracterizan ambos diodos, se encuentra que en el parametro \textit{tt} 
-es sumamente mayor en el modelo del 1N4004 ($\approx 1500n $) frente a este mismo en el modelo del 1N4148 ($20n$), siendo 
-esta la diferencia más significativa entre ambos modelos, por lo que es posible afirmar que esta es la diferencia de mayor peso frente a la configuración
- del tiempo de recuperación inversa.
+        \includegraphics[width=\linewidth]{temperatura_1n4148.png}
+        \caption{1N4148}
+        \label{fig:temp4148}
+    \end{subfigure}
+    \caption{Curvas $I_D$-$V_D$ a \SI{-25}{\celsius}, \SI{25}{\celsius} y \SI{75}{\celsius}: (a) 1N4004; (b) 1N4148, con el ajuste de Shockley superpuesto.}
+    \label{fig:temp}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Parámetros efectivos ajustados en el intervalo $I_D\in[5,50]$ mA para las tres temperaturas.}
+\label{tab:temperatura}
+\scriptsize
+\begin{tabular}{llcccc}
+\toprule
+Diodo & $T$ & $V_D$ a \SI{50}{mA} & $I_s$ ajuste & $\eta$ ajuste \\
+\midrule
+1N4004 & $-25\,^{\circ}$C & \SI{0.7597}{V} & \SI{1.080}{nA} & 2.013 \\
+1N4004 & $25\,^{\circ}$C & \SI{0.6751}{V} & \SI{107.3}{nA} & 2.013 \\
+1N4004 & $75\,^{\circ}$C & \SI{0.5884}{V} & \SI{2.947}{\micro A} & 2.013 \\
+1N4148 & $-25\,^{\circ}$C & \SI{0.8625}{V} & \SI{5.648}{nA} & 2.517 \\
+1N4148 & $25\,^{\circ}$C & \SI{0.7929}{V} & \SI{126.9}{nA} & 2.390 \\
+1N4148 & $75\,^{\circ}$C & \SI{0.7213}{V} & \SI{1.472}{\micro A} & 2.298 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El Cuadro~\ref{tab:temperatura} permite responder directamente a la pregunta sobre $I_s$ y $\eta$. En ambas referencias $I_s$ aumenta fuertemente con la temperatura, mientras que $\eta$ permanece casi constante para el 1N4004. En el 1N4148 se observa una variación mayor de $\eta$; debido a que se trata de un parámetro efectivo del ajuste realizado sobre una curva que incluye resistencia serie, no debe interpretarse como una constante física independiente de todo el rango de operación. El coeficiente térmico calculado a partir de los puntos de \SI{50}{mA} es aproximadamente $-\SI{1.71}{mV/\celsius}$ para el 1N4004 y $-\SI{1.41}{mV/\celsius}$ para el 1N4148.
+
+A bajas temperaturas, el diodo no se aproxima al modelo ideal $V_D=0$ en el sentido de la caída de tensión directa: para una misma corriente se requiere una tensión mayor. Sí se observa una transición más abrupta y menor fuga inversa, pero esas propiedades no convierten la caída de tensión directa en cero \cite{sedra}.
+
+\subsection{Modelamiento de ambos diodos}
+
+Para el punto bajo, medio y máximo de las curvas a \SI{25}{\celsius}, la aplicación de (3)-(4) conduce a los valores de $R_d$ y $V_t$ presentados en el Cuadro~\ref{tab:cuadroVIII}. En la Fig.~\ref{fig:curva4004}, la secante del 1N4004 entre aproximadamente \SI{9}{mA} y \SI{50}{mA} produce $R_d\approx\SI{2.16}{\ohm}$ y $V_t\approx\SI{0.567}{V}$. Para el 1N4148, la secante equivalente da $R_d\approx\SI{2.45}{\ohm}$ y $V_t\approx\SI{0.670}{V}$. Los parámetros no son idénticos porque las curvas tienen distinta pendiente local y diferente curvatura. Al utilizar un punto intermedio en lugar del máximo, la pendiente de la secante aumenta, por lo que $R_d$ también cambia; esto evidencia que el modelo lineal es local y depende del intervalo de corriente escogido.
+
+\subsection{Tiempo de recuperación inversa y barrido de frecuencia}
+
+La Fig.~\ref{fig:trr4004} presenta una ventana ampliada del flanco de caída para el 1N4004 con fuente cuadrada. Para la simulación a \SI{10}{Hz}, la extracción con el criterio del \SI{10}{\percent} del pico inverso produce aproximadamente
+
+\begin{equation}
+t_s\approx\SI{0.050}{\micro s},\qquad
+t_f\approx\SI{1.379}{\micro s},\qquad
+t_{rr}\approx\SI{1.429}{\micro s}.
+\label{eq:trr4004}
+\end{equation}
+
+Así se obtiene un valor numérico explícito del $t_{rr}$ del 1N4004 con la fuente alterna cuadrada de \SI{10}{Vpk} indicada en la Fig. 4 de la guía.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\columnwidth]{trr_1n4004_10Hz.png}
+    \caption{Extracción del $t_{rr}$ del 1N4004 a \SI{10}{Hz}; la línea de referencia corresponde al \SI{10}{\percent} del pico de corriente inversa.}
+    \label{fig:trr4004}
+\end{figure}
+
+El barrido solicitado entre \SI{10}{Hz} y \SI{100}{kHz}, obtenido para ambos diodos con el mismo circuito de la Fig. 4 de la guía y $R_1=\SI{1}{k\ohm}$, se resume en el Cuadro~\ref{tab:barrido} \cite{datos4004,datos4148frecuencia}. Para el 1N4004, el valor permanece en aproximadamente \SI{1.43}{\micro s} hasta \SI{1}{kHz}; a frecuencias mayores aparece una reducción progresiva hasta \SI{1.23}{\micro s} a \SI{100}{kHz}. Para el 1N4148 se observa la misma tendencia cualitativa pero en una escala casi dos órdenes de magnitud menor: $t_{rr}$ se mantiene cercano a \SI{20.6}{ns} hasta el kilohertz y desciende hasta aproximadamente \SI{18.8}{ns} a \SI{100}{kHz}. En ninguno de los dos casos la tendencia se interpreta como una dependencia física directa de $t_{rr}$ con la frecuencia de excitación, sino como una consecuencia del muestreo y de la discretización temporal usada por el simulador al extraer un intervalo cada vez más pequeño frente al periodo de la señal.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\columnwidth]{trr_1n4004_frecuencia.png}
+    \caption{$t_{rr}$ del 1N4004 obtenido para diez frecuencias entre \SI{10}{Hz} y \SI{100}{kHz}.}
+    \label{fig:trrfrecuencia}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Barrido de frecuencia para la recuperación inversa.}
+\label{tab:barrido}
+\scriptsize
+\begin{tabular}{rcc}
+\toprule
+$f$ & $t_{rr}$ 1N4004 ($\mu$s) & $t_{rr}$ 1N4148 (ns) \\
+\midrule
+10 Hz     & 1.429 & 20.60 \\
+50 Hz     & 1.429 & 20.60 \\
+100 Hz    & 1.429 & 20.60 \\
+500 Hz    & 1.429 & 20.60 \\
+1 kHz     & 1.429 & 20.60 \\
+5 kHz     & 1.402 & 20.59 \\
+10 kHz    & 1.329 & 19.05 \\
+25 kHz    & 1.313 & 20.60 \\
+50 kHz    & 1.305 & 18.83 \\
+100 kHz   & 1.230 & 18.79 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Los valores de $t_{rr}$ del 1N4148 en el Cuadro~\ref{tab:barrido} se extrajeron con el mismo circuito con fuente de pulso (\texttt{PULSE(-10 10 0 1n 1n \{0.5/f\} \{1/f\})}, $R_1=\SI{1}{k\ohm}$) y el mismo criterio del \SI{10}{\percent} del pico inverso empleado para el 1N4004, mediante un barrido \texttt{.step param} sobre las diez frecuencias solicitadas por la guía.
+
+La hoja de datos consultada para el 1N4004 reporta un tiempo de recuperación típico del orden de decenas de microsegundos bajo condiciones específicas de corriente de prueba, mientras que las hojas de datos del 1N4148 reportan $t_{rr}$ del orden de unos pocos nanosegundos; por ejemplo, Diodes Incorporated especifica \SI{4}{ns} bajo $I_F=I_R=\SI{10}{mA}$ y la condición de medición indicada por el fabricante \cite{d4004,d4148}. Las condiciones de prueba no son las mismas que las de la simulación, de modo que la comparación debe hacerse en términos de orden de magnitud y no como una igualdad punto a punto.
+
+La Fig.~\ref{fig:trr4148_1k} corresponde al 1N4148 con $R_1=\SI{1}{k\ohm}$, mientras que la Fig.~\ref{fig:trr4148_500} muestra el cambio al usar $R_1=\SI{500}{\ohm}$. La reducción de la resistencia aumenta la corriente del pulso y modifica el transitorio, especialmente el tiempo asociado al almacenamiento; este comportamiento concuerda con el procedimiento indicado en la guía \cite{guia}.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.48\columnwidth}
+        \centering
+        \includegraphics[width=\linewidth]{primera_simulacion_diodo.png}
+        \caption{$R_1=\SI{1}{k\ohm}$}
+        \label{fig:trr4148_1k}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\columnwidth}
+        \centering
+        \includegraphics[width=\linewidth]{simulacion_diodo_500_hz_tiempo_recuperacion.png}
+        \caption{$R_1=\SI{500}{\ohm}$}
+        \label{fig:trr4148_500}
+    \end{subfigure}
+    \caption{Respuesta transitoria del 1N4148 al reducir $R_1$ de \SI{1}{k$\ohm$} (a) a \SI{500}{$\ohm$} (b).}
+    \label{fig:trr4148}
+\end{figure}
+
+En el modelo SPICE usado para esta práctica, el parámetro de tiempo de tránsito $TT$ constituye una diferencia especialmente marcada entre ambas referencias: se emplearon aproximadamente \SI{1.5}{\micro s} para el 1N4004 frente a \SI{20}{ns} para el 1N4148. Este contraste explica por qué los dos dispositivos presentan escalas temporales de recuperación muy diferentes; $I_s$ y $\eta$ describen principalmente la característica estática y no son los parámetros que dominan la recuperación inversa \cite{guia}.
 
 \section{Montaje}
-% Sección dejada en blanco de acuerdo con las instrucciones del pre-informe.
+% Sección reservada para el día de la práctica. No se incluyen mediciones experimentales en el pre-informe.
 
-\section{Análisis de Resultados}
-El diodo 1N4004 responde coherentemente con la ecuación de Shockley \cite{guia}: la temperatura desplaza la rodilla de conducción, y el transitorio evidencia $t_s$ y $t_f$ al forzar el corte \cite{guia}, confirmando que rectificadores de propósito general como el 1N4004 son más lentos que diodos de conmutación rápida (1N4148).
-% Comparación con datos experimentales pendiente por falta de mediciones de laboratorio.
+\section{Análisis de resultados}
+
+Los resultados presentados corresponden a simulación y a procesamiento de los archivos exportados de LTspice. No se incluyen mediciones de laboratorio, por lo que la comparación experimental queda pendiente para el informe posterior.
+
+La primera comparación importante es la consistencia del modelo estático. En las dos referencias la característica $I_D$-$V_D$ conserva la forma exponencial esperada por (1), pero la identificación mediante solo $I_s$ y $\eta$ no reproduce todos los detalles del modelo SPICE. En particular, el 1N4148 presenta una diferencia apreciable entre los parámetros del modelo y los obtenidos por ajuste. La presencia de resistencia serie explica parte de esta diferencia, ya que la caída $I_DR_s$ se vuelve relevante al aumentar la corriente.
+
+En temperatura, el corrimiento de la curva hacia menores tensiones al aumentar $T$ concuerda con la dependencia térmica esperada de la unión P-N: para una corriente fija se necesita menos $V_D$ a mayor temperatura, mientras $I_s$ crece fuertemente. Los ajustes de la Tabla~\ref{tab:temperatura} muestran además que el cambio de $I_s$ es mucho más marcado que el cambio de $\eta$ en el 1N4004. Para el 1N4148 aparece una variación efectiva mayor de $\eta$, lo que refuerza la necesidad de indicar el intervalo de ajuste al reportar parámetros extraídos de datos simulados.
+
+En el modelamiento lineal, $R_d$ depende directamente de la pendiente seleccionada sobre una curva que no es lineal. Por ello, cambiar el par de puntos usado en la secante cambia tanto $R_d$ como el intercepto $V_t$. Este resultado no representa una inconsistencia del modelo, sino una consecuencia de aproximar una característica exponencial con una recta alrededor de un punto de operación.
+
+Finalmente, el 1N4004 presenta una recuperación del orden de microsegundos, mientras el 1N4148 presenta una recuperación del orden de decenas de nanosegundos en las curvas estudiadas. Ambos diodos muestran la misma tendencia cualitativa frente a la frecuencia: $t_{rr}$ se mantiene aproximadamente constante hasta 1 kHz y decrece levemente hacia 100 kHz, pero la magnitud absoluta de ese cambio es casi dos órdenes de magnitud menor en el 1N4148, lo cual es consistente con su $TT$ mucho más pequeño. La diferencia de escala temporal es coherente con el comportamiento esperado de un rectificador de propósito general frente a un diodo de conmutación rápida y con la diferencia del parámetro $TT$ presente en los modelos utilizados.
 
 \section{Conclusiones}
-\begin{itemize}
-    \item La temperatura afecta inversamente a $V_t$ y directamente a $I_s$, con un coeficiente medido de $-1.71$ mV/°C, coherente con la teoría.
-    \item $R_d$ y $V_t$ dependen del tramo de la curva usado para la secante: el punto medio da mayor $R_d$ y menor $V_t$ que el punto máximo, por la no linealidad exponencial del diodo.
-    \item $t_{rr}$ depende de la recombinación del semiconductor, no de la frecuencia de excitación; sin embargo, $R_1$ sí modifica $t_s$ y $t_f$ al alterar la amplitud de la corriente de barrido.
-\end{itemize}
+
+\begin{enumerate}
+    \item La ecuación de Shockley permite describir la característica directa de ambos diodos y proporciona un procedimiento reproducible para estimar $I_s$ y $\eta$ a partir de datos de LTspice \cite{sedra}.
+    
+    \item Para el 1N4004, el ajuste a las curvas de temperatura mantiene $\eta$ aproximadamente constante alrededor de 2.01 mientras $I_s$ aumenta fuertemente con la temperatura. En el 1N4148 también aumenta $I_s$, pero el $\eta$ efectivo presenta una variación mayor en el intervalo de ajuste.
+    
+    \item El modelamiento lineal produce $R_d\approx\SI{2.16}{\ohm}$ y $V_t\approx\SI{0.567}{V}$ para el 1N4004, frente a $R_d\approx\SI{2.45}{\ohm}$ y $V_t\approx\SI{0.670}{V}$ para el 1N4148. Estos valores dependen del tramo de la curva utilizado para la secante.
+    
+    \item El barrido de diez frecuencias entre \SI{10}{Hz} y \SI{100}{kHz} produjo $t_{rr}$ entre aproximadamente \SI{1.23}{\micro s} y \SI{1.43}{\micro s} para el 1N4004, y entre \SI{18.8}{ns} y \SI{20.6}{ns} para el 1N4148; en ambos casos la disminución a frecuencias altas se interpreta como efecto de la resolución temporal del cálculo, no como un cambio intrínseco del parámetro de recuperación.
+    
+    \item El contraste entre $TT\approx\SI{1.5}{\micro s}$ para el 1N4004 y $TT\approx\SI{20}{ns}$ para el 1N4148 explica la marcada diferencia entre sus respuestas transitorias simuladas.
+\end{enumerate}
 
 \section{Referencias}
-\begin{thebibliography}{1}
-\bibitem{guia} Universidad Nacional de Colombia, \textit{Práctica 1: Caracterización del Diodo}, Electrónica Análoga I, 2026-II.
-\bibitem{strad} STMicroelectronics, \textit{Rad-hard Diodes and Rectifiers}. [En línea]. Disponible en: https://www.st.com/en/space-products/rad-hard-diodes-and-rectifiers.html
-\bibitem{allpcb} AllPCB, \textit{Defibrillator PCB Design for Beginners: A Step-by-Step Guide}, 2025. [En línea]. Disponible en: https://www.allpcb.com/blog/pcb-knowledge/defibrillator-pcb-design-for-beginners-a-step-by-step-guide.html
-\bibitem{grafica1} LTSpice Simulation Data Export, \textit{Grafica1.txt}.
-\bibitem{grafica2} LTSpice Simulation Data Export, \textit{Grafica2.txt}.
-\bibitem{1n4148}
-Won-Top Electronics, ``1N4148 / LL4148 Fast Switching Diode,'' [En línea]. Disponible en: \url{https://www.alldatasheet.com/datasheet-pdf/view/33884/WTE/1N4148.html}. [Accedido: 16-sep-2026].
+
+\begin{thebibliography}{9}
+
+\bibitem{sedra}
+A. S. Sedra, K. C. Smith, T. C. Carusone, and V. Gaudet, \textit{Microelectronic Circuits}, 8th ed. Oxford University Press, 2020.
+
+\bibitem{guia}
+Universidad Nacional de Colombia, \textit{Práctica 1: Caracterización del Diodo}, Electrónica Análoga I, 2026-II.
+
+\bibitem{nasa}
+NASA, ``Silicon Carbide Power Components for NASA Lunar Surface Applications,'' Mar. 18, 2021. [Online]. Available: \url{https://www.nasa.gov/directorates/stmd/space-tech-research-grants/silicon-carbide-power-components-for-nasa-lunar-surface-applications/}
+
+\bibitem{stspace}
+STMicroelectronics, ``STTH60400HR: Rad-Hard 60 A - 400 V Ultrafast Rectifier,'' [Online]. Available: \url{https://www.st.com/en/space-products/stth60400hr.html}
+
+\bibitem{d4004}
+General Semiconductor, ``1N4001 through 1N4007 General Purpose Plastic Rectifier,'' datasheet, 1998. The 1N4004 entry specifies typical reverse-recovery data under the manufacturer's test conditions.
+
+\bibitem{d4148}
+Diodes Incorporated, ``1N4148W: Switching Diode,'' [Online]. Available: \url{https://www.diodes.com/part/view/1N4148W}
+
+\bibitem{datos4004}
+LTspice, ``Datos de simulación del 1N4004: barrido de frecuencia,'' archivo de datos exportado proporcionado para la práctica.
+
+\bibitem{datos4148temp}
+LTspice, ``Datos de simulación del 1N4148: barrido de temperatura,'' archivo de datos exportado proporcionado para la práctica.
+
+\bibitem{datos4148frecuencia}
+LTspice, ``Datos de simulación del 1N4148: barrido de frecuencia (\texttt{.step param}),'' archivo de datos exportado proporcionado para la práctica.
+
 \end{thebibliography}
 
 \end{document}
