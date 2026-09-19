@@ -146,10 +146,7 @@ Cuadrada asim. $8\text{V}_{pp}$ & 3.600 / 3.600 V   & 5.138 / 5.138 V \\ \bottom
 \end{tabular}
 \end{table}
 
-\section{Montaje}
-% Sección en blanco intencionalmente. Se completará tras la práctica.
-
-\section{Análisis de resultados}
+\subsection{Análisis de resultados de simulacion}
 En la Tabla \ref{tab:potencias} es posible observar que la mayor potencia se disipa en $R_1$, al conducir la corriente total; en contraste, $R_4$ disipa la menor potencia. En la Tabla \ref{tab:senales} es posible observar que el error entre valores teóricos y simulados es prácticamente nulo.
 
 Respuestas a la Sección 4 de la guía \cite{guia_practica0}:
@@ -164,12 +161,45 @@ Respuestas a la Sección 4 de la guía \cite{guia_practica0}:
 
 \textbf{5) Impedancias:} La impedancia de entrada representa la oposición al recibir una señal (debe ser alta para no cargar el circuito) \cite{buadlab_impedance}. La impedancia de salida es la resistencia interna de la fuente; debe ser baja para transferir la mayor tensión posible a la carga \cite{buadlab_impedance}.
 
-\section{Conclusiones}
+\subsubsection{Observaciones finales de la simulación}
 \begin{itemize}
     \item Los cálculos analíticos presentaron un margen de error casi nulo respecto al modelo simulado en SPICE, verificando el cumplimiento de las Leyes de Kirchhoff y Ohm.
     \item Las fórmulas generalistas de RMS no son aplicables a ondas cuadradas o asimétricas; se debe recurrir a la definición integral, la cual coincidió con el valor de $5.138\text{ V}$ obtenido en el simulador.
     \item Conocer la arquitectura interna de los equipos de medición permite anticipar los límites de validez de una medición y evitar errores al trabajar con señales de alta frecuencia.
 \end{itemize}
+\section{Montajes experimentales}
+\subsection{Montaje del circuito resistivo DC}
+Este circuito se construyo siguiendo las indicaciones de la guía de laboratorio. 
+Se encuentra compuesto de la siguiente topología:
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{circuito_1.png}
+    \caption{Circuito resistivo DC \cite{guia_practica0}}
+    \label{fig:circuito_1}
+\end{figure}
+Para la construcción de este circuito se emplearon resistencias de 1/4 de Watt con $10\%$ de tolerancia
+y la fuente DC disponible en el laboratorio.
+\\ por su parte para las mediciones se emplearon como voltímetro un multímetro \textit{Fluke 73} disponible en el laboratorio
+y como amperímetro un multímetro \textit{FNIRSI DMT-99} el cual fue llevado por un miembro del equipo.
+Ambos multímetros ajustan automáticamente la escala de medición, y dado que no se esperaban corrientes superiores a $1A$ para 
+ninguna de las resistencias, el amperímetro se conecto en la escala de medición de corriente de menor tope.
+\\ Con la intención de hacer las medidas lo más coherentes posibles, tanto las mediciones de tensión como de corriente para cada resistencia se realizaron de manera simultánea,
+empleando sondas de aguja para el voltímetro, y cables banana-caimán para permitir el paso de corriente por el amperímetro, 
+desconectando cada resistencia de su correspondiente línea en la protoboard cada que fuera necesario.
+
+\subsection{Medición del valor RMS para distintas formas de onda}
+
+\subsection{Medición de la impedancia de los equipos disponibles en el laboratorio}
+\section{resultados}
+\subsection{Mediciones del circuito resistivo DC}
+\subsection{Valores RMS para distintas formas de onda}
+\subsection{Impedancias de los equipos}
+\section{análisis de resultados}
+
+
+\section{Montaje}
+% Sección en blanco intencionalmente. Se completará tras la práctica.
 
 \renewcommand{\refname}{Referencias}
 \begin{thebibliography}{99}
