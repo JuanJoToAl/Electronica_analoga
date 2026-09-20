@@ -225,7 +225,7 @@ orientado a la medición del osciloscopio, se emplearon 2 trimmers \textit{W205}
 
 
 \section{resultados}
-\subsection{Mediciones del circuito resistivo DC}
+\subsection*{Mediciones del circuito resistivo DC}
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
 \begin{table}[]
@@ -238,7 +238,17 @@ I & 2.18mA & 0.9mA & 1.31mA & 0.91mA \\
 \end{tabular}
 \end{table}
 
-\subsection{Valores RMS para distintas formas de onda}
+\subsection*{Valores RMS para distintas formas de onda}
+\begin{table}[]
+\begin{tabular}{llll}
+\hline
+Onda                                 & Valor multímetro TRMS & Valor multímetro de respuesta promedio & Valor de osciloscopio \\ \hline
+Seno  $5V_{pp}$ + 1 VDC  500Hz       & 1.725 V               & 1.728 V                                & 1.97 V                \\ \hline
+Cuadrada  $5V_{pp}$ + 3V DC  120Hz   & 2.485V                & 2.759 V                                & 3.80 V                \\ \hline
+Triangular  $8V_{pp}$ - 4V DC  300Hz & 2.303 V               & 2.226 V                                & 4.64 V                \\ \hline
+Cuadrada  $8V_{pp}$ + 2V DC  1kHz    & 3.501 V               & 4 V                                    & 5.109 V               \\ \hline
+\end{tabular}
+\end{table}
 \subsection{Impedancias de los equipos}
 \section{análisis de resultados}
 
