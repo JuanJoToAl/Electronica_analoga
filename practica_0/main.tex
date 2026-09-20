@@ -10,8 +10,8 @@
 \title{Pre-informe Práctica 0: Manejo de Equipos de Medición en Electrónica Análoga}
 \author{
     \textit{jutobara@unal.edu.co} \and
-    Juan José Tobar Álvarez\\ \textit{correo1@unal.edu.co} \and
-    Estudiante 2\\ \textit{correo2@unal.edu.co} \and
+    Juan José Tobar Álvarez\\ \textit{dmontesr@unal.edu.co} \and
+    David Alejandro Montes Rodríguez\\ \textit{correo2@unal.edu.co} \and
     Estudiante 3\\ 
 }
 
@@ -146,10 +146,7 @@ Cuadrada asim. $8\text{V}_{pp}$ & 3.600 / 3.600 V   & 5.138 / 5.138 V \\ \bottom
 \end{tabular}
 \end{table}
 
-\section{Montaje}
-% Sección en blanco intencionalmente. Se completará tras la práctica.
-
-\section{Análisis de resultados}
+\subsection{Análisis de resultados de simulacion}
 En la Tabla \ref{tab:potencias} es posible observar que la mayor potencia se disipa en $R_1$, al conducir la corriente total; en contraste, $R_4$ disipa la menor potencia. En la Tabla \ref{tab:senales} es posible observar que el error entre valores teóricos y simulados es prácticamente nulo.
 
 Respuestas a la Sección 4 de la guía \cite{guia_practica0}:
@@ -164,12 +161,88 @@ Respuestas a la Sección 4 de la guía \cite{guia_practica0}:
 
 \textbf{5) Impedancias:} La impedancia de entrada representa la oposición al recibir una señal (debe ser alta para no cargar el circuito) \cite{buadlab_impedance}. La impedancia de salida es la resistencia interna de la fuente; debe ser baja para transferir la mayor tensión posible a la carga \cite{buadlab_impedance}.
 
-\section{Conclusiones}
+\subsubsection{Observaciones finales de la simulación}
 \begin{itemize}
     \item Los cálculos analíticos presentaron un margen de error casi nulo respecto al modelo simulado en SPICE, verificando el cumplimiento de las Leyes de Kirchhoff y Ohm.
     \item Las fórmulas generalistas de RMS no son aplicables a ondas cuadradas o asimétricas; se debe recurrir a la definición integral, la cual coincidió con el valor de $5.138\text{ V}$ obtenido en el simulador.
     \item Conocer la arquitectura interna de los equipos de medición permite anticipar los límites de validez de una medición y evitar errores al trabajar con señales de alta frecuencia.
 \end{itemize}
+\section{Montajes experimentales}
+\subsection{Montaje del circuito resistivo DC}
+Este circuito se construyo siguiendo las indicaciones de la guía de laboratorio. 
+Se encuentra compuesto de la siguiente topología:
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{circuito_1.png}
+    \caption{Circuito resistivo DC \cite{guia_practica0}}
+    \label{fig:circuito_1}
+\end{figure}
+Para la construcción de este circuito se emplearon resistencias de 1/4 de Watt con $10\%$ de tolerancia
+y la fuente DC disponible en el laboratorio.
+\\ por su parte para las mediciones se emplearon como voltímetro un multímetro \textit{Fluke 73} disponible en el laboratorio
+y como amperímetro un multímetro \textit{FNIRSI DMT-99} el cual fue llevado por un miembro del equipo.
+Ambos multímetros ajustan automáticamente la escala de medición, y dado que no se esperaban corrientes superiores a $1A$ para 
+ninguna de las resistencias, el amperímetro se conecto en la escala de medición de corriente de menor tope.
+\\ Con la intención de hacer las medidas lo más coherentes posibles, tanto las mediciones de tensión como de corriente para cada resistencia se realizaron de manera simultánea,
+empleando sondas de aguja para el voltímetro, y cables banana-caimán para permitir el paso de corriente por el amperímetro, 
+desconectando cada resistencia de su correspondiente línea en la protoboard cada que fuera necesario.
+
+\subsection{Medición del valor RMS para distintas formas de onda}
+Para las mediciones de las distintas formas de onda simuladas, simplemente se conectaron 
+en paralelo los multímetros \textit{Fluke 73} de respuesta promedio, el multímetro \textit{Fluke 112} True RMS, 
+y el osciloscopio \textit{Rigol DHO812} configurado para indicar también el valor RMS total. Estos equipos
+medían de manera simultánea la salida del generador de ondas disponible en el laboratorio modelo \textit{Rigol DG4062}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{circuito_2.png}
+    \caption{Ilustración de conexiones realizadas para el experimento}
+    \label{fig:circuito_2}
+\end{figure}
+
+\subsection{Medición de la impedancia de los equipos disponibles en el laboratorio}
+Para la medición de la impedancia de los equipos presentes en el laboratorio, los equipos objetivo de la medición
+fueron el generador \textit{Rigol DG4062} y el osciloscopio \textit{Rigol DHO812}.
+Tal y como se describe en la guía, en los circuitos descritos se emplearon trimmers con la intención de obtener un ajuste fino, 
+dado que estos circuitos se basan en la construcción de un divisor de tensión para determinar la impedancia interna de los equipos.
+Para el experimento referente al generador de ondas, se empleó un trimmer de referencia \textit{ W102} de $1k\Omega$, mientras que para construir el circuito
+orientado a la medición del osciloscopio, se emplearon 2 trimmers \textit{W205} de $2M \Omega$ conectados en serie.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{generador.png}
+    \caption{Esquema del circuito para la medición de la impedancia del generador de ondas\cite{guia_practica0}}
+    \label{fig:impedancia_generador}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{osciloscopio.png}
+    \caption{Esquema del circuito para la medición de la impedancia de entrada del osciloscopio \cite{guia_practica0}}
+    \label{fig:impedancia_osciloscopio}
+\end{figure}
+
+
+
+
+\section{resultados}
+\subsection{Mediciones del circuito resistivo DC}
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[]
+\begin{tabular}{@{}lllll@{}}
+\toprule
+  & R1     & R2    & R3     & R4     \\ \midrule
+V & 2.1 V  & 1.96V & 2.84V  & 0.87V  \\
+I & 2.18mA & 0.9mA & 1.31mA & 0.91mA \\
+  &        &       &        &        \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Valores RMS para distintas formas de onda}
+\subsection{Impedancias de los equipos}
+\section{análisis de resultados}
+
+
 
 \renewcommand{\refname}{Referencias}
 \begin{thebibliography}{99}
