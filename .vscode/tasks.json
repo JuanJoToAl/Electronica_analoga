@@ -4,9 +4,12 @@
         {
             "label": "Compilar informe IEEE",
             "type": "shell",
-            "command": "pdflatex -interaction=nonstopmode -synctex=1 main.tex",
+            "command": "pdflatex -disable-installer -interaction=nonstopmode -synctex=1 main.tex",
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${fileDirname}",
+                "env": {
+                    "TEXINPUTS": "C:\\Program Files\\MiKTeX\\tex\\latex\\l3kernel;"
+                }
             },
             "group": {
                 "kind": "build",
