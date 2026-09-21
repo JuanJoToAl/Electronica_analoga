@@ -13,11 +13,15 @@
       "name": "pdflatex",
       "command": "pdflatex",
       "args": [
+        "-disable-installer",
         "-synctex=1",
         "-interaction=nonstopmode",
         "-file-line-error",
         "%DOCFILE%"
-      ]
+      ],
+      "env": {
+        "TEXINPUTS": "C:\\Program Files\\MiKTeX\\tex\\latex\\l3kernel;"
+      }
     }
   ]
 }

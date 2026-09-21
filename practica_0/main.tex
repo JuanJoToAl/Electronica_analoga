@@ -225,20 +225,35 @@ orientado a la medición del osciloscopio, se emplearon 2 trimmers \textit{W205}
 
 
 \section{resultados}
-\subsection{Mediciones del circuito resistivo DC}
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
-\begin{table}[]
-\begin{tabular}{@{}lllll@{}}
+A continuación se presentan los distintos valores tomados 
+para cada experimento, 
+\begin{table}[H]
+\centering
+\caption{Mediciones experimentales del circuito resistivo DC}
+\label{tab:mediciones_dc}
+\begin{tabular}{@{}ccccc@{}}
 \toprule
   & R1     & R2    & R3     & R4     \\ \midrule
 V & 2.1 V  & 1.96V & 2.84V  & 0.87V  \\
-I & 2.18mA & 0.9mA & 1.31mA & 0.91mA \\
-  &        &       &        &        \\ \bottomrule
+I & 2.18mA & 0.9mA & 1.31mA & 0.91mA \\ \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Valores RMS para distintas formas de onda}
+\begin{table}[H]
+\centering
+\caption{Mediciones experimentales de valor RMS para distintas formas de onda}
+\label{tab:mediciones_rms}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}cccc@{}}
+\hline
+\begin{tabular}[c]{@{}c@{}}Onda\end{tabular} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Valor multímetro \\ TRMS\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Valor multímetro \\ de respuesta promedio\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Valor \\ osciloscopio\end{tabular}} \\ \hline
+\begin{tabular}[c]{@{}c@{}}Seno  $5V_{pp}$ \\ + 1 VDC  500Hz\end{tabular}                          & 1.725 V                                                                              & 1.728 V                                                                                               & 1.97 V                                                                            \\ \hline
+\begin{tabular}[c]{@{}c@{}}Cuadrada  $5V_{pp}$ \\ + 3V DC  120Hz\end{tabular}                      & 2.485V                                                                               & 2.759 V                                                                                               & 3.80 V                                                                            \\ \hline
+\begin{tabular}[c]{@{}c@{}}Triangular  $8V_{pp}$ \\ - 4V DC  300Hz\end{tabular}                    & 2.303 V                                                                              & 2.226 V                                                                                               & 4.64 V                                                                            \\ \hline
+\begin{tabular}[c]{@{}c@{}}Cuadrada \\ 70\% Duty Cycle  \\ $8V_{pp}$ \\ + 2V DC  1kHz\end{tabular} & 3.501 V                                                                              & 4 V                                                                                                   & 5.109 V                                                                           \\ \hline
+\end{tabular}%
+}
+\end{table}
 \subsection{Impedancias de los equipos}
 \section{análisis de resultados}
 
