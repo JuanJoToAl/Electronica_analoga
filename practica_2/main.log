@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  20 SEP 2026 15:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  20 SEP 2026 22:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -146,8 +146,8 @@ Language: spanish.ldf 2021/05/27 v5.0q Spanish support from the babel system
 \es@quotdepth=\count292
 Package babel Info: Making " an active character on input line 570.
 ))
-LaTeX Encoding Info:    Redeclaring text command \guillemotleft (encoding OT1) on input line 27.
-LaTeX Encoding Info:    Redeclaring text command \guillemotright (encoding OT1) on input line 27.
+LaTeX Encoding Info:    Redeclaring text command \guillemotleft (encoding OT1) on input line 42.
+LaTeX Encoding Info:    Redeclaring text command \guillemotright (encoding OT1) on input line 42.
  (C:\Users\neujo\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
 Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip52
@@ -265,31 +265,31 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count309
 ) (main.aux
-LaTeX Info: Redefining \. on input line 11.
-LaTeX Info: Redefining \% on input line 11.
+LaTeX Info: Redefining \. on input line 12.
+LaTeX Info: Redefining \% on input line 12.
 Package babel Info: 'spanish' activates 'spanish' shorthands.
-(babel)             Reported on input line 11.
+(babel)             Reported on input line 12.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
 
 -- Lines per column: 56 (exact).
-LaTeX Info: Redefining \. on input line 36.
-LaTeX Info: Redefining \% on input line 36.
+LaTeX Info: Redefining \. on input line 59.
+LaTeX Info: Redefining \% on input line 59.
 (C:\Users\neujo\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count310
@@ -309,59 +309,74 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (C:\Users\neujo\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-LaTeX Font Info:    Trying to load font information for U+msa on input line 64.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 87.
  (C:\Users\neujo\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 64.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 87.
  (C:\Users\neujo\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 <CircuitoRectificadorFig1.png, id=1, 654.64575pt x 492.03825pt>
 File: CircuitoRectificadorFig1.png Graphic file (type png)
 <use CircuitoRectificadorFig1.png>
-Package pdftex.def Info: CircuitoRectificadorFig1.png  used on input line 134.
-(pdftex.def)             Requested size: 126.0pt x 94.697pt.
+Package pdftex.def Info: CircuitoRectificadorFig1.png  used on input line 172.
+(pdftex.def)             Requested size: 115.92169pt x 87.12154pt.
 <TransferenciaRectificadorFig1.pdf, id=3, 187.902pt x 144.54pt>
 File: TransferenciaRectificadorFig1.pdf Graphic file (type pdf)
 <use TransferenciaRectificadorFig1.pdf>
-Package pdftex.def Info: TransferenciaRectificadorFig1.pdf  used on input line 136.
-(pdftex.def)             Requested size: 110.88062pt x 85.29327pt.
+Package pdftex.def Info: TransferenciaRectificadorFig1.pdf  used on input line 174.
+(pdftex.def)             Requested size: 105.83954pt x 81.41602pt.
+<CircuitoRectificadorFig2.png, id=4, 677.53125pt x 458.31226pt>
+File: CircuitoRectificadorFig2.png Graphic file (type png)
+<use CircuitoRectificadorFig2.png>
+Package pdftex.def Info: CircuitoRectificadorFig2.png  used on input line 183.
+(pdftex.def)             Requested size: 118.4403pt x 80.11493pt.
+<SalidaRectificadorFig2.pdf, id=5, 187.902pt x 213.19649pt>
+File: SalidaRectificadorFig2.pdf Graphic file (type pdf)
+<use SalidaRectificadorFig2.pdf>
+Package pdftex.def Info: SalidaRectificadorFig2.pdf  used on input line 184.
+(pdftex.def)             Requested size: 115.92169pt x 131.52657pt.
+<TransferenciaRectificadorFig2.pdf, id=6, 187.902pt x 155.38051pt>
+File: TransferenciaRectificadorFig2.pdf Graphic file (type pdf)
+<use TransferenciaRectificadorFig2.pdf>
+Package pdftex.def Info: TransferenciaRectificadorFig2.pdf  used on input line 186.
+(pdftex.def)             Requested size: 115.92169pt x 95.85835pt.
  [1{C:/Users/neujo/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
  <./CircuitoRectificadorFig1.png> <./TransferenciaRectificadorFig1.pdf>]
-<CircuitoMultiplicadorFig6.png, id=53, 453.49425pt x 320.99925pt>
+<CircuitoMultiplicadorFig6.png, id=56, 453.49425pt x 320.99925pt>
 File: CircuitoMultiplicadorFig6.png Graphic file (type png)
 <use CircuitoMultiplicadorFig6.png>
-Package pdftex.def Info: CircuitoMultiplicadorFig6.png  used on input line 192.
-(pdftex.def)             Requested size: 138.60077pt x 98.1079pt.
-<SalidaMultiplicadorFig6.pdf, id=54, 187.902pt x 144.54pt>
+Package pdftex.def Info: CircuitoMultiplicadorFig6.png  used on input line 297.
+(pdftex.def)             Requested size: 110.88062pt x 78.48141pt.
+<SalidaMultiplicadorFig6.pdf, id=57, 187.902pt x 144.54pt>
 File: SalidaMultiplicadorFig6.pdf Graphic file (type pdf)
 <use SalidaMultiplicadorFig6.pdf>
-Package pdftex.def Info: SalidaMultiplicadorFig6.pdf  used on input line 193.
-(pdftex.def)             Requested size: 120.95892pt x 93.04561pt.
-<TransferenciaMultiplicadorFig6.pdf, id=55, 187.902pt x 144.54pt>
+Package pdftex.def Info: SalidaMultiplicadorFig6.pdf  used on input line 298.
+(pdftex.def)             Requested size: 115.92169pt x 89.17055pt.
+<TransferenciaMultiplicadorFig6.pdf, id=58, 187.902pt x 144.54pt>
 File: TransferenciaMultiplicadorFig6.pdf Graphic file (type pdf)
 <use TransferenciaMultiplicadorFig6.pdf>
-Package pdftex.def Info: TransferenciaMultiplicadorFig6.pdf  used on input line 195.
-(pdftex.def)             Requested size: 120.95892pt x 93.04561pt.
- [2 <./CircuitoMultiplicadorFig6.png> <./SalidaMultiplicadorFig6.pdf> <./TransferenciaMultiplicadorFig6.pdf>]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 322.
+Package pdftex.def Info: TransferenciaMultiplicadorFig6.pdf  used on input line 300.
+(pdftex.def)             Requested size: 115.92169pt x 89.17055pt.
+ [2 <./CircuitoRectificadorFig2.png> <./SalidaRectificadorFig2.pdf> <./TransferenciaRectificadorFig2.pdf> <./CircuitoMultiplicadorFig6.png> <./SalidaMultiplicadorFig6.pdf> <./TransferenciaMultiplicadorFig6.pdf>]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 406.
  (C:\Users\neujo\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Underfull \hbox (badness 5696) in paragraph at lines 337--340
+Underfull \hbox (badness 5696) in paragraph at lines 421--424
 []\T1/ptm/m/n/8 Vishay Ge-ne-ral Se-mi-con-duc-tor, ``1N4001 th-ru 1N4007: Ge-ne-ral
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 337--340
+Underfull \hbox (badness 10000) in paragraph at lines 421--424
 \T1/ptm/m/n/8 pur-po-se plas-tic rec-ti-fier,'' ho-ja de da-tos, 2023. [En lí-nea].
  []
 
 
-Underfull \hbox (badness 3758) in paragraph at lines 337--340
+Underfull \hbox (badness 3758) in paragraph at lines 421--424
 \T1/ptm/m/n/8 Dis-po-ni-ble: $https : / / assets . rs-[]online . com / v1698967669 / Datasheets /
  []
 
@@ -376,11 +391,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3
-
-] (main.aux
-LaTeX Info: Redefining \. on input line 11.
-LaTeX Info: Redefining \% on input line 11.
+[3] (main.aux
+LaTeX Info: Redefining \. on input line 12.
+LaTeX Info: Redefining \% on input line 12.
 )
  ***********
 LaTeX2e <2025-11-01>
@@ -388,17 +401,17 @@ L3 programming layer <2025-12-24>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 5357 strings out of 467871
- 87227 string characters out of 5418377
- 513595 words of memory out of 5000000
- 34178 multiletter control sequences out of 15000+600000
+ 5388 strings out of 467871
+ 88309 string characters out of 5418377
+ 513644 words of memory out of 5000000
+ 34209 multiletter control sequences out of 15000+600000
  743096 words of font info for 155 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,13n,65p,307b,365s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,13n,65p,342b,365s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/neujo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (3 pages, 247596 bytes).
+Output written on main.pdf (3 pages, 302181 bytes).
 PDF statistics:
- 181 PDF objects out of 1000 (max. 8388607)
+ 252 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
