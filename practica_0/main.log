@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.9.16)  19 SEP 2026 18:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.9.16)  22 SEP 2026 13:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -365,28 +365,28 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
 
 -- Lines per column: 58 (exact).
-LaTeX Info: Redefining \. on input line 18.
-LaTeX Info: Redefining \% on input line 18.
+LaTeX Info: Redefining \. on input line 17.
+LaTeX Info: Redefining \% on input line 17.
 (C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count324
@@ -406,7 +406,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 18.
+Package hyperref Info: Link coloring OFF on input line 17.
  (main.out) (main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
@@ -414,7 +414,7 @@ Package hyperref Info: Link coloring OFF on input line 18.
 Package babel Info: Main language set to 'spanish'.
 
 ** WARNING: \and is valid only when in conference or peerreviewca
-modes (line 20).
+modes (line 19).
 [1{C:/Users/anjes/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
@@ -422,65 +422,108 @@ modes (line 20).
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.83     \item \textbf
+l.82     \item \textbf
                       {Cuadrada simétrica ($5\text{ V}_{pp}$, DC $3\text{ V...]
 <grafica_senoidal.png, id=121, 232.9503pt x 157.5486pt>
 File: grafica_senoidal.png Graphic file (type png)
 <use grafica_senoidal.png>
-Package pdftex.def Info: grafica_senoidal.png  used on input line 101.
+Package pdftex.def Info: grafica_senoidal.png  used on input line 100.
 (pdftex.def)             Requested size: 247.6778pt x 167.51756pt.
 <grafica_cuadrada_sim.png, id=124, 250.536pt x 157.5486pt>
 File: grafica_cuadrada_sim.png Graphic file (type png)
 <use grafica_cuadrada_sim.png>
-Package pdftex.def Info: grafica_cuadrada_sim.png  used on input line 110.
+Package pdftex.def Info: grafica_cuadrada_sim.png  used on input line 109.
 (pdftex.def)             Requested size: 247.6778pt x 155.75241pt.
 <grafica_triangular.png, id=126, 240.6591pt x 157.5486pt>
 File: grafica_triangular.png Graphic file (type png)
 <use grafica_triangular.png>
-Package pdftex.def Info: grafica_triangular.png  used on input line 119.
+Package pdftex.def Info: grafica_triangular.png  used on input line 118.
 (pdftex.def)             Requested size: 247.6778pt x 162.14464pt.
 <grafica_cuadrada_asim.png, id=128, 296.0661pt x 157.5486pt>
 File: grafica_cuadrada_asim.png Graphic file (type png)
 <use grafica_cuadrada_asim.png>
-Package pdftex.def Info: grafica_cuadrada_asim.png  used on input line 128.
+Package pdftex.def Info: grafica_cuadrada_asim.png  used on input line 127.
 (pdftex.def)             Requested size: 247.6778pt x 131.79901pt.
  [2
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.155 
-      
-pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.155 
-      
+l.153 \textbf{1) Multímetros:}
+                                Un multímetro \emph{promedio} rectifica la ...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.155 
-      
+l.153 \textbf{1) Multímetros:}
+                                Un multímetro \emph{promedio} rectifica la ...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.155 
-      
+l.153 \textbf{1) Multímetros:}
+                                Un multímetro \emph{promedio} rectifica la ...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.155 
-       <./grafica_senoidal.png> <./grafica_cuadrada_sim.png> <./grafica_triangular.png> <./grafica_cuadrada_asim.png>]
+l.153 \textbf{1) Multímetros:}
+                                Un multímetro \emph{promedio} rectifica la ...
+pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.153 \textbf{1) Multímetros:}
+                                Un multímetro \emph{promedio} rectifica la ... <./grafica_senoidal.png> <./grafica_cuadrada_sim.png> <./grafica_triangular.png> <./grafica_cuadrada_asim.png>]
 <circuito_1.png, id=160, 568.37344pt x 283.81032pt>
 File: circuito_1.png Graphic file (type png)
 <use circuito_1.png>
-Package pdftex.def Info: circuito_1.png  used on input line 177.
+Package pdftex.def Info: circuito_1.png  used on input line 176.
 (pdftex.def)             Requested size: 247.6778pt x 123.67734pt.
+<circuito_2.png, id=162, 670.75594pt x 465.23813pt>
+File: circuito_2.png Graphic file (type png)
+<use circuito_2.png>
+Package pdftex.def Info: circuito_2.png  used on input line 198.
+(pdftex.def)             Requested size: 247.6778pt x 171.78755pt.
+<generador.png, id=163, 446.41782pt x 271.76532pt>
+File: generador.png Graphic file (type png)
+<use generador.png>
+Package pdftex.def Info: generador.png  used on input line 212.
+(pdftex.def)             Requested size: 247.6778pt x 150.78177pt.
+<osciloscopio.png, id=166, 467.49657pt x 261.22594pt>
+File: osciloscopio.png Graphic file (type png)
+<use osciloscopio.png>
+Package pdftex.def Info: osciloscopio.png  used on input line 218.
+(pdftex.def)             Requested size: 247.6778pt x 138.39725pt.
  [3
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.218 \end{document}
-                     <./circuito_1.png>] (main.aux
+l.222 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.222 
+       <./circuito_1.png> <./circuito_2.png>]
+Underfull \vbox (badness 7613) has occurred while \output is active []
+
+ [4
+pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.275 \end{document}
+                    
+pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.275 \end{document}
+                    
+pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.275 \end{document}
+                    
+pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.275 \end{document}
+                     <./generador.png> <./osciloscopio.png>] (main.aux
 LaTeX Info: Redefining \. on input line 20.
 LaTeX Info: Redefining \% on input line 20.
 )
@@ -490,26 +533,38 @@ L3 programming layer <2026-08-10>
  ***********
 
 
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
 Package rerunfilecheck Warning: File `main.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `main.out':
 (rerunfilecheck)             Before: 6165F4EA92D7D147FA05F438F3C552E5;3998
-(rerunfilecheck)             After:  815E4924979C814E1D00E0A66F473FE5;3978.
+(rerunfilecheck)             After:  E6B781E566689BCADBBA31CD7F404D7F;3368.
  ) 
 Here is how much of TeX's memory you used:
- 11892 strings out of 467441
- 195965 string characters out of 5407591
- 660513 words of memory out of 5000000
- 41029 multiletter control sequences out of 15000+600000
- 665407 words of font info for 104 fonts, out of 8000000 for 9000
+ 11925 strings out of 467441
+ 196584 string characters out of 5407591
+ 660524 words of memory out of 5000000
+ 41057 multiletter control sequences out of 15000+600000
+ 664271 words of font info for 103 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,11n,79p,888b,548s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,15n,79p,888b,548s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{section.7} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.5.3} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.5.2} has been referenced but does not exist, replaced by a fixed one
+
 <C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (3 pages, 446419 bytes).
+Output written on main.pdf (4 pages, 968326 bytes).
 PDF statistics:
- 244 PDF objects out of 1000 (max. 8388607)
- 47 named destinations out of 1000 (max. 500000)
- 186 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 264 PDF objects out of 1000 (max. 8388607)
+ 53 named destinations out of 1000 (max. 500000)
+ 201 words of extra memory for PDF output out of 10000 (max. 10000000)
 
