@@ -8,11 +8,10 @@
 \usepackage{float}
 
 \title{Pre-informe Práctica 0: Manejo de Equipos de Medición en Electrónica Análoga}
-\author{
-    \textit{jutobara@unal.edu.co} \and
-    Juan José Tobar Álvarez\\ \textit{correo1@unal.edu.co} \and
-    Estudiante 2\\ \textit{correo2@unal.edu.co} \and
-    Estudiante 3\\ 
+\author{%
+    Juan José Tobar Álvarez\thanks{jutobara@unal.edu.co}\and
+    David Alejandro Montes Rodríguez\thanks{dmontesr@unal.edu.co}\and
+    Estudiante 3\thanks{correo2@unal.edu.co}%
 }
 
 \begin{document}
@@ -189,17 +188,75 @@ empleando sondas de aguja para el voltímetro, y cables banana-caimán para perm
 desconectando cada resistencia de su correspondiente línea en la protoboard cada que fuera necesario.
 
 \subsection{Medición del valor RMS para distintas formas de onda}
+Para las mediciones de las distintas formas de onda simuladas, simplemente se conectaron 
+en paralelo los multímetros \textit{Fluke 73} de respuesta promedio, el multímetro \textit{Fluke 112} True RMS, 
+y el osciloscopio \textit{Rigol DHO812} configurado para indicar también el valor RMS total. Estos equipos
+medían de manera simultánea la salida del generador de ondas disponible en el laboratorio modelo \textit{Rigol DG4062}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{circuito_2.png}
+    \caption{Ilustración de conexiones realizadas para el experimento}
+    \label{fig:circuito_2}
+\end{figure}
 
 \subsection{Medición de la impedancia de los equipos disponibles en el laboratorio}
+Para la medición de la impedancia de los equipos presentes en el laboratorio, los equipos objetivo de la medición
+fueron el generador \textit{Rigol DG4062} y el osciloscopio \textit{Rigol DHO812}.
+Tal y como se describe en la guía, en los circuitos descritos se emplearon trimmers con la intención de obtener un ajuste fino, 
+dado que estos circuitos se basan en la construcción de un divisor de tensión para determinar la impedancia interna de los equipos.
+Para el experimento referente al generador de ondas, se empleó un trimmer de referencia \textit{ W102} de $1k\Omega$, mientras que para construir el circuito
+orientado a la medición del osciloscopio, se emplearon 2 trimmers \textit{W205} de $2M \Omega$ conectados en serie.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{generador.png}
+    \caption{Esquema del circuito para la medición de la impedancia del generador de ondas\cite{guia_practica0}}
+    \label{fig:impedancia_generador}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{osciloscopio.png}
+    \caption{Esquema del circuito para la medición de la impedancia de entrada del osciloscopio \cite{guia_practica0}}
+    \label{fig:impedancia_osciloscopio}
+\end{figure}
+
+
+
+
 \section{resultados}
-\subsection{Mediciones del circuito resistivo DC}
-\subsection{Valores RMS para distintas formas de onda}
+A continuación se presentan los distintos valores tomados 
+para cada experimento, 
+\begin{table}[H]
+\centering
+\caption{Mediciones experimentales del circuito resistivo DC}
+\label{tab:mediciones_dc}
+\begin{tabular}{@{}ccccc@{}}
+\toprule
+  & R1     & R2    & R3     & R4     \\ \midrule
+V & 2.1 V  & 1.96V & 2.84V  & 0.87V  \\
+I & 2.18mA & 0.9mA & 1.31mA & 0.91mA \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Mediciones experimentales de valor RMS para distintas formas de onda}
+\label{tab:mediciones_rms}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}cccc@{}}
+\hline
+\begin{tabular}[c]{@{}c@{}}Onda\end{tabular} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Valor multímetro \\ TRMS\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Valor multímetro \\ de respuesta promedio\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Valor \\ osciloscopio\end{tabular}} \\ \hline
+\begin{tabular}[c]{@{}c@{}}Seno  $5V_{pp}$ \\ + 1 VDC  500Hz\end{tabular}                          & 1.725 V                                                                              & 1.728 V                                                                                               & 1.97 V                                                                            \\ \hline
+\begin{tabular}[c]{@{}c@{}}Cuadrada  $5V_{pp}$ \\ + 3V DC  120Hz\end{tabular}                      & 2.485V                                                                               & 2.759 V                                                                                               & 3.80 V                                                                            \\ \hline
+\begin{tabular}[c]{@{}c@{}}Triangular  $8V_{pp}$ \\ - 4V DC  300Hz\end{tabular}                    & 2.303 V                                                                              & 2.226 V                                                                                               & 4.64 V                                                                            \\ \hline
+\begin{tabular}[c]{@{}c@{}}Cuadrada \\ 70\% Duty Cycle  \\ $8V_{pp}$ \\ + 2V DC  1kHz\end{tabular} & 3.501 V                                                                              & 4 V                                                                                                   & 5.109 V                                                                           \\ \hline
+\end{tabular}%
+}
+\end{table}
 \subsection{Impedancias de los equipos}
 \section{análisis de resultados}
 
 
-\section{Montaje}
-% Sección en blanco intencionalmente. Se completará tras la práctica.
 
 \renewcommand{\refname}{Referencias}
 \begin{thebibliography}{99}

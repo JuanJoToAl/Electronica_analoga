@@ -1,0 +1,427 @@
+%=====================================================================
+%  PREINFORME PRACTICA 2 - CONFIGURACIONES CON DIODOS
+%  Electronica Analoga I - 2026-II - Universidad Nacional de Colombia
+%
+%  PARTE DEL INTEGRANTE 1. Ocupa ~1.5-1.8 paginas de IEEEtran a doble
+%  columna (titulo y referencias incluidos). Las subsecciones de los
+%  Integrantes 2 y 3 quedan comentadas EN EL ORDEN DE LA GUIA para que
+%  cada uno pegue su texto sin romper la numeracion de figuras, tablas
+%  y ecuaciones. Entre los tres NO deben superar 7 paginas sin contar
+%  referencias.
+%
+%  CAMBIOS DE ESTA VERSION:
+%   - La Fig. 2 ya es ONDA COMPLETA con tap central + filtro (antes se
+%     habia simulado media onda): n=2 en (2), C=10 uF, RL=5 kOhm.
+%     Todos los numeros salen de los .txt de LTspice del 20/09.
+%   - Se anade la transferencia de la Fig. 2 (ya no es opcional).
+%   - Se corrige el error "Incompatible glue units": lo causaba la
+%     secuencia \,\% dentro de $...$ (babel-spanish ya inserta solo el
+%     espacio fino antes del %, asi que el \, sobraba). Ahora se
+%     escribe 3\% y no 3\,\%.
+%
+%  OJO: hay que SUBIR A OVERLEAF el archivo CircuitoRectificadorFig2.png
+%  (no esta en el proyecto; por eso el log decia "File not found").
+%
+%  Compilar con pdfLaTeX. Figuras usadas (en ./figuras/ o en la raiz;
+%  se referencian SIN extension, asi que cualquiera puede cambiarse
+%  por una captura .png con el mismo nombre):
+%     CircuitoRectificadorFig1        (esquematico, tap central)
+%     TransferenciaRectificadorFig1   (Vo vs Vi)
+%     CircuitoRectificadorFig2        (esquematico, tap central + C)
+%     SalidaRectificadorFig2          (Vi y Vo en el tiempo, 1 kHz)
+%     TransferenciaRectificadorFig2   (Vo vs Vi)
+%     CircuitoMultiplicadorFig6       (esquematico, SINE(0 3 100))
+%     SalidaMultiplicadorFig6         (Vo en el tiempo)
+%     TransferenciaMultiplicadorFig6  (Vo vs Vi)
+%=====================================================================
+\documentclass[conference,10pt]{IEEEtran}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot,es-noquoting]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\urlstyle{same}
+\Urlmuskip=0mu plus 1mu\relax  % evita cajas subllenas en las URL
+
+\graphicspath{{figuras/}{./}}   % busca en ./figuras/ y en la raiz
+
+% Los flotantes son muchos: con los valores por defecto LaTeX crea
+% paginas casi vacias de solo figuras. Con esto se empaquetan junto al
+% texto y el documento baja ~media pagina.
+\setcounter{topnumber}{3}\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.95}\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.05}\renewcommand{\floatpagefraction}{0.85}
+
+\begin{document}
+
+\title{Configuraciones con diodos: rectificadores, limitadores,\\
+sujetadores y multiplicadores de tensión}
+
+\author{
+\IEEEauthorblockN{Juan José Tobar Álvarez}
+\IEEEauthorblockA{Departamento de Ingeniería Eléctrica y Electrónica\\
+Universidad Nacional de Colombia\\
+jutobara@unal.edu.co}
+\and
+\IEEEauthorblockN{Nombre Integrante 2}
+\IEEEauthorblockA{Departamento de Ingeniería Eléctrica y Electrónica\\
+Universidad Nacional de Colombia\\
+correo2@unal.edu.co}
+\and
+\IEEEauthorblockN{Nombre Integrante 3}
+\IEEEauthorblockA{Departamento de Ingeniería Eléctrica y Electrónica\\
+Universidad Nacional de Colombia\\
+correo3@unal.edu.co}
+}
+
+\maketitle
+
+%=====================================================================
+\section{Introducción y justificación}
+% [INTEGRANTE 1]
+%=====================================================================
+El diodo $pn$ impone una dirección preferente a la corriente; de esa
+propiedad se derivan las cuatro familias de circuitos de esta práctica:
+rectificadores, limitadores, sujetadores y multiplicadores de
+tensión~\cite{sedra}. El objetivo es diseñar, simular y montar ocho
+circuitos basados en la conmutación del diodo, contrastando el modelo
+de caída constante $V_\gamma$ con la simulación. Su alcance excede lo
+académico: la NASA rectificó 55~V CA de un sistema Brayton a 1100~V CC
+para alimentar el propulsor iónico NSTAR con 91\% de
+eficiencia~\cite{nasep}, y la celda de la Fig.~\ref{fig:mult}(a) es la
+base de los multiplicadores Cockcroft--Walton de las fuentes de rayos X
+y de alta tensión sin transformador~\cite{park}.
+
+%=====================================================================
+\section{Cálculos}
+%=====================================================================
+
+\subsection{Rectificadores: configuración, aplicaciones y limitaciones}
+% [INTEGRANTE 1]
+En media onda un diodo bloquea un semiciclo; en onda completa con
+\textit{tap} central dos diodos conducen alternadamente sobre un
+secundario dividido; en puente, cuatro diodos encaminan ambos
+semiciclos con igual polaridad~\cite{sedra}. Se usan en fuentes CA/CC,
+cargadores y detectores de envolvente. Los limitan la caída
+$V_\gamma$, la tensión inversa de pico (PIV), el rizado, la zona muerta
+$|v_S|<V_\gamma$ y el tiempo de recuperación inversa~\cite{vishay}
+(Tabla~\ref{tab:comp}).
+
+\begin{table}[htbp]
+\caption{Topologías rectificadoras ($V_m$: amplitud de entrada;
+$f$: frecuencia de entrada). $^1$Nodo común entre fuente y carga.}
+\label{tab:comp}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Parámetro} & \textbf{Media onda} & \textbf{Tap central} & \textbf{Puente}\\
+\midrule
+$V_{o,\text{pico}}$      & $V_m-V_\gamma$   & $V_m-V_\gamma$      & $V_m-2V_\gamma$\\
+$V_{DC}$ (ideal)         & $V_m/\pi$        & $2V_m/\pi$          & $2V_m/\pi$\\
+$f_o$ / PIV              & $f$ / $V_m$      & $2f$ / $2V_m{-}V_\gamma$ & $2f$ / $V_m{-}V_\gamma$\\
+N.\ diodos / tierra$^1$  & 1 / Sí           & 2 / Sí              & 4 / No\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Diseño de los rectificadores de las Figuras 1 y 2}
+% [INTEGRANTE 1 - Fig. 1: carga resistiva; Fig. 2: filtro capacitivo]
+Para la salida de $\approx5$~V con período de entrada de 1~ms
+(Fig.~1 de la guía) se elige \textit{tap} central
+(Tabla~\ref{tab:comp}: conserva tierra común) con dos fuentes
+desfasadas $180^\circ$. De $v_O=|v_S|-V_\gamma$,
+
+\begin{equation}
+V_m=V_{o,\text{pico}}+V_\gamma=5+0.55=5.56\ \text{V}.
+\label{eq:vm}
+\end{equation}
+
+Con $R_L=1$~k$\Omega$, $I_{L,\text{pico}}=5.01$~mA y
+$\text{PIV}=2V_m-V_\gamma=10.6$~V, muy por debajo de los límites del
+1N4004 ($I_{F(AV)}=1$~A, $V_{RRM}=400$~V)~\cite{vishay}
+(Fig.~\ref{fig:rect}).
+
+El segundo circuito exige $V_{DC}\approx5$~V con $r\le3\%$ a 1~kHz.
+Se conserva el \textit{tap} central y se añade $C$ en paralelo con
+$R_L$: el condensador se carga hasta el pico y se descarga sobre la
+carga entre picos; si $\tau=R_LC\gg T$ la descarga se linealiza
+y~\cite{sedra}
+
+\begin{equation}
+V_{r(pp)}\approx\frac{V_{DC}}{n\,f\,R_L\,C},
+\qquad
+r=\frac{V_{r(pp)}}{2\sqrt{3}\,V_{DC}},
+\label{eq:rizado}
+\end{equation}
+
+con $n=1$ en media onda y $n=2$ en onda completa. Con $n=2$,
+$V_{DC}=5$~V, $R_L=5$~k$\Omega$ y $f=1$~kHz se requiere
+$C\ge0.96\ \mu$F ---o $C\ge3.3\ \mu$F si el $3\%$ se impone sobre el
+rizado pico--pico---; se adopta el valor comercial $C=10\ \mu$F, con el
+que $\tau=50\,T$, $V_{r(pp)}=50$~mV y $r=0.29\%$. La tensión inversa
+sube a $V_m+V_{DC}=10.6$~V, dentro de los límites del 1N4004.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.46\columnwidth]{CircuitoRectificadorFig1}
+\hfill
+\includegraphics[width=0.42\columnwidth]{TransferenciaRectificadorFig1}
+\caption{Rectificador de onda completa con \textit{tap} central
+($V_m=5.56$~V, $f=1$~kHz, $R_L=1$~k$\Omega$): (a) circuito y (b)
+transferencia simulada.}
+\label{fig:rect}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.47\columnwidth]{CircuitoRectificadorFig2}\\[2pt]
+\includegraphics[width=0.46\columnwidth]{SalidaRectificadorFig2}
+\hfill
+\includegraphics[width=0.46\columnwidth]{TransferenciaRectificadorFig2}
+\caption{Rectificador de onda completa con filtro capacitivo
+($V_m{=}5.6$~V, $f{=}1$~kHz, $R_L{=}5$~k$\Omega$, $C{=}10\,\mu$F):
+(a) circuito, (b) entrada y salida en el tiempo y (c) transferencia
+$v_o$--$v_{S1}$.}
+\label{fig:filtro}
+\end{figure}
+
+\subsection{Medición y condiciones de la señal de entrada}
+% [INTEGRANTE 1 - las 3 preguntas de la Fig. 1]
+\textbf{Puente:} la carga queda flotante, de modo que medir a la vez
+entrada y salida con tierras comunes cortocircuita diodos; se requiere
+medida diferencial o registros por separado.
+\textbf{Entrada:} alterna y bipolar, con $V_m\gg V_\gamma$ y frecuencia
+baja frente al inverso del $t_{rr}$ del diodo; en \textit{tap} central,
+ambas fuentes con igual amplitud y desfase exacto de $180^\circ$.
+\textbf{Tierras:} en \textit{tap} central el punto medio es común a
+fuente y carga y una sola referencia sirve para las dos puntas; en
+puente no existe ese nodo --- de ahí la preferencia por \textit{tap}
+central en el montaje.
+
+% ---------------------------------------------------------------
+% [INTEGRANTE 2] \subsection{Limitadores: configuración, aplicaciones y limitaciones}
+% [INTEGRANTE 2] \subsection{Diferencias de RMS y DC frente al rectificador sin filtro (Fig. 2)}
+%                 (la pregunta teorica RMS/DC de 4.1 es del Integrante 2;
+%                  aqui solo se reporta lo que arroja la simulacion.)
+% [INTEGRANTE 2] \subsection{Diseño del sujetador a +3 V (Fig. 3)}
+% [INTEGRANTE 3] \subsection{Sujetadores y multiplicadores: configuración, aplicaciones y limitaciones}
+% [INTEGRANTE 3] \subsection{Diseño del sujetador a -4 V (Fig. 4)}
+% [INTEGRANTE 3] \subsection{Diseño del sujetador con recorte en +-4 V (Fig. 5)}
+% ---------------------------------------------------------------
+
+%=====================================================================
+\section{Simulación}
+%=====================================================================
+
+\subsection{Rectificadores de las Figuras 1 y 2}
+% [INTEGRANTE 1 - numeral 4.2.2]
+La Tabla~\ref{tab:rect} contrasta diseño y simulación. La
+Fig.~\ref{fig:rect}(b) es la ``V'' característica del rectificador de
+onda completa: pico de 5.01~V, período de 0.5~ms (la mitad del de
+entrada) y zona muerta de $\pm0.35$~V en el origen. Con filtro
+(Fig.~\ref{fig:filtro}(b)) la salida se establece en 0.22~ms y se
+sostiene en 5.00~V con 41.7~mV de rizado pico--pico y período de
+0.499~ms: $r=0.24\%$ ($0.83\%$ medido sobre el rizado pico--pico),
+dentro del $3\%$ exigido en ambos criterios. Sin filtro
+$V_{\text{rms}}/V_{DC}=1.14$; con él ambos valores coinciden en 5.00~V
+y el factor de forma cae a 1.00, de modo que el multímetro True RMS y
+el de continua marcarían lo mismo. En la Fig.~\ref{fig:filtro}(c) la
+transferencia deja de ser la ``V'': tras el tramo de carga inicial
+colapsa en una banda horizontal en 5.00~V, porque en régimen
+permanente la salida la fija la carga de $C$ y no el valor instantáneo
+de $v_{S1}$; a diferencia del multiplicador, esa banda queda por
+debajo de $V_m$.
+
+\begin{table}[htbp]
+\caption{Rectificadores a $f=1$~kHz: cálculo contra simulación.
+Fig.~\ref{fig:rect}: $V_m{=}5.56$~V, $R_L{=}1$~k$\Omega$.
+Fig.~\ref{fig:filtro}: $V_m{=}5.6$~V, $R_L{=}5$~k$\Omega$,
+$C{=}10\,\mu$F.}
+\label{tab:rect}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Parámetro} & \textbf{Ideal} & \textbf{Teórico} & \textbf{LTspice} & \textbf{Err.}\\
+ & $V_\gamma{=}0$ & $V_\gamma{\neq}0$ & & [\%]\\
+\midrule
+\multicolumn{5}{l}{\textit{Fig.~\ref{fig:rect} --- carga resistiva}}\\
+$V_{o,\text{pico}}$ [V]  & 5.56 & 5.01 & 5.01 & 0.04\\
+$V_{DC}$ [V]             & 3.54 & 3.01 & 3.04 & 1.06\\
+$V_{\text{rms}}$ [V]     & 3.93 & 3.44 & 3.46 & 0.35\\
+\midrule
+\multicolumn{5}{l}{\textit{Fig.~\ref{fig:filtro} --- filtro capacitivo}}\\
+$V_{o,\text{pico}}$ [V]  & 5.60 & 5.05 & 5.02 & 0.67\\
+$V_{DC}$ [V]             & 5.57 & 5.03 & 5.00 & 0.69\\
+$V_{\text{rms}}$ [V]     & 5.57 & 5.03 & 5.00 & 0.69\\
+$V_{r(pp)}$ [mV]         & 56.0 & 50.0 & 41.7 & 16.6\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Multiplicador de tensión (Fig. 6 de la guía)}
+% [INTEGRANTE 1 - numeral 4.2.1]
+Con $v(t)=3\sin(\omega t)$~V a 100~Hz, $C_1$--$D_1$ sujeta la entrada
+entre $0$ y $-2V_m$ y $D_2$--$C_2$ detecta ese pico, así que en régimen
+permanente
+
+\begin{equation}
+V_O\approx-2\left(V_m-V_\gamma\right)=-5.1\ \text{V},
+\label{eq:doblador}
+\end{equation}
+
+un \textbf{doblador de tensión de media onda con salida negativa}
+(Cockcroft--Walton elemental). La Fig.~\ref{fig:mult}(b) muestra la
+salida creciendo en escalones, uno por ciclo, hasta $-5.12$~V
+($0.5\%$ sobre \eqref{eq:doblador} y $14.6\%$ bajo el ideal
+$-2V_m$). En la Fig.~\ref{fig:mult}(c) la transferencia no es
+univaluada: los tramos colapsan en $v_o\approx-5.12$~V con
+$|v_o|>V_m$, y ese es el criterio de identificación: el
+\textit{rectificador} da una curva univaluada por el origen (la ``V''
+de la Fig.~\ref{fig:rect}(b)) o, con filtro, una banda horizontal con
+$|v_o|<V_m$ (Fig.~\ref{fig:filtro}(c)); el \textit{limitador},
+pendiente unitaria con mesetas de recorte; el \textit{sujetador}, una
+recta de pendiente unitaria desplazada verticalmente; solo el
+\textit{multiplicador} pierde la dependencia con $v_i$ ---la fija la
+carga de los condensadores--- y supera la amplitud de entrada.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.44\columnwidth]{CircuitoMultiplicadorFig6}\\[2pt]
+\includegraphics[width=0.46\columnwidth]{SalidaMultiplicadorFig6}
+\hfill
+\includegraphics[width=0.46\columnwidth]{TransferenciaMultiplicadorFig6}
+\caption{Multiplicador ($C_1{=}C_2{=}10\,\mu$F, 1N4004,
+$v(t){=}3\sin(\omega t)$~V, 100~Hz): (a) circuito, (b) salida en el
+tiempo y (c) transferencia $v_o$--$v_i$.}
+\label{fig:mult}
+\end{figure}
+
+\subsection{Efecto de la frecuencia y de la amplitud}
+% [INTEGRANTE 1]
+La Tabla~\ref{tab:frec} reúne los dos circuitos con condensador. Pasar
+de 100~Hz a 1~kHz acorta diez veces la descarga entre picos: el rizado
+del multiplicador baja de 45.7 a 24.7~mV y su establecimiento de 47.3 a
+11.8~ms, y el del filtro pasa de 395 a 41.7~mV mientras $V_{DC}$ sube
+de 4.90 a 5.00~V. A 100~Hz el filtro aún cumple el criterio rms
+($r=2.33\%$), pero agota el margen y quedaría fuera de especificación
+($8.1\%$) medido sobre el rizado pico--pico: el diseño solo es robusto
+a la frecuencia para la que se dimensionó $C$, y bajar $f$ obliga a
+subir $C$ en la misma proporción. Con la amplitud, por~\eqref{eq:vm}
+y~\eqref{eq:doblador} la salida escala linealmente con $V_m$ pero
+desplazada en $V_\gamma$ ---o $2V_\gamma$ en el doblador---; si
+$V_m\to V_\gamma$ los diodos dejan de conducir, de ahí que la ganancia
+efectiva del doblador sea 1.71 y no 2.
+
+\begin{table}[htbp]
+\caption{Efecto de la frecuencia en los circuitos con condensador
+($r$ calculado como en~\eqref{eq:rizado}).}
+\label{tab:frec}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Circuito} & $f$ [Hz] & $V_{DC}$ [V] & $V_{r(pp)}$ [mV] & $r$ [\%] & $t_{95\%}$ [ms]\\
+\midrule
+Multiplicador & 100  & $-5.12$ & 45.7 & 0.257 & 47.3\\
+(Fig.~\ref{fig:mult}) & 1000 & $-5.21$ & 24.7 & 0.137 & 11.8\\
+Filtro $C$ & 100  & 4.90 & 395  & 2.33 & 1.98\\
+(Fig.~\ref{fig:filtro}) & 1000 & 5.00 & 41.7 & 0.241 & 0.22\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------
+% [INTEGRANTE 3] \subsection{Simulación de las Figuras 3, 4 y 5 y comparación con los cálculos}
+% [INTEGRANTE 3] \subsection{Diseño a partir de las funciones de transferencia (Figuras 7a y 7b)}
+% [INTEGRANTE 3] \subsection{¿Pueden conducir simultáneamente los dos diodos del limitador?}
+% ---------------------------------------------------------------
+
+%=====================================================================
+\section{Montaje}
+%=====================================================================
+% Numeral 5: se completa el dia de la practica con los ocho circuitos
+% en protoboard y las imagenes de entrada/salida del osciloscopio.
+Esta sección se desarrollará durante la sesión de laboratorio.
+
+%=====================================================================
+\section{Análisis de resultados}
+%=====================================================================
+% [INTEGRANTE 1]
+El error entre cálculo y simulación (Tabla~\ref{tab:rect}) proviene del
+modelo del diodo: sin $V_\gamma$ se sobreestima $V_{DC}$ en 16\%, y
+con $V_\gamma$ constante el error cae al 1\%; el remanente se debe a
+que el modelo SPICE es exponencial (la caída pasa de 0.50~V a 1.5~mA a
+0.55~V a 5~mA). Con filtro los errores de $V_{DC}$ y
+$V_{\text{rms}}$ son de $0.69\%$, pero el del rizado llega al
+$16.6\%$: este es de modelo y no de dispositivo, pues~\eqref{eq:rizado}
+supone descarga lineal durante todo el semiperíodo cuando el diodo
+conduce el 17\% del tiempo y $C$ solo se descarga los 0.41~ms
+restantes ---el rizado medido es el 83\% del estimado---. El error es
+conservador, pues la ecuación sobredimensiona $C$, que es la dirección
+segura al diseñar. Lo mismo explica el multiplicador: entre los $-6$~V
+ideales y los $-5.12$~V simulados están las dos caídas directas,
+menores a las nominales (0.44~V equivalente) porque en régimen
+permanente solo circula corriente de fuga.
+% [PENDIENTE tras el laboratorio: comparar las medidas de osciloscopio y
+%  multimetro (DC y True RMS) con las Tablas II y III.]
+
+%=====================================================================
+\section{Conclusiones}
+%=====================================================================
+% [INTEGRANTE 1 - se integran con las de los demas]
+\begin{itemize}
+\item Compensar $V_\gamma$ en la amplitud de la fuente ($V_m=5.56$~V)
+dio 5.01~V de salida, $0.2\%$ por debajo de lo pedido: el modelo de
+caída constante sirve para diseñar y no solo para analizar.
+\item El \textit{tap} central se prefirió por conservar tierra común
+fuente--carga, lo que evita la medida diferencial en el osciloscopio de
+doble traza.
+\item Con $C=10\,\mu$F y $R_L=5$~k$\Omega$ ($\tau=50\,T$) el rizado en
+onda completa fue de 41.7~mV sobre 5.00~V ($r=0.24\%$), un orden de
+magnitud por debajo del $3\%$ exigido, y el factor de forma pasó de
+1.14 a 1.00.
+\item La Fig.~\ref{fig:mult} es un doblador de salida negativa
+($-5.12$~V simulados frente a $-5.10$~V teóricos); su transferencia con
+$|v_o|>V_m$ lo distingue del rectificador filtrado, que también da una
+banda horizontal pero con $|v_o|<V_m$.
+\item A 100~Hz el rizado del filtro se multiplicó por 9.5 y el margen
+frente al $3\%$ casi desapareció: la frecuencia gobierna la calidad de
+la continua.
+\end{itemize}
+
+%=====================================================================
+\begin{thebibliography}{9}
+%=====================================================================
+\bibitem{sedra}
+A. S. Sedra, K. C. Smith, T. C. Carusone y V. Gaudet, \emph{Microelectronic
+Circuits}, 8.ª ed. Nueva York, NY, EE.UU.: Oxford University Press, 2020.
+
+\bibitem{nasep}
+National Academies of Sciences, Engineering, and Medicine, \emph{Space
+Nuclear Propulsion for Human Mars Exploration}. Washington, DC, EE.UU.:
+The National Academies Press, 2021. [En línea]. Disponible:
+\url{https://www.nationalacademies.org/read/25977/chapter/5}
+
+\bibitem{park}
+S. Park, J. Yang y J. Rivas-Davila, ``A hybrid Cockcroft--Walton/Dickson
+multiplier for high voltage generation,'' \emph{IEEE Trans. Power
+Electron.}, 2019. [En línea]. Disponible:
+\url{https://par.nsf.gov/servlets/purl/10106507}
+
+\bibitem{vishay}
+Vishay General Semiconductor, ``1N4001 thru 1N4007: General purpose
+plastic rectifier,'' hoja de datos, 2023. [En línea]. Disponible:
+\url{https://assets.rs-online.com/v1698967669/Datasheets/13e6e46c15cf22864bd07ab7e9c4439c.pdf}
+
+\end{thebibliography}
+
+\end{document}
