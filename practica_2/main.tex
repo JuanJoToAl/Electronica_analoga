@@ -215,10 +215,7 @@ central en el montaje.
 \subsubsection{Diseño del sujetador a -4 V (Fig. 4)}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.47\columnwidth]{CircuitoRectificadorFig2}\\[2pt]
-\includegraphics[width=0.46\columnwidth]{SalidaRectificadorFig2}
-\hfill
-\includegraphics[width=0.46\columnwidth]{sujetador_boylestad.png}
+\includegraphics[width=0.7\columnwidth]{sujetador_boylestad.png}
 \caption{Sujetador ajustado mediante una fuente}
 \label{fig:sujetador_fuente}
 \end{figure}
@@ -228,6 +225,29 @@ que el sentido positivo o negativo del desplazamiento se encuentra dado por
 la orientación del diodo. Sin embargo, la guía de laboratorio
 indica explícitamente que sea posible emplear esta fuente DC, por lo qué
 a manera de reemplazo se coloca en su sitio un divisor de tensión de la onda de entrada.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\columnwidth]{sujetador_7Vp_5V.png}
+\caption{Topología alternativa de sujetador}
+\label{fig:sujetador_divisor}
+\end{figure}
+
+Tras determinar la topología del sujetador a construir,
+luego se le aplican valores comerciales de resistencias y condensadores, 
+así como diodos que sean conocidos.
+Basandose en el hecho de que $\tau >> T$  , lo primero es reconocer que $T = 1/f = 1/ (1.2\times 10^{3} s^{-1}) = 0.83 \times 10^{-3}s $.
+Mientras que para evitar riesgos debidos a la polaridad y para facilitar la carga rápida del condensador cuando el diodo conduzca,
+se optó por un condensador de 0.47 $\mu F$, el cual se puede encontrar como condensador de poliéster, para obtener este $\tau$ alto con
+resistencias comerciales se optó por usar una resistencia de $220 k \Omega$
+$$ \tau = RC = 0.47 \times 10^{-6}* 2.2 \times 10^{5} = 0.1 s $$
+$$ 0.1s >>> 0.00083 s$$
+Por otro lado, el divisor de tensión es el que nos permite el desplazamiento vertical de la onda, 
+al presentar en el ánodo del diodo, la onda con una fracción de su valor original, lo que permite al diodo
+activarse al momento en que la onda alcanza cierto valor. Ya que nuestra intención es que el condensador
+se cargue a -4V de la onda, por lo que la diferencia en el diodo antes de que este se vuelva a bloquear después
+de conducir debe ser de este preciso valor, considerando adicionalmente la caida de potencial en el diodo.
+Para este propósito se elige como diodo el 1N4148, con un $V_D = 0.7$
 
 
 
