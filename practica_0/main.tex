@@ -8,12 +8,13 @@
 \usepackage{float}
 
 \title{Pre-informe Práctica 0: Manejo de Equipos de Medición en Electrónica Análoga}
-\author{%
-    Juan José Tobar Álvarez\thanks{jutobara@unal.edu.co}\and
-    David Alejandro Montes Rodríguez\thanks{dmontesr@unal.edu.co}\and
-    Estudiante 3\thanks{correo2@unal.edu.co}%
+\author{
+    \IEEEauthorblockN{Juan José Tobar Álvarez}{\textit{ jutobara@unal.edu.co}} \\
+    \and
+    \IEEEauthorblockN{David Alejandro Montes Rodríguez}{\textit{ dmontesr@unal.edu.co}} \\
+    \and
+    \IEEEauthorblockN{Estudiante 3}{\textit{ correo2@unal.edu.co}} \\
 }
-
 \begin{document}
 \maketitle
 
@@ -71,22 +72,31 @@ El valor medio ($V_{DC}$) y el valor eficaz ($V_{RMS}$) de una señal periódica
 \end{equation}
 Para las tres señales básicas solicitadas en la guía:
 \begin{itemize}
-    \item \textbf{Senoidal ($1\text{ V}_p$):} $V_{DC} = 0\text{ V}$, $V_{RMS} = 1/\sqrt{2} \approx 0.707\text{ V}$.
-    \item \textbf{Cuadrada ($2\text{ V}_{pp}$, offset $1\text{ V}_p$, ciclo útil 50\%):} $V_{DC} = 1\text{ V}$ y $V_{RMS} = \sqrt{0.5(2)^2 + 0.5(0)^2} \approx 1.414\text{ V}$.
-    \item \textbf{Triangular ($2\text{ V}_{pp}$):} $V_{DC} = 0\text{ V}$ y $V_{RMS} = 1/\sqrt{3} \approx 0.577\text{ V}$.
+    \item \textbf{Senoidal ($1\text{ V}\_p$):} $V_{DC} = 0\text{ V}$, $V_{RMS} = 1/\sqrt{2} \approx 0.707\text{ V}$.
+    \item \textbf{Cuadrada ($2\text{ V}\_{pp}$, offset $1\text{ V}\_p$, ciclo útil 50\%):} $V_{DC} = 1\text{ V}$ y $V_{RMS} = \sqrt{0.5(2)^2 + 0.5(0)^2} \approx 1.414\text{ V}$.
+    \item \textbf{Triangular ($2\text{ V}\_{pp}$):} $V_{DC} = 0\text{ V}$ y $V_{RMS} = 1/\sqrt{3} \approx 0.577\text{ V}$.
 \end{itemize}
 
 Para las cuatro señales complejas, se aprovecha la relación $V_{RMS}=\sqrt{V_{DC}^2+V_{RMS,AC}^2}$ \cite{sedra2020}:
 \begin{itemize}
-    \item \textbf{Senoidal ($5\text{ V}_{pp}$, DC $1\text{ V}$):} amplitud AC es $2.5\text{ V}$, por lo que $V_{DC}=1\text{ V}$ y $V_{RMS} = \sqrt{1^2 + (2.5/\sqrt{2})^2} \approx 2.031\text{ V}$.
-    \item \textbf{Cuadrada simétrica ($5\text{ V}_{pp}$, DC $3\text{ V}$):} amplitud $2.5\text{ V}$, $V_{DC}=3\text{ V}$ y $V_{RMS} = \sqrt{3^2 + 2.5^2} \approx 3.905\text{ V}$.
-    \item \textbf{Triangular ($8\text{ V}_{pp}$, DC $-4\text{ V}$):} amplitud $4\text{ V}$, $V_{DC}=-4\text{ V}$ y $V_{RMS} = \sqrt{(-4)^2 + (4/\sqrt{3})^2} \approx 4.619\text{ V}$.
-    \item \textbf{Cuadrada ($8\text{ V}_{pp}$, DC $2\text{ V}$, ciclo útil 70\%):} oscila entre $-2\text{ V}$ y $6\text{ V}$. Con ciclo útil del 70\%:
+    \item \textbf{Senoidal ($5\text{ V}\_{pp}$, DC $1\text{ V}$):} amplitud AC es $2.5\text{ V}$, por lo que $V_{DC}=1\text{ V}$ y $V_{RMS} = \sqrt{1^2 + (2.5/\sqrt{2})^2} \approx 2.031\text{ V}$.
+    \item \textbf{Cuadrada simétrica ($5\text{ V}\_{pp}$, DC $3\text{ V}$):} amplitud $2.5\text{ V}$, $V_{DC}=3\text{ V}$ y $V_{RMS} = \sqrt{3^2 + 2.5^2} \approx 3.905\text{ V}$.
+    \item \textbf{Triangular ($8\text{ V}\_{pp}$, DC $-4\text{ V}$):} amplitud $4\text{ V}$, $V_{DC}=-4\text{ V}$ y $V_{RMS} = \sqrt{(-4)^2 + (4/\sqrt{3})^2} \approx 4.619\text{ V}$.
+    \item \textbf{Cuadrada ($8\text{ V}\_{pp}$, DC $2\text{ V}$, ciclo útil 70\%):} oscila entre $-2\text{ V}$ y $6\text{ V}$. Con ciclo útil del 70\%:
     \begin{align}
         V_{DC} &= 0.7(6) + 0.3(-2) = 3.6\text{ V} \\
         V_{RMS} &= \sqrt{0.7(6)^2 + 0.3(-2)^2} \approx 5.138\text{ V}
     \end{align}
 \end{itemize}
+
+\subsection{Modelado de Equipos e Impedancias}
+De acuerdo con la guía de laboratorio \cite{guia_practica0}, y en relación con los diagramas esquemáticos empleados para los equipos, es pertinente dar respuesta a los siguientes interrogantes teóricos:
+
+\textbf{¿Qué representa la región punteada en los circuitos?} \\
+La región punteada representa el modelo eléctrico equivalente (basado en el Teorema de Thévenin \cite{sedra2020}) del interior del equipo de medición, como ocurre con el generador de señales. Físicamente, esta región delimita y aísla los componentes teóricos internos e ideales del instrumento (su fuente de tensión propia y su red resistiva) del circuito externo que conecta el usuario en los terminales. Todo lo que se encuentra dentro del recuadro punteado es inherente a la construcción del equipo.
+
+\textbf{¿A qué corresponden los valores indicados como $R\_g$?} \\
+El valor $R_g$ corresponde a la impedancia interna equivalente del instrumento de medición. Para un generador de señales, $R_g$ representa su impedancia de salida ($Z_{out}$, típicamente $50\,\Omega$), la cual se encuentra en serie con la fuente ideal y provoca caídas de voltaje internamente al acoplar una carga. En el caso del osciloscopio, $R_g$ representaría su impedancia de entrada ($Z_{in}$), la cual está diseñada para ser extremadamente alta (usualmente $1\,\text{M}\Omega$) con el objetivo de evitar extraer corrientes perjudiciales y causar el denominado efecto de carga sobre el circuito a medir \cite{sedra2020, buadlab_impedance}.
 
 \section{Simulación}
 El circuito resistivo de la Fig. 1 de la guía \cite{guia_practica0} se simuló en SPICE, obteniendo tensiones nodales $V(n1)=5\text{ V}$, $V(n2)=2.830\text{ V}$ y $V(n3)=0.884\text{ V}$, resultados que coinciden exactamente con los cálculos teóricos.
@@ -166,7 +176,8 @@ Respuestas a la Sección 4 de la guía \cite{guia_practica0}:
     \item Las fórmulas generalistas de RMS no son aplicables a ondas cuadradas o asimétricas; se debe recurrir a la definición integral, la cual coincidió con el valor de $5.138\text{ V}$ obtenido en el simulador.
     \item Conocer la arquitectura interna de los equipos de medición permite anticipar los límites de validez de una medición y evitar errores al trabajar con señales de alta frecuencia.
 \end{itemize}
-\section{Montajes experimentales}
+
+\section{Montaje}
 \subsection{Montaje del circuito resistivo DC}
 Este circuito se construyo siguiendo las indicaciones de la guía de laboratorio. 
 Se encuentra compuesto de la siguiente topología:
@@ -220,10 +231,7 @@ orientado a la medición del osciloscopio, se emplearon 2 trimmers \textit{W205}
     \label{fig:impedancia_osciloscopio}
 \end{figure}
 
-
-
-
-\section{resultados}
+\section{Análisis de resultados}
 A continuación se presentan los distintos valores tomados 
 para cada experimento, 
 \begin{table}[H]
@@ -254,10 +262,7 @@ I & 2.18mA & 0.9mA & 1.31mA & 0.91mA \\ \bottomrule
 }
 \end{table}
 
-
-
-
-\subsubsection{Mediciones RMS y DC con variación de la frecuencia}
+\subsection{Mediciones RMS y DC con variación de la frecuencia}
 
 Del ítem 3.1.1 se escogió la señal seno con 5 Vpp, nivel DC de 1 V y una frecuencia de 500 Hz, posteriormente se realizaron mediciones RMS y DC con ambos multímetros y el osciloscopio, cabe recalcar que el osciloscopio mide el valor DC calculando el promedio matemático de la señal en el tiempo. Como los semiciclos positivos y negativos de la onda senoidal se cancelan exactamente entre sí, el valor promedio total de la señal corresponde únicamente al offset aplicado. Por lo tanto, la medición DC registra estrictamente los 1 V de corriente continua.
 
@@ -294,17 +299,17 @@ Los puntos de frecuencia se escogieron por distribución logarítmica.
 \end{tabular}
 \end{table}
 
-\subsubsection{Comparación de resultados calculados y medidos}
+\subsection{Comparación de resultados calculados y medidos}
 
 Como se mencionó anteriormente el $V_{RMS}$ de la señal escogida es 2,031 V y el DC es 1 V. Los valores medidos con el osciloscopio (2.02 V -- 2.09 V) se mantienen prácticamente constantes en las 10 frecuencias y muy cercanos al valor teórico de $V_{RMS}$ (2.031 V). Esto se debe a que el ancho de banda del osciloscopio (típicamente decenas o cientos de MHz) es muchísimo mayor que la frecuencia máxima probada (1 MHz), por lo que el instrumento puede reconstruir fielmente la forma de onda y calcular su valor RMS sin atenuación ni distorsión, sin importar la frecuencia de la señal.
 
 El multímetro coincide razonablemente con el valor teórico a bajas frecuencias, pero se degrada drásticamente a partir de ciertos kHz. Entre 10 Hz y 1.7 kHz, tanto el TRMS (1.72--1.77 V) como el DC (1.69--1.77 V) se aproximan al valor teórico, con errores propios del tiempo de integración limitado de cada circuito de medición. A partir de 6 kHz, sin embargo, ambos canales colapsan hacia valores nulos, ya que el ancho de banda del multímetro, el cual está típicamente limitado a unos pocos kHz, actúa como un filtro pasa-bajos que ya no logra seguir la señal, ya que el conversor TRMS deja de responder correctamente, y el canal DC, el cual no tiene función True RMS, no logra separar el offset real de la componente AC de alta frecuencia, arrastrando la lectura hacia cero.
 
-\subsubsection{Medición impedancia, comparación y desarrollo teórico del generador de señales}
+\subsection{Medición impedancia, comparación y desarrollo teórico del generador de señales}
 
 El valor de impedancia de salida obtenido experimentalmente para el generador de señales Rigol DG4000 fue de 50.9 $\Omega$, mientras que el valor especificado por el fabricante en el datasheet es de 50 $\Omega$, lo que representa una diferencia de apenas 0.9 $\Omega$.
 
-Este valor representa la resistencia interna equivalente del generador, la cual, según el modelo de Thévenin, se encuentra en serie con la fuente de voltaje ideal en el interior del equipo. Dicha impedancia determina cuánta tensión se pierde internamente antes de llegar a cualquier carga conectada a la salida, por lo que el generador no debe considerarse una fuente ideal sin resistencia interna, sino una fuente real que atenuará la señal en mayor o menor medida según la impedancia de entrada del dispositivo conectado.
+Este valor representa la resistencia interna equivalente del generador, la cual, según el modelo de Thévenin \cite{sedra2020}, se encuentra en serie con la fuente de voltaje ideal en el interior del equipo. Dicha impedancia determina cuánta tensión se pierde internamente antes de llegar a cualquier carga conectada a la salida, por lo que el generador no debe considerarse una fuente ideal sin resistencia interna, sino una fuente real que atenuará la señal en mayor o menor medida según la impedancia de entrada del dispositivo conectado.
 
 El procedimiento se basa en un divisor de tensión resistivo formado por la impedancia de salida del generador ($Z_{out}$) y el trimmer ($R_{trimmer}$) conectados en serie:
 
@@ -331,7 +336,7 @@ Z_{out} &= R_{trimmer}
 
 Esto demuestra que, cuando la tensión de salida se reduce exactamente a la mitad, la resistencia del trimmer es matemáticamente igual a la impedancia de salida del generador, ya que en esa condición ambas resistencias del divisor comparten la misma caída de tensión, situación que solo ocurre cuando tienen el mismo valor óhmico. Por ello, al desconectar el trimmer y medir su resistencia con el multímetro, se obtiene directamente el valor de $Z_{out}$.
 
-\subsubsection{Medición impedancia, comparación y desarrollo teórico del osciloscopio}
+\subsection{Medición impedancia, comparación y desarrollo teórico del osciloscopio}
 
 La impedancia de entrada del osciloscopio ($Z_{in}$) representa la resistencia que el instrumento presenta a la señal conectada en su terminal de entrada, determinando cuánta corriente extrae del circuito bajo prueba. Un valor alto asegura que el osciloscopio no cargue significativamente el circuito medido. El valor obtenido experimentalmente da 994.4 k$\Omega$.
 
@@ -358,7 +363,12 @@ ya que $Z_{out} = 50\ \Omega$ es despreciable frente a $R_1$ (del orden de M$\Om
 
 El valor medido, 994.4 k$\Omega$, está dentro de la tolerancia del fabricante de 1 M$\Omega \pm 1\%$, es decir, 990--1010 k$\Omega$, con un error relativo de 0.56\%, atribuible a la tolerancia del trimmer, la precisión del multímetro y la resolución visual al fijar el punto de 1 Vp en el osciloscopio.
 
-
+\section{Conclusiones}
+\begin{itemize}
+    \item El modelo de Thévenin empleado para analizar los equipos de laboratorio (representado por las regiones punteadas y la resistencia interna $R_g$ en los diagramas) demuestra ser indispensable para predecir el comportamiento real de los instrumentos. Conocer la impedancia de salida del generador y la de entrada del osciloscopio permite evitar atenuaciones imprevistas o errores de medición inducidos por el efecto de carga \cite{sedra2020}.
+    \item Al comparar los datos teóricos, simulados y experimentales del circuito resistivo, se evidencia una gran concordancia que ratifica el correcto uso del voltímetro y amperímetro, comprobando físicamente la validez de las Leyes de Kirchhoff y Ohm.
+    \item La variación en la frecuencia permitió comprobar las limitaciones de ancho de banda inherentes a los multímetros. Mientras que el osciloscopio logra reconstruir fielmente los valores RMS sin atenuación hasta altas frecuencias (1 MHz), los multímetros colapsan sus lecturas a cero a partir de unos pocos kHz, lo que hace al osciloscopio la herramienta predilecta para el análisis de señales de alta frecuencia.
+\end{itemize}
 
 \renewcommand{\refname}{Referencias}
 \begin{thebibliography}{99}
