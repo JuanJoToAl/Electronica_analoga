@@ -41,6 +41,7 @@
 \usepackage[spanish,es-nodecimaldot,es-noquoting]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{booktabs}
 \usepackage{url}
 \urlstyle{same}
@@ -99,7 +100,6 @@ y de alta tensión sin transformador~\cite{park}.
 %=====================================================================
 \section{Cálculos}
 %=====================================================================
-
 \subsection{Rectificadores: configuración, aplicaciones y limitaciones}
 % [INTEGRANTE 1]
 En media onda un diodo bloquea un semiciclo; en onda completa con
@@ -167,7 +167,7 @@ rizado pico--pico---; se adopta el valor comercial $C=10\ \mu$F, con el
 que $\tau=50\,T$, $V_{r(pp)}=50$~mV y $r=0.29\%$. La tensión inversa
 sube a $V_m+V_{DC}=10.6$~V, dentro de los límites del 1N4004.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.46\columnwidth]{CircuitoRectificadorFig1}
 \hfill
@@ -178,7 +178,7 @@ transferencia simulada.}
 \label{fig:rect}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.47\columnwidth]{CircuitoRectificadorFig2}\\[2pt]
 \includegraphics[width=0.46\columnwidth]{SalidaRectificadorFig2}
@@ -210,11 +210,24 @@ central en el montaje.
 %                 (la pregunta teorica RMS/DC de 4.1 es del Integrante 2;
 %                  aqui solo se reporta lo que arroja la simulacion.)
 % [INTEGRANTE 2] \subsection{Diseño del sujetador a +3 V (Fig. 3)}
-% [INTEGRANTE 3] \subsection{Sujetadores y multiplicadores: configuración, aplicaciones y limitaciones}
-% [INTEGRANTE 3] \subsection{Diseño del sujetador a -4 V (Fig. 4)}
-% [INTEGRANTE 3] \subsection{Diseño del sujetador con recorte en +-4 V (Fig. 5)}
-% ---------------------------------------------------------------
+\subsection{Sujetadores y multiplicadores: configuración, aplicaciones y limitaciones}
 
+\subsubsection{Diseño del sujetador a -4 V (Fig. 4)}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.47\columnwidth]{CircuitoRectificadorFig2}\\[2pt]
+\includegraphics[width=0.46\columnwidth]{SalidaRectificadorFig2}
+\hfill
+\includegraphics[width=0.46\columnwidth]{sujetador_boylestad.png}
+\caption{Sujetador ajustado mediante una fuente}
+\label{fig:sujetador_fuente}
+\end{figure}
+Mientras en la anterior imagen se puede apreciar la construcción clásica de un sujetador con una tensión
+de desplazamiento fija ajustada por una fuente DC,cuya tensión es equivalente a la magnitud del desplazamiento; a la vez
+que el sentido positivo o negativo del desplazamiento se encuentra dado por
+la orientación del diodo
+\subsubsection{Diseño del sujetador con recorte en +-4 V (Fig. 5)}
+% ---------------------------------------------------------------
 %=====================================================================
 \section{Simulación}
 %=====================================================================
@@ -292,7 +305,7 @@ recta de pendiente unitaria desplazada verticalmente; solo el
 \textit{multiplicador} pierde la dependencia con $v_i$ ---la fija la
 carga de los condensadores--- y supera la amplitud de entrada.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.44\columnwidth]{CircuitoMultiplicadorFig6}\\[2pt]
 \includegraphics[width=0.46\columnwidth]{SalidaMultiplicadorFig6}
@@ -404,7 +417,8 @@ la continua.
 \bibitem{sedra}
 A. S. Sedra, K. C. Smith, T. C. Carusone y V. Gaudet, \emph{Microelectronic
 Circuits}, 8.ª ed. Nueva York, NY, EE.UU.: Oxford University Press, 2020.
-
+\bibitem{boylestad}
+R. L. Boylestad y L. Nashelsky, \textit{Electrónica: teoría de circuitos y dispositivos electrónicos}, 10.\textsuperscript{a} ed. México: Pearson Educación, 2009. [En línea]. Disponible en: \url{https://hugochoque.com/documentos/Electronica_Boylestad_10a_Ed.pdf}. [Accedido: 23-sep-2026].
 \bibitem{nasep}
 National Academies of Sciences, Engineering, and Medicine, \emph{Space
 Nuclear Propulsion for Human Mars Exploration}. Washington, DC, EE.UU.:
