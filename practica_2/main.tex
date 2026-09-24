@@ -64,19 +64,13 @@ sujetadores y multiplicadores de tensión}
 
 \author{
 \IEEEauthorblockN{Juan José Tobar Álvarez}
-\IEEEauthorblockA{Departamento de Ingeniería Eléctrica y Electrónica\\
-Universidad Nacional de Colombia\\
-jutobara@unal.edu.co}
+\IEEEauthorblockA{jutobara@unal.edu.co}
 \and
 \IEEEauthorblockN{Nombre Integrante 2}
-\IEEEauthorblockA{Departamento de Ingeniería Eléctrica y Electrónica\\
-Universidad Nacional de Colombia\\
-correo2@unal.edu.co}
+\IEEEauthorblockA{correo2@unal.edu.co}
 \and
-\IEEEauthorblockN{Nombre Integrante 3}
-\IEEEauthorblockA{Departamento de Ingeniería Eléctrica y Electrónica\\
-Universidad Nacional de Colombia\\
-correo3@unal.edu.co}
+\IEEEauthorblockN{David Alejandro Montes Rodríguez}
+\IEEEauthorblockA{dmontesr@unal.edu.co}
 }
 
 \maketitle
@@ -228,7 +222,7 @@ a manera de reemplazo se coloca en su sitio un divisor de tensión de la onda de
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.6\columnwidth]{sujetador_7Vp_5V.png}
+\includegraphics[width=0.6\columnwidth]{sujetador_7Vp_-4V.png}
 \caption{Topología alternativa de sujetador}
 \label{fig:sujetador_divisor}
 \end{figure}
@@ -247,8 +241,23 @@ al presentar en el ánodo del diodo, la onda con una fracción de su valor origi
 activarse al momento en que la onda alcanza cierto valor. Ya que nuestra intención es que el condensador
 se cargue a -4V de la onda, por lo que la diferencia en el diodo antes de que este se vuelva a bloquear después
 de conducir debe ser de este preciso valor, considerando adicionalmente la caida de potencial en el diodo.
-Para este propósito se elige como diodo el 1N4148, con un $V_D = 0.7$
+Para este propósito se elige como diodo el 1N4148, con un $V_D = 0.7 V$
+\\
 
+Considerando que ambas ondas van al mismo tiempo, y nuestra intención es que el 
+capacitor tenga $-4V$ entre sus terminales, se necesita que la caida en la resistencia $R4$ sea de $4V + Vd = 4.7 V$
+por lo tanto se desea que la tensión en el nodo medio del divisor sea $\approx 2.3 V$, esto se logra con un divisor
+cuya resistencia es $\approx 3$ ya que la tensión en el nodo debe ser $1/3$ de $Vp$ cuando la onda llegue a Vp.
+Además estas resistencias deben ser relativamente bajas debido a la creación de un lazo RC cuando el diodo entra en conducción.
+Basándose en valores comerciales de resistencias, entonces se tiene que:
+$$R4 = 330\Omega$$
+$$R5 = 100\Omega$$
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\columnwidth]{sujetador_7Vp_-4v_parametrizado.png}
+\caption{Diseño final del sujetador para elevar -4 VDC la señal dada}
+\label{fig:sujetador_divisor_parametrizado}
+\end{figure}
 
 
 \subsubsection{Diseño del sujetador con recorte en +-4 V (Fig. 5)}
