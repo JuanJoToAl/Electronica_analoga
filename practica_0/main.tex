@@ -232,6 +232,14 @@ orientado a la medición del osciloscopio, se emplearon 2 trimmers \textit{W205}
 \end{figure}
 
 \section{Análisis de resultados}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\columnwidth]{medicion voltaje de resistencia.jpeg}
+\caption{Medición del voltaje de resistencia.}
+\label{fig:medicion voltaje de resistencia}
+\end{figure}
+
+
 A continuación se presentan los distintos valores tomados 
 para cada experimento, 
 \begin{table}[H]
@@ -245,6 +253,11 @@ V & 2.1 V  & 1.96V & 2.84V  & 0.87V  \\
 I & 2.18mA & 0.9mA & 1.31mA & 0.91mA \\ \bottomrule
 \end{tabular}
 \end{table}
+
+
+Al contrastar los valores teóricos de la Sección II-A con las mediciones experimentales del Cuadro~III, se observa una concordancia muy alta, resumida en el Cuadro~\ref{tab:mediciones_dc}. Las tensiones medidas en $R_1$, $R_2$, $R_3$ y $R_4$ (2,1~V, 1,96~V, 2,84~V y 0,87~V) se desvían de las calculadas (2,170~V, 1,945~V, 2,830~V y 0,884~V) en 3,2\,\%, 0,8\,\%, 0,4\,\% y 1,6\,\%, respectivamente. Las corrientes medidas (2,18~mA, 0,90~mA, 1,31~mA y 0,91~mA), frente a las calculadas (2,170~mA, 0,884~mA, 1,286~mA y 0,884~mA), presentan errores de 0,5\,\%, 1,8\,\%, 1,9\,\% y 2,9\,\%. Ninguna de las magnitudes supera el 3,2\,\% de error, un margen coherente con la tolerancia de $\pm 10\%$ de las resistencias empleadas, ya que los cálculos se realizaron con valores nominales y no con los valores reales de cada componente. Adicionalmente, las mediciones cumplen las leyes de Kirchhoff. La corriente medida en $R_2$ (0,90~mA) es prácticamente igual a la de $R_4$ (0,91~mA), como corresponde a dos elementos en serie. La suma de las corrientes de $R_2$ y $R_3$ (2,21~mA) es cercana a la corriente total entregada por la fuente (2,18~mA). Además, la tensión en $R_3$ (2,84~V) coincide con la suma de las caídas en $R_2$ y $R_4$ (2,83~V). La mayor desviación relativa se presenta en la tensión de $R_1$ (3,2\,\%) y en la corriente de $R_4$ (2,9\,\%), lo cual puede atribuirse a la tolerancia de las resistencias, a la resolución limitada de los multímetros y a la resistencia interna del amperímetro, que al conectarse en serie modifica ligeramente el circuito bajo prueba. También pueden influir las resistencias de contacto de la protoboard al desconectar y reconectar cada rama durante las mediciones.
+
+
 
 \begin{table}[H]
 \centering
@@ -261,6 +274,21 @@ I & 2.18mA & 0.9mA & 1.31mA & 0.91mA \\ \bottomrule
 \end{tabular}%
 }
 \end{table}
+
+\subsection{Comparación de los valores RMS calculados y medidos para distintas formas de onda}
+
+
+
+Al comparar el Cuadro~IV con los valores calculados en la Sección II~B, se observan dos comportamientos distintos.
+El osciloscopio reproduce el $V_{RMS}$ calculado (2,031~V, 3,905~V, 4,619~V y 5,138~V) con errores de 3,0\,\%, 2,7\,\%, 0,5\,\% y 0,6\,\%, ya que procesa la señal completa, incluido su nivel DC.
+Los multímetros, en cambio, entregan lecturas entre 15\,\% y 52\,\% inferiores, porque en su función de tensión alterna descartan el nivel continuo calculado (1~V, 3~V, $-4$~V y 3,6~V) y miden solo la componente AC, $V_{RMS,AC}=\sqrt{V_{RMS}^2-V_{DC}^2}$.
+Frente a este valor (1,768~V, 2,500~V, 2,309~V y 3,666~V), el multímetro True RMS presenta errores de apenas 2,4\,\%, 0,6\,\%, 0,3\,\% y 4,5\,\%, lo que confirma esta interpretación.
+
+El multímetro de respuesta promedio mide el valor medio rectificado de la componente AC y lo multiplica por el factor de forma de una senoide (1,11).
+Con este procedimiento se esperan 1,768~V, 2,775~V, 2,22~V y 3,73~V, frente a los 1,728~V, 2,759~V, 2,226~V y 4~V medidos, con errores de 2,3\,\%, 0,6\,\%, 0,3\,\% y 7,2\,\%.
+Por eso solo coincide con el True RMS en la onda senoidal; en la cuadrada lo sobreestima en un 11\,\% y en la triangular lo subestima en un 3,3\,\%.
+Por tanto, solo el osciloscopio entrega el valor eficaz total de señales con componente DC, mientras que en los multímetros es necesario conocer su modo de acoplamiento y su tipo de respuesta para interpretar la lectura.
+
 
 \subsection{Mediciones RMS y DC con variación de la frecuencia}
 
