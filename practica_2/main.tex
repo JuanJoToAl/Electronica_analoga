@@ -261,7 +261,27 @@ $$R5 = 100\Omega$$
 
 
 \subsubsection{Diseño del sujetador con recorte en +-4 V (Fig. 5)}
-% ---------------------------------------------------------------
+Por su parte, el circuito sujetador aplica una lógica similar en la sección del sujetador,
+solo que variando los valores de las resistencias en función de la carga deseada para el condensador{5V}, y cambiando
+el sentido del diodo ya que el desplazamiento debe ser positivo \cite{boylestad}. En este caso las resistencias se ajustan en una relación de 
+$4:1$ ya que $V_c1max = V_anodo + 0.7V$, y $7 \div 4 = 1.7 0 V_anodo$. El ajuste empleando valores comerciales resulta en:
+$$R1 = 400 \Omega$$
+$$R2 = 100 \Omega$$
+La resistencia y el condensador propios del circuito sujetador se mantienen con los mismos valores.
+Sin embargo, si bien la guía no indica explícitamente que se puedan usar fuentes, el circuito se complicaría mucho
+sin este tipo de elementos, ya que se requeriría cargar un condensador para simular una fuente DC, y así
+imitar el comportamiento de un recortador. Para el circuito recortador que causa el recorte inferior
+se emplea una fuente de $8.3V$ debido a que el diodo del recortador debe conducir cuando $V_o$ sea igual a $9V$,
+y para el recorte inferior, se empleó una fuente de $1.7V$ ya qué el diodo debe conducir cuando $V_o$ sea $1V$,
+compensando así los valores de estas fuentes la tensión de polarización del diodo 1N4148:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{sujetador_recortador_5V_1V_9V.png}
+\caption{Diseño del sujetador +5VDC con recorte en 1V y 9V}
+\label{fig:sujetador_recortador_1}
+\end{figure}
+
 %=====================================================================
 \section{Simulación}
 %=====================================================================
