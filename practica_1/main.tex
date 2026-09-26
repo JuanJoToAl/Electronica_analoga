@@ -180,7 +180,7 @@ La Fig.~\ref{fig:temp4004} muestra el corrimiento de la curva del 1N4004 al pasa
 \caption{Parámetros efectivos ajustados en el intervalo $I_D\in[5,50]$ mA para las tres temperaturas.}
 \label{tab:temperatura}
 \scriptsize
-\begin{tabular}{llcccc}
+\begin{tabular}{lcccc}
 \toprule
 Diodo & $T$ & $V_D$ a \SI{50}{mA} & $I_s$ ajuste & $\eta$ ajuste \\
 \midrule
@@ -200,7 +200,7 @@ A bajas temperaturas, el diodo no se aproxima al modelo ideal $V_D=0$ en el sent
 
 \subsection{Modelamiento de ambos diodos}
 
-Para el punto bajo, medio y máximo de las curvas a \SI{25}{\celsius}, la aplicación de (3)-(4) conduce a los valores de $R_d$ y $V_t$ presentados en el Cuadro~\ref{tab:cuadroVIII}. En la Fig.~\ref{fig:curva4004}, la secante del 1N4004 entre aproximadamente \SI{9}{mA} y \SI{50}{mA} produce $R_d\approx\SI{2.16}{\ohm}$ y $V_t\approx\SI{0.567}{V}$. Para el 1N4148, la secante equivalente da $R_d\approx\SI{2.45}{\ohm}$ y $V_t\approx\SI{0.670}{V}$. Los parámetros no son idénticos porque las curvas tienen distinta pendiente local y diferente curvatura. Al utilizar un punto intermedio en lugar del máximo, la pendiente de la secante aumenta, por lo que $R_d$ también cambia; esto evidencia que el modelo lineal es local y depende del intervalo de corriente escogido.
+Para el punto bajo, medio y máximo de las curvas a \SI{25}{\celsius}, la aplicación de \eqref{eq:rd} y \eqref{eq:vt} conduce a los valores de $R_d$ y $V_t$ presentados en el Cuadro~\ref{tab:cuadroVIII}. En la Fig.~\ref{fig:curva4004}, la secante del 1N4004 entre aproximadamente \SI{9}{mA} y \SI{50}{mA} produce $R_d\approx\SI{2.16}{\ohm}$ y $V_t\approx\SI{0.567}{V}$. Para el 1N4148, la secante equivalente da $R_d\approx\SI{2.45}{\ohm}$ y $V_t\approx\SI{0.670}{V}$. Los parámetros no son idénticos porque las curvas tienen distinta pendiente local y diferente curvatura. Al utilizar un punto intermedio en lugar del máximo, la pendiente de la secante aumenta, por lo que $R_d$ también cambia; esto evidencia que el modelo lineal es local y depende del intervalo de corriente escogido.
 
 \subsection{Tiempo de recuperación inversa y barrido de frecuencia}
 
@@ -222,7 +222,7 @@ Así se obtiene un valor numérico explícito del $t_{rr}$ del 1N4004 con la fue
     \label{fig:trr4004}
 \end{figure}
 
-El barrido solicitado entre \SI{10}{Hz} y \SI{100}{kHz}, obtenido para ambos diodos con el mismo circuito de la Fig. 4 de la guía y $R_1=\SI{1}{k\ohm}$, se resume en el Cuadro~\ref{tab:barrido} \cite{datos4004,datos4148frecuencia}. Para el 1N4004, el valor permanece en aproximadamente \SI{1.43}{\micro s} hasta \SI{1}{kHz}; a frecuencias mayores aparece una reducción progresiva hasta \SI{1.23}{\micro s} a \SI{100}{kHz}. Para el 1N4148 se observa la misma tendencia cualitativa pero en una escala casi dos órdenes de magnitud menor: $t_{rr}$ se mantiene cercano a \SI{20.6}{ns} hasta el kilohertz y desciende hasta aproximadamente \SI{18.8}{ns} a \SI{100}{kHz}. En ninguno de los dos casos la tendencia se interpreta como una dependencia física directa de $t_{rr}$ con la frecuencia de excitación, sino como una consecuencia del muestreo y de la discretización temporal usada por el simulador al extraer un intervalo cada vez más pequeño frente al periodo de la señal.
+El barrido solicitado entre \SI{10}{Hz} y \SI{100}{kHz}, obtenido para ambos diodos con el mismo circuito de la Fig. 4 de la guía y $R_1=\SI{1}{k\ohm}$, se resume en el Cuadro~\ref{tab:barrido} \cite{datos4004,datos4148frecuencia}. Para el 1N4004, el valor permanece en aproximadamente \SI{1.43}{\micro s} hasta \SI{1}{kHz}; a frecuencias mayores aparece una reducción progresiva hasta \SI{1.23}{\micro s} a \SI{100}{kHz}, tal como lo evidencia la Fig.~\ref{fig:trrfrecuencia}. Para el 1N4148 se observa la misma tendencia cualitativa pero en una escala casi dos órdenes de magnitud menor: $t_{rr}$ se mantiene cercano a \SI{20.6}{ns} hasta el kilohertz y desciende hasta aproximadamente \SI{18.8}{ns} a \SI{100}{kHz}. En ninguno de los dos casos la tendencia se interpreta como una dependencia física directa de $t_{rr}$ con la frecuencia de excitación, sino como una consecuencia del muestreo y de la discretización temporal usada por el simulador al extraer un intervalo cada vez más pequeño frente al periodo de la señal.
 
 \begin{figure}[htbp]
     \centering
@@ -282,10 +282,43 @@ La Fig.~\ref{fig:trr4148_1k} corresponde al 1N4148 con $R_1=\SI{1}{k\ohm}$, mien
 En el modelo SPICE usado para esta práctica, el parámetro de tiempo de tránsito $TT$ constituye una diferencia especialmente marcada entre ambas referencias: se emplearon aproximadamente \SI{1.5}{\micro s} para el 1N4004 frente a \SI{20}{ns} para el 1N4148. Este contraste explica por qué los dos dispositivos presentan escalas temporales de recuperación muy diferentes; $I_s$ y $\eta$ describen principalmente la característica estática y no son los parámetros que dominan la recuperación inversa \cite{guia}.
 
 \section{Montaje}
-% Sección reservada para el día de la práctica. No se incluyen mediciones experimentales en el pre-informe.
-\section{Resultados experimentales}
-\subsection{medición en DC}
-A continuación se presenta la medición de $I$ vs $V$ en DC para el diodo 1N4004:
+
+Para la caracterización experimental se siguió el procedimiento indicado en la guía \cite{guia}, empleando una fuente de alimentación DC variable, un generador de señales, un osciloscopio digital de doble traza, dos multímetros (uno de ellos True RMS), sondas BNC-Caimán, una sonda atenuadora y conexiones bananas-caimán, además de una protoboard para el montaje de los diodos 1N4004 y 1N4148.
+
+Para la curva característica $I_D$-$V_D$ se montó el circuito de caracterización (fuente $V_1$ en serie con $R_1\approx\SI{500}{\ohm}$ y el diodo bajo prueba), variando $V_1$ entre \SI{0}{V} y \SI{25}{V} en incrementos que produjeran cambios de corriente cercanos a \SI{5}{mA}, con un multímetro en serie para medir $I_D$ y otro en paralelo con el diodo para medir $V_D$. Los datos obtenidos con este montaje se presentan en la Sección~\ref{sec:analisis}.
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=\columnwidth]{montaje_caracterizacion.jpg}
+    \caption{Montaje en protoboard del circuito de caracterización $I_D$-$V_D$.}
+    \label{fig:montaje_caracterizacion}
+\end{figure}
+
+Para la medición del tiempo de recuperación inversa se armó el circuito de la Fig. 4 de la guía, con el diodo en serie con $R_1=\SI{1}{k\ohm}$, excitado con una onda cuadrada de \SI{10}{Vpk} proveniente del generador de señales, y se registró $v_{out}$ con el osciloscopio en las diez frecuencias solicitadas entre \SI{10}{Hz} y \SI{100}{kHz}. Los resultados de estas mediciones se presentan en el Cuadro~\ref{tab:trr}.
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=\columnwidth]{montaje_trr_1k.jpg}
+    \caption{Montaje en protoboard del circuito de recuperación inversa con $R_1=\SI{1}{k\ohm}$.}
+    \label{fig:montaje_trr1k}
+\end{figure}
+
+Finalmente, para la variante del numeral 5.1.6 de la guía se eligió el diodo 1N4004 y se sustituyó $R_1$ por una resistencia de \SI{510}{$\ohm$} (la referencia comercial más cercana a los \SI{500}{$\ohm$} sugeridos), repitiendo el barrido de frecuencia bajo las mismas condiciones. Estos resultados se presentan en el Cuadro~\ref{tab:trr_510}.
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=\columnwidth]{montaje_trr_510.jpg}
+    \caption{Montaje en protoboard de la variante con $R_1=\SI{510}{\ohm}$ para el diodo 1N4004.}
+    \label{fig:montaje_trr510}
+\end{figure}
+
+
+\section{Análisis de resultados}
+\label{sec:analisis}
+
+\subsection{Datos experimentales}
+
+A continuación se presenta en el Cuadro~\ref{tab:1N4004_Table} la medición de $I_D$ vs $V_D$ en DC para el diodo 1N4004:
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
 \begin{table}[H]
@@ -314,7 +347,7 @@ $V_S$ & $V_D$ & $I_D$ \\
 \label{tab:1N4004_Table}
 \end{table}
 
-Por otro lado, también se tomaron los siguientes datos para el diodo 1N4148:
+Por otro lado, en el Cuadro~\ref{tab:1N4148_Table} se presentan los datos tomados para el diodo 1N4148:
 
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
@@ -344,13 +377,13 @@ $V_S$ & $V_D$ & $I_D$ \\
 \label{tab:1N4148_Table}
 \end{table}
 \subsection{Mediciones del tiempo de recuperación inversa}
-Los siguientes datos corresponden a los tiempos de recuperación inversa en ambos diodos,
+En el Cuadro~\ref{tab:trr} se presentan los tiempos de recuperación inversa medidos para ambos diodos,
 bajo las condiciones dadas por el montaje indicado en la guía:
 \begin{table}[H]
 \centering
+\small
 \setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.2}
-{\large
+\renewcommand{\arraystretch}{1.15}
 \begin{tabular}{@{}ccc@{}}
 \toprule
 Frecuencia $\slash $Diodo & \textit{trr} 1N4004       & \textit{trr} 1N4148   \\
@@ -367,18 +400,17 @@ Frecuencia $\slash $Diodo & \textit{trr} 1N4004       & \textit{trr} 1N4148   \\
 100 kHz    & 3.77 $\mu$s  & 693.3 ns \\
 \bottomrule
 \end{tabular}
-}
 \caption{Comparación del tiempo de recuperación inversa $t_{rr}$ a distintas frecuencias entre los diodos 1N4004 y 1N4148.}
 \label{tab:trr}
 \end{table}
 
-Por otro lado, se tienen las mediciones respectivas a la variante del experimento, para la cual se eligió el diodo 1N4004,
-y se empleó una resistencia de 510 $\Omega$ como la referencia más cercana a los \SI{500}{\ohm} planteados por la guía.
+Por otro lado, en el Cuadro~\ref{tab:trr_510} se tienen las mediciones respectivas a la variante del experimento, para la cual se eligió el diodo 1N4004,
+y se empleó una resistencia de 510 $\Omega$ como la referencia más cercana a los \SI{500}{$\ohm$} planteados por la guía.
 \begin{table}[H]
 \centering
-\setlength{\tabcolsep}{5pt}
-\renewcommand{\arraystretch}{1.2}
-{\large
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
 \begin{tabular}{@{}cc@{}}
 \toprule
 Frecuencia & $t_{rr}$ \\
@@ -395,35 +427,38 @@ Frecuencia & $t_{rr}$ \\
 100 kHz    & 3.53 $\mu$s \\
 \bottomrule
 \end{tabular}
-}
 \caption{Tiempo de recuperación inversa $t_{rr}$ del diodo 1N4004 con una resistencia de 510 $\Omega$.}
 \label{tab:trr_510}
 \end{table}
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
-\section{ resultados de simulación \textbf{ reorganizar urgentemente}}
-Los resultados presentados corresponden a simulación y a procesamiento de los archivos exportados de LTspice. No se incluyen mediciones de laboratorio, por lo que la comparación experimental queda pendiente para el informe posterior.
 
-La primera comparación importante es la consistencia del modelo estático. En las dos referencias la característica $I_D$-$V_D$ conserva la forma exponencial esperada por (1), pero la identificación mediante solo $I_s$ y $\eta$ no reproduce todos los detalles del modelo SPICE. En particular, el 1N4148 presenta una diferencia apreciable entre los parámetros del modelo y los obtenidos por ajuste. La presencia de resistencia serie explica parte de esta diferencia, ya que la caída $I_DR_s$ se vuelve relevante al aumentar la corriente.
+\subsection{Comparación entre modelo, simulación y datos experimentales}
 
-En temperatura, el corrimiento de la curva hacia menores tensiones al aumentar $T$ concuerda con la dependencia térmica esperada de la unión P-N: para una corriente fija se necesita menos $V_D$ a mayor temperatura, mientras $I_s$ crece fuertemente. Los ajustes de la Tabla~\ref{tab:temperatura} muestran además que el cambio de $I_s$ es mucho más marcado que el cambio de $\eta$ en el 1N4004. Para el 1N4148 aparece una variación efectiva mayor de $\eta$, lo que refuerza la necesidad de indicar el intervalo de ajuste al reportar parámetros extraídos de datos simulados.
+Los resultados presentados en las secciones anteriores corresponden a simulación y a procesamiento de los archivos exportados de LTspice; en esta sección se contrastan con los datos de laboratorio del Cuadro~\ref{tab:1N4004_Table} al Cuadro~\ref{tab:trr_510}.
 
-En el modelamiento lineal, $R_d$ depende directamente de la pendiente seleccionada sobre una curva que no es lineal. Por ello, cambiar el par de puntos usado en la secante cambia tanto $R_d$ como el intercepto $V_t$. Este resultado no representa una inconsistencia del modelo, sino una consecuencia de aproximar una característica exponencial con una recta alrededor de un punto de operación.
+La primera comparación importante es la consistencia del modelo estático. En las dos referencias la característica $I_D$-$V_D$ conserva la forma exponencial esperada por (1), pero la identificación mediante solo $I_s$ y $\eta$ no reproduce todos los detalles del modelo SPICE. Ajustando (1) por regresión exponencial a los datos experimentales del Cuadro~\ref{tab:1N4004_Table}, se obtiene para el 1N4004 $I_s\approx\SI{3.62}{nA}$ y $\eta\approx1.81$, valores del mismo orden de magnitud que los usados por el modelo SPICE ($I_s=\SI{14.11}{nA}$, $\eta=1.984$) y razonablemente cercanos a los obtenidos por simulación (Cuadro~\ref{tab:cuadroVIII}). Para el 1N4148, el mismo procedimiento aplicado al Cuadro~\ref{tab:1N4148_Table} produce $\eta\approx1.05$ y un $I_s$ extremadamente pequeño (del orden de $10^{-15}$ A), muy alejado tanto del modelo SPICE como del ajuste por simulación. Esto ocurre porque, en el rango medido, la corriente del 1N4148 crece cerca de dos órdenes de magnitud en apenas \SI{0.12}{V}; un ajuste de solo dos parámetros absorbe en $\eta$ e $I_s$ efectos adicionales presentes en el montaje real (resistencia de contacto en la protoboard, resistencia de los cables y carga de los multímetros) que no están presentes en la simulación ideal, por lo que estos parámetros no deben interpretarse como constantes físicas del dispositivo sino como resultado del procedimiento de identificación, tal como ya se señaló para los ajustes simulados.
 
-Finalmente, el 1N4004 presenta una recuperación del orden de microsegundos, mientras el 1N4148 presenta una recuperación del orden de decenas de nanosegundos en las curvas estudiadas. Ambos diodos muestran la misma tendencia cualitativa frente a la frecuencia: $t_{rr}$ se mantiene aproximadamente constante hasta 1 kHz y decrece levemente hacia 100 kHz, pero la magnitud absoluta de ese cambio es casi dos órdenes de magnitud menor en el 1N4148, lo cual es consistente con su $TT$ mucho más pequeño. La diferencia de escala temporal es coherente con el comportamiento esperado de un rectificador de propósito general frente a un diodo de conmutación rápida y con la diferencia del parámetro $TT$ presente en los modelos utilizados.
+En cuanto al modelamiento lineal, aplicando \eqref{eq:rd} y \eqref{eq:vt} a los puntos extremos de cada tabla experimental se obtiene, para el 1N4004, $R_d\approx\SI{3.74}{\ohm}$ y $V_t\approx\SI{0.575}{V}$, frente a $R_d\approx\SI{2.16}{\ohm}$ y $V_t\approx\SI{0.567}{V}$ obtenidos por simulación. La diferencia en $R_d$ es coherente con la presencia de resistencias adicionales del montaje real (cables, contactos de la protoboard y resistencia de carga de los multímetros) que se suman en serie al diodo y que el modelo simulado no incluye. Para el 1N4148, en cambio, se obtiene $R_d\approx\SI{2.37}{\ohm}$ y $V_t\approx\SI{0.725}{V}$, valores cercanos a los de simulación ($R_d\approx\SI{2.45}{\ohm}$, $V_t\approx\SI{0.670}{V}$), lo que indica que para este diodo el efecto de las resistencias parásitas del montaje es comparable al de la resistencia serie ya incluida en el modelo SPICE.
+
+Respecto al tiempo de recuperación inversa, el Cuadro~\ref{tab:trr} muestra que el 1N4004 experimental se ubica entre \SI{3.77}{\micro s} y \SI{55.46}{\micro s}, con una dispersión considerable entre frecuencias; este rango es del mismo orden de magnitud que el reportado por la hoja de datos (decenas de microsegundos) y notablemente mayor que el valor simulado (entre \SI{1.23}{\micro s} y \SI{1.43}{\micro s}, Cuadro~\ref{tab:barrido}). El 1N4148 experimental, en cambio, se mantiene entre \SI{542}{ns} y \SI{693.3}{ns}, cerca de dos órdenes de magnitud por encima del valor simulado (\SIrange{18.8}{20.6}{ns}) y del valor típico de hoja de datos (\SI{4}{ns} bajo las condiciones del fabricante). Esta discrepancia es esperable: el $t_{rr}$ intrínseco del 1N4148 es tan corto que queda dominado por las capacitancias e inductancias parásitas de la protoboard, los cables de las puntas del osciloscopio y el tiempo de subida finito del generador de señales, de modo que lo que se mide no es exclusivamente la recuperación inversa del semiconductor sino la respuesta del montaje completo. El 1N4004, con un $t_{rr}$ intrínseco mucho mayor, es menos sensible a estas parásitas, por lo que su medida se acerca más al orden de magnitud simulado y de hoja de datos.
+
+Finalmente, al comparar el Cuadro~\ref{tab:trr_510} ($R_1=\SI{510}{\ohm}$) con la columna del 1N4004 en el Cuadro~\ref{tab:trr} ($R_1=\SI{1}{k\ohm}$), no se observa una tendencia monótona clara con la frecuencia, a diferencia de lo previsto teóricamente (una menor $R_1$ incrementa la corriente directa y, por tanto, la carga almacenada y el tiempo de recuperación). Esto sugiere que, en el montaje real, la variabilidad introducida por el disparo del osciloscopio y por la lectura manual del cruce del \SI{10}{\percent} del pico inverso es comparable en magnitud al efecto esperado de $R_1$, por lo que la comparación cuantitativa debe tomarse con cautela y solo es concluyente en cuanto al orden de magnitud.
 
 \section{Conclusiones}
 
 \begin{enumerate}
-    \item La ecuación de Shockley permite describir la característica directa de ambos diodos y proporciona un procedimiento reproducible para estimar $I_s$ y $\eta$ a partir de datos de LTspice \cite{sedra}.
+    \item La ecuación de Shockley permite describir la característica directa de ambos diodos y proporciona un procedimiento reproducible para estimar $I_s$ y $\eta$ a partir de datos de LTspice y de datos experimentales \cite{sedra}.
     
     \item Para el 1N4004, el ajuste a las curvas de temperatura mantiene $\eta$ aproximadamente constante alrededor de 2.01 mientras $I_s$ aumenta fuertemente con la temperatura. En el 1N4148 también aumenta $I_s$, pero el $\eta$ efectivo presenta una variación mayor en el intervalo de ajuste.
     
-    \item El modelamiento lineal produce $R_d\approx\SI{2.16}{\ohm}$ y $V_t\approx\SI{0.567}{V}$ para el 1N4004, frente a $R_d\approx\SI{2.45}{\ohm}$ y $V_t\approx\SI{0.670}{V}$ para el 1N4148. Estos valores dependen del tramo de la curva utilizado para la secante.
+    \item El modelamiento lineal produce $R_d\approx\SI{2.16}{\ohm}$ y $V_t\approx\SI{0.567}{V}$ para el 1N4004 en simulación, frente a $R_d\approx\SI{3.74}{\ohm}$ y $V_t\approx\SI{0.575}{V}$ obtenidos experimentalmente; para el 1N4148 los valores simulados ($R_d\approx\SI{2.45}{\ohm}$, $V_t\approx\SI{0.670}{V}$) y experimentales ($R_d\approx\SI{2.37}{\ohm}$, $V_t\approx\SI{0.725}{V}$) resultan más cercanos entre sí. Estos valores dependen del tramo de la curva utilizado para la secante y, en el caso experimental, de las resistencias parásitas del montaje.
     
-    \item El barrido de diez frecuencias entre \SI{10}{Hz} y \SI{100}{kHz} produjo $t_{rr}$ entre aproximadamente \SI{1.23}{\micro s} y \SI{1.43}{\micro s} para el 1N4004, y entre \SI{18.8}{ns} y \SI{20.6}{ns} para el 1N4148; en ambos casos la disminución a frecuencias altas se interpreta como efecto de la resolución temporal del cálculo, no como un cambio intrínseco del parámetro de recuperación.
+    \item El barrido de diez frecuencias entre \SI{10}{Hz} y \SI{100}{kHz} produjo $t_{rr}$ simulados entre aproximadamente \SI{1.23}{\micro s} y \SI{1.43}{\micro s} para el 1N4004, y entre \SI{18.8}{ns} y \SI{20.6}{ns} para el 1N4148; experimentalmente se midieron valores entre \SI{3.77}{\micro s} y \SI{55.46}{\micro s} para el 1N4004 y entre \SI{542}{ns} y \SI{693.3}{ns} para el 1N4148, siendo el 1N4148 el más afectado por las parásitas del montaje al tener el $t_{rr}$ intrínseco más corto.
     
-    \item El contraste entre $TT\approx\SI{1.5}{\micro s}$ para el 1N4004 y $TT\approx\SI{20}{ns}$ para el 1N4148 explica la marcada diferencia entre sus respuestas transitorias simuladas.
+    \item El contraste entre $TT\approx\SI{1.5}{\micro s}$ para el 1N4004 y $TT\approx\SI{20}{ns}$ para el 1N4148 explica la marcada diferencia entre sus respuestas transitorias, tanto simuladas como experimentales.
+
+    \item La comparación simulación-experimento evidencia que las principales fuentes de error del montaje son las resistencias parásitas de contacto y cableado (que afectan a $R_d$ y a los parámetros de ajuste estático) y las capacitancias/inductancias parásitas junto con el tiempo de respuesta finito de los instrumentos (que afectan principalmente al $t_{rr}$ del diodo más rápido, el 1N4148).
 \end{enumerate}
 
 \section{Referencias}
