@@ -283,8 +283,69 @@ En el modelo SPICE usado para esta práctica, el parámetro de tiempo de tránsi
 
 \section{Montaje}
 % Sección reservada para el día de la práctica. No se incluyen mediciones experimentales en el pre-informe.
+\section{Resultados}
+\subsection{medición en DC}
+A continuación se presenta la medición de $I$ vs $V$ en DC para el diodo 1N4004:
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+$V_S$ & $V_D$ & $I_D$ \\
+\midrule
+1 V                          & 0.578 V                      & 0.87mA                       \\
+3.13 V                       & 0.665 V                      & 5.06mA                       \\
+5.56 V                       & 0.698 V                      & 10.01mA                      \\
+7.99 V                       & 0.716 V                      & 15.1mA                       \\
+10.42 V                      & 0.73 V                       & 20.16mA                      \\
+12.85 V                      & 0.74 V                       & 25.34mA                      \\
+15.28 V                      & 0.74 V                       & 30.56mA                      \\
+17.71 V                      & 0.755 V                      & 35.93 mA                     \\
+20.14 V                      & 0.761 V                      & 41.53 mA                     \\
+22.57 V                      & 0.767 V                      & 47.05 mA                     \\
+25 V                         & 0.772 V                      & 52.75 mA                     \\
+\bottomrule
+\end{tabular}
+\caption{Tabla $I_D$  vs  $V_D$ para el diodo 1N4004}
+\label{tab:1N4004_Table}
+\end{table}
 
-\section{Análisis de resultados}
+Por otro lado, también se tomaron los siguientes datos para el diodo 1N4148:
+
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+$V_S$ & $V_D$ & $I_D$ \\
+\midrule
+1 V                          & 0.726 V                      & 0.56 mA                     \\
+3.13 V                       & 0.783 V                      & 4.82 mA                     \\
+5.56 V                       & 0.802 V                      & 9.8 mA                      \\
+7.99 V                       & 0.813 V                      & 14.81 mA                    \\
+10.42 V                      & 0.821 V                      & 19.89 mA                    \\
+12.85 V                      & 0.828 V                      & 25.05 mA                    \\
+15.28 V                      & 0.833 V                      & 30.31 mA                    \\
+17.71 V                      & 0.837V                       & 35.76 mA                    \\
+20.14 V                      & 0.842 V                      & 41.16 mA                    \\
+22.57 V                      & 0.845 V                      & 46.92 mA                    \\
+25 V                         & 0.849 V                      & 52.4 mA                     \\
+\bottomrule
+\end{tabular}
+\caption{Tabla $I_D$ vs $V_D$ para el diodo 1N4148.}
+\label{tab:1N4148_Table}
+\end{table}
+
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
 
 Los resultados presentados corresponden a simulación y a procesamiento de los archivos exportados de LTspice. No se incluyen mediciones de laboratorio, por lo que la comparación experimental queda pendiente para el informe posterior.
 
