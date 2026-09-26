@@ -283,7 +283,7 @@ En el modelo SPICE usado para esta práctica, el parámetro de tiempo de tránsi
 
 \section{Montaje}
 % Sección reservada para el día de la práctica. No se incluyen mediciones experimentales en el pre-informe.
-\section{Resultados}
+\section{Resultados experimentales}
 \subsection{medición en DC}
 A continuación se presenta la medición de $I$ vs $V$ en DC para el diodo 1N4004:
 % Please add the following required packages to your document preamble:
@@ -343,10 +343,37 @@ $V_S$ & $V_D$ & $I_D$ \\
 \caption{Tabla $I_D$ vs $V_D$ para el diodo 1N4148.}
 \label{tab:1N4148_Table}
 \end{table}
-
+\subsection{Mediciones del tiempo de recuperación inversa}
+Los siguientes datos corresponden a los tiempos de recuperación inversa en ambos diodos,
+bajo las condiciones dadas por el montaje indicado en la guía:
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+{\large
+\begin{tabular}{@{}ccc@{}}
+\toprule
+Frecuencia $\slash $Diodo & \textit{trr} 1N4004       & \textit{trr} 1N4148   \\
+\midrule
+10 Hz      & 5 $\mu$s     & 639.5 ns \\
+50 Hz      & 5.77 $\mu$s  & 646.9 ns \\
+100 Hz     & 5.65 $\mu$s  & 625.4 ns \\
+500 Hz     & 5.65 $\mu$s  & 542 ns   \\
+1 kHz      & 55.46 $\mu$s & 647.3 ns \\
+5 kHz      & 6.1 $\mu$s   & 627.3 ns \\
+10 kHz     & 5.65 $\mu$s  & 601.3 ns \\
+25 kHz     & 5.27 $\mu$s  & 545 ns   \\
+50 kHz     & 4.97 $\mu$s  & 579 ns   \\
+100 kHz    & 3.77 $\mu$s  & 693.3 ns \\
+\bottomrule
+\end{tabular}
+}
+\caption{Comparación del tiempo de recuperación inversa $t_{rr}$ a distintas frecuencias entre los diodos 1N4004 y 1N4148.}
+\label{tab:trr}
+\end{table}
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
-
+\section{ resultados de simulación \textbf{ reorganizar urgentemente}}
 Los resultados presentados corresponden a simulación y a procesamiento de los archivos exportados de LTspice. No se incluyen mediciones de laboratorio, por lo que la comparación experimental queda pendiente para el informe posterior.
 
 La primera comparación importante es la consistencia del modelo estático. En las dos referencias la característica $I_D$-$V_D$ conserva la forma exponencial esperada por (1), pero la identificación mediante solo $I_s$ y $\eta$ no reproduce todos los detalles del modelo SPICE. En particular, el 1N4148 presenta una diferencia apreciable entre los parámetros del modelo y los obtenidos por ajuste. La presencia de resistencia serie explica parte de esta diferencia, ya que la caída $I_DR_s$ se vuelve relevante al aumentar la corriente.

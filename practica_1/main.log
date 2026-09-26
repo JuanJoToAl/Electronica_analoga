@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.17)  25 SEP 2026 20:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.17)  25 SEP 2026 22:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -550,21 +550,24 @@ File: simulacion_diodo_500_hz_tiempo_recuperacion.png Graphic file (type png)
 Package pdftex.def Info: simulacion_diodo_500_hz_tiempo_recuperacion.png  used on input line 274.
 (pdftex.def)             Requested size: 120.95892pt x 84.70497pt.
  [3 <./trr_1n4004_10Hz.png> <./trr_1n4004_frecuencia.png> <./primera_simulacion_diodo.png (PNG copy)> <./simulacion_diodo_500_hz_tiempo_recuperacion.png (PNG copy)>]
-Underfull \hbox (badness 4036) in paragraph at lines 385--386
+Underfull \vbox (badness 3312) has occurred while \output is active []
+
+ [4]
+Underfull \hbox (badness 4036) in paragraph at lines 412--413
 []\T1/ptm/m/n/8 (+20) NASA, ``Si-li-con Car-bi-de Po-wer Com-po-nents for NA-SA Lu-nar
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 385--386
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
 \T1/ptm/m/n/8 (+20) Sur-fa-ce Ap-pli-ca-tions,'' Mar. 18, 2021. [On-li-ne]. Avai-la-ble:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 385--386
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
 \T1/ptm/m/n/8 (+20) https : / / www . nasa . gov / directorates / stmd / space-[]tech-[]research-[]grants /
  []
 
-[4] [5
+[5
 
 ] (main.aux
 LaTeX Info: Redefining \. on input line 16.
@@ -576,17 +579,17 @@ L3 programming layer <2025-10-24>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 13936 strings out of 467871
- 294781 string characters out of 5418375
- 715056 words of memory out of 5000000
- 42487 multiletter control sequences out of 15000+600000
- 746117 words of font info for 271 fonts, out of 8000000 for 9000
+ 13991 strings out of 467871
+ 295423 string characters out of 5418375
+ 713078 words of memory out of 5000000
+ 42504 multiletter control sequences out of 15000+600000
+ 757557 words of font info for 298 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  73i,11n,80p,1029b,1019s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (5 pages, 615164 bytes).
+<C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (5 pages, 631886 bytes).
 PDF statistics:
- 112 PDF objects out of 1000 (max. 8388607)
+ 122 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 51241 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 66089 words of extra memory for PDF output out of 74296 (max. 10000000)
 
