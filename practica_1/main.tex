@@ -43,8 +43,8 @@
 
 \author{
 Juan José Tobar Álvarez, \textit{jutobara@unal.edu.co}\\
-Estudiante 2, \textit{correo2@e-mail.com}\\
-Estudiante 3, \textit{correo3@e-mail.com}
+David Alejandro Montes Rodríguez, \textit{dmontesr@unal.edu.co}\\
+Jean Sebastián Claros Araujo, \textit{jclarosa@unal.edu.co}
 }
 
 \maketitle
@@ -289,7 +289,7 @@ Para la curva característica $I_D$-$V_D$ se montó el circuito de caracterizaci
 
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=\columnwidth]{montaje_caracterizacion.jpg}
+    \includegraphics[width=\columnwidth]{montaje_caracterización.jpg}
     \caption{Montaje en protoboard del circuito de caracterización $I_D$-$V_D$.}
     \label{fig:montaje_caracterizacion}
 \end{figure}
@@ -298,8 +298,8 @@ Para la medición del tiempo de recuperación inversa se armó el circuito de la
 
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=\columnwidth]{montaje_trr_1k.jpg}
-    \caption{Montaje en protoboard del circuito de recuperación inversa con $R_1=\SI{1}{k\ohm}$.}
+    \includegraphics[width=\columnwidth]{montaje_trr_1k.jpg}
+    \caption{Montaje en protoboard del circuito de recuperación inversa con $R_1=\SI{1}{k\ohm}$ para el diodo 1N4148.}
     \label{fig:montaje_trr1k}
 \end{figure}
 
@@ -307,7 +307,7 @@ Finalmente, para la variante del numeral 5.1.6 de la guía se eligió el diodo 1
 
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=\columnwidth]{montaje_trr_510.jpg}
+    \includegraphics[width=\columnwidth]{montaje_trr_510.jpg}
     \caption{Montaje en protoboard de la variante con $R_1=\SI{510}{\ohm}$ para el diodo 1N4004.}
     \label{fig:montaje_trr510}
 \end{figure}
@@ -420,6 +420,20 @@ Frecuencia $\slash $Diodo & \textit{trr} 1N4004       & \textit{trr} 1N4148   \\
 \label{tab:trr}
 \end{table}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\columnwidth,keepaspectratio]{1N4004_trr.png}
+    \caption{Muestra del trr del diodo 1N4004 a 10 kHz}
+    \label{fig:1N4004 trr}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\columnwidth,keepaspectratio]{1N4148_trr.png}
+    \caption{Muestra del trr del diodo 1N4148 a 10 kHz}
+    \label{fig:1N4148 trr}
+\end{figure}
+
 Por otro lado, en el Cuadro~\ref{tab:trr_510} se tienen las mediciones respectivas a la variante del experimento, para la cual se eligió el diodo 1N4004,
 y se empleó una resistencia de 510 $\Omega$ como la referencia más cercana a los \SI{500}{$\ohm$} planteados por la guía.
 \begin{table}[H]
@@ -448,6 +462,13 @@ Frecuencia & $t_{rr}$ \\
 \end{table}
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\columnwidth,keepaspectratio]{1N4004_500_trr.png}
+    \caption{Muestra del trr del diodo 1N4004 con $R=500\Omega$}
+    \label{fig:1N4004 trr variante}
+\end{figure}
 
 \subsection{Comparación entre modelo, simulación y datos experimentales}
 
