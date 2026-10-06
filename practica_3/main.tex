@@ -23,7 +23,9 @@
 \providecommand{\decimalpoint}{}
 \AtBeginDocument{\decimalpoint}
 \addto\captionsspanish{\renewcommand{\figurename}{Fig.}\renewcommand{\tablename}{Tabla}}
-\graphicspath{{Figuras/}{./}}
+
+% Rutas corregidas respetando mayúsculas/minúsculas del árbol de archivos
+\graphicspath{{./}{Figuras/}{figuras/}{imagenes/}}
 
 % --- Atajos de unidades (siempre con unidades) ---
 \newcommand{\qV}[1]{\SI{#1}{\volt}}
@@ -80,12 +82,12 @@ Por tanto, la práctica es importante porque entrena el dimensionamiento de resi
 \toprule
 Parámetro & 1N4738A & 1N4733A \\
 \midrule
-$V_Z$ @ $I_{ZT}$ (tol. $\pm5\%$) & \qV{8.2} & \qV{5.1} \\
+$V_Z$ a $I_{ZT}$ (tolerancia $\pm5\%$) & \qV{8.2} & \qV{5.1} \\
 $I_{ZT}$ (corriente de prueba) & \qmA{31} & \qmA{49} \\
 $Z_{ZT}$ (impedancia dinámica) & \qohm{4.5} & \qohm{7} \\
 $I_{ZK}$ (corriente de codo) & \qmA{0.5} & \qmA{1} \\
 $I_{ZM}$ (corriente máxima) & \qmA{110} & \qmA{178} \\
-$P_D$ máxima (@ $T_L\le 50\,^\circ$C) & \qW{1} & \qW{1} \\
+$P_D$ máxima (a $T_L\le \SI{50}{\celsius}$) & \qW{1} & \qW{1} \\
 \bottomrule
 \end{tabular}
 \end{table}
