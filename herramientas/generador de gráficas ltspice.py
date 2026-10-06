@@ -8,7 +8,7 @@ import pandas as pd
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FILE_PATH = os.path.join(BASE_DIR, "LF353.txt")  # Ruta del archivo exportado de LTspice
 PLOT_TITLE = (
-    "Respuesta Temporal - OpAmp LF353 (LTspice)"  # Título personalizable
+    "Amplificación no inversora OpAmp LF353 (simulación)"  # Título personalizable
 )
 # ============================================================================== 
 
