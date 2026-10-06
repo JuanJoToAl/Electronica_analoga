@@ -6,9 +6,9 @@ import pandas as pd
 # CONFIGURACIÓN DE USUARIO (Modifica estas variables)
 # ==============================================================================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FILE_PATH = os.path.join(BASE_DIR, "LF353.txt")  # Ruta del archivo exportado de LTspice
+FILE_PATH = os.path.join(BASE_DIR, "LM324.txt")  # Ruta del archivo exportado de LTspice
 PLOT_TITLE = (
-    "Amplificación no inversora OpAmp LF353 (simulación)"  # Título personalizable
+    "Sumador inversor OpAmp LM324 (simulación)"  # Título personalizable
 )
 # ============================================================================== 
 
