@@ -363,12 +363,9 @@ Las corrientes sí se vieron afectadas por el uso de valores comerciales, pero d
     \item \textbf{Corriente máxima ($R_1 = 0$):} el efecto es notable. Al pasar de $R_2 = \qohm{90.909}$ a \qohm{100}, la corriente baja de \qmA{110} a \qmA{100} en el cálculo ($-\SI{9.09}{\percent}$), y de \qmA{109.40} a \qmA{99.51} en la simulación ($-\SI{9.04}{\percent}$). El valor comercial reduce la corriente máxima porque una $R_2$ mayor limita más la corriente que llega al Zener.
     \item \textbf{Corriente mínima ($R_{1\,\text{máx}}$):} el efecto es prácticamente nulo. El valor calculado es \qmA{0.5} en ambos casos, y en la simulación se obtiene \qmA{0.50683634} contra \qmA{0.50683407}, una diferencia de apenas \SI{2.3}{\nano\ampere} ($\approx \SI{0.0004}{\percent}$). Aquí la corriente depende casi totalmente de $R_1$, por lo que el redondeo comercial casi no se nota.
 \end{itemize}
-
 %==============================================================
 \subsection{Dependencia de $I_Z$ con respecto a $R_1$}
-
 La Fig.~\ref{fig:iz_r1_1N4738A} muestra la dependencia del valor de la corriente en el diodo ($I_Z$) con respecto a las variaciones de la resistencia $R_1$, desde \qohm{0} hasta \qohm{19909}.
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\columnwidth]{curva_Iz_vs_R1_1N4738A.png}
