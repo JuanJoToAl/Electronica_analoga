@@ -16,6 +16,7 @@
 \usepackage{xcolor}
 \usepackage{cite}
 \usepackage{placeins}
+\usepackage{float}
 \usepackage[hyphens]{url}
 \urlstyle{same}
 
@@ -25,8 +26,8 @@
 \AtBeginDocument{\decimalpoint}
 \addto\captionsspanish{\renewcommand{\figurename}{Fig.}\renewcommand{\tablename}{Tabla}}
 
-% Rutas corregidas respetando mayúsculas/minúsculas del árbol de archivos
-\graphicspath{{./}{Figuras/}{figuras/}{imagenes/}}
+% Rutas tolerantes a la ubicación del archivo fuente
+\graphicspath{{practica_3/}{practica_3/Figuras/}{practica_3/figuras/}{practica_3/imagenes/}{./}{./Figuras/}{./figuras/}{./imagenes/}}
 
 % --- Atajos de unidades (siempre con unidades) ---
 \newcommand{\qV}[1]{\SI{#1}{\volt}}
@@ -332,6 +333,198 @@ Los circuitos se simulan en LTspice con los modelos de la librería indicada en 
 
 \subsection{Diodos Zener}
 \PEND{Persona 2}{Figs. con (1) $I_Z$ extremos del circuito de caracterización (comparar con Tabla~\ref{tab:zener1}); (2) $I_Z$ vs. $R_1$ de \qohm{0} a un máximo; (3) $I_d$ vs. $V_d$ con la tangente en $I_{ZT}$ y $V_Z$; (4) curva de regulación de línea; (5) curva de regulación de carga ($R_2$ de \qohm{100} a \qkohm{1}) y \% de tolerancia.}
+
+\subsection{Verificación del cumplimiento de los valores extremos para $I_Z$}
+
+Según la simulación, los valores extremos de corriente que circulan por el diodo Zener 1N4738 se registran en la Tabla~\ref{tab:extremos}.
+
+\begin{table}[!t]
+\centering
+\caption{Valores extremos de $I_Z$ obtenidos en la simulación.}
+\label{tab:extremos}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Caso & $R_1$ ($\Omega$) & $R_2$ ($\Omega$) & $I_Z$ (mA) \\
+\midrule
+No comercial & 0     & 90.909 & 109.4001 -- 109.40011 \\
+No comercial & 19909 & 90.909 & 0.50683634 \\
+Comercial    & 0     & 100    & 99.511199 -- 99.511206 \\
+Comercial    & 19900 & 100    & 0.50683407 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Comparando los valores de corriente del diodo Zener con la Tabla~\ref{tab:zener1}, los valores simulados coinciden con los calculados, con errores menores al \SI{1.4}{\percent} en todos los casos. Esto valida tanto el procedimiento de diseño como la simulación. Las diferencias pequeñas se deben a que los cálculos usan un modelo ideal del diodo Zener (voltaje $V_Z$ constante). El simulador, en cambio, usa un modelo más real que incluye la resistencia dinámica del Zener y la variación de $V_Z$ con la corriente.
+
+Las corrientes sí se vieron afectadas por el uso de valores comerciales, pero de forma distinta según el caso:
+
+\begin{itemize}
+    \item \textbf{Corriente máxima ($R_1 = 0$):} el efecto es notable. Al pasar de $R_2 = \qohm{90.909}$ a \qohm{100}, la corriente baja de \qmA{110} a \qmA{100} en el cálculo ($-\SI{9.09}{\percent}$), y de \qmA{109.40} a \qmA{99.51} en la simulación ($-\SI{9.04}{\percent}$). El valor comercial reduce la corriente máxima porque una $R_2$ mayor limita más la corriente que llega al Zener.
+    \item \textbf{Corriente mínima ($R_{1\,\text{máx}}$):} el efecto es prácticamente nulo. El valor calculado es \qmA{0.5} en ambos casos, y en la simulación se obtiene \qmA{0.50683634} contra \qmA{0.50683407}, una diferencia de apenas \SI{2.3}{\nano\ampere} ($\approx \SI{0.0004}{\percent}$). Aquí la corriente depende casi totalmente de $R_1$, por lo que el redondeo comercial casi no se nota.
+\end{itemize}
+
+%==============================================================
+\subsection{Dependencia de $I_Z$ con respecto a $R_1$}
+
+La Fig.~\ref{fig:iz_r1_1N4738A} muestra la dependencia del valor de la corriente en el diodo ($I_Z$) con respecto a las variaciones de la resistencia $R_1$, desde \qohm{0} hasta \qohm{19909}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\columnwidth]{curva_Iz_vs_R1_1N4738A.png}
+\caption{Corriente del diodo Zener $I_Z$ en función de $R_1$.}
+\label{fig:iz_r1_1N4738A}
+\end{figure}
+
+\subsubsection{¿Qué se puede inferir de la gráfica?}
+
+La curva muestra que la corriente del diodo Zener ($I_Z$) disminuye de forma no lineal al aumentar $R_1$, con un comportamiento similar al de una hipérbola, como lo indica la ecuación del modelo ideal:
+\begin{equation}
+    I_Z = \frac{V_{in} - V_Z}{R_1} - \frac{V_Z}{R_2}.
+    \label{eq:iz}
+\end{equation}
+
+\begin{itemize}
+    \item Con $R_1 = \qohm{0}$, la corriente es máxima: \qmA{109.40}. Es el punto más exigente para el diodo, porque nada limita la corriente que le llega, salvo $R_2$.
+    \item Con $R_1$ pequeña (de $0$ a $\approx\qkohm{2}$), la caída es muy pronunciada. Por ejemplo, la corriente baja de $\approx\qmA{109}$ a cerca de \qmA{5} con solo unos \qkohm{2}. En esta zona, un cambio pequeño de $R_1$ produce un cambio grande en $I_Z$, es decir, el circuito es muy sensible a $R_1$.
+    \item Con $R_1$ grande ($>\qkohm{6}$), la curva se aplana y se acerca a un valor muy bajo. En $R_1 = \qohm{19909}$ la corriente es de \SI{506.83}{\micro\ampere} $\approx \qmA{0.5}$. Allí un cambio de $R_1$ casi no altera $I_Z$.
+\end{itemize}
+
+\subsubsection{¿Qué otras variables se pueden relacionar con esta curva?}
+
+\begin{itemize}
+    \item \textbf{Resistencia $R_2$ (carga):} al aumentar $R_2$ circula menos corriente por la carga y más por el Zener, así que $I_Z$ sube. Al disminuir $R_2$ ocurre lo contrario.
+    \item \textbf{Voltaje del Zener ($V_Z$):} determina el voltaje de salida regulado y aparece en los dos términos de la ecuación~\eqref{eq:iz} de $I_Z$.
+    \item \textbf{Potencia disipada en el diodo ($P_Z = V_Z \cdot I_Z$):} tiene la misma forma que la curva, ya que es proporcional a $I_Z$. Sirve para verificar que no se supere la potencia nominal del Zener.
+    \item \textbf{Potencia disipada en $R_1$ ($P_{R_1} = I_T^2 \cdot R_1$):} donde $I_T$ es la corriente total que sale de la fuente. Permite escoger la potencia nominal de la resistencia.
+    \item \textbf{Regulación de línea y de carga:} la curva permite analizar qué tan estable se mantiene $V_Z$ cuando cambian $V_{in}$ o $R_2$, ya que esto depende de que $I_Z$ permanezca dentro de la región Zener.
+\end{itemize}
+
+%==============================================================
+\subsection{Curva $I_D$ vs.\ $V_D$ y tensión de ruptura del diodo 1N4738A}
+
+Se presenta en la Fig.~\ref{fig:tangente} la curva $I_D$ vs.\ $V_D$ y la recta tangente en la corriente de prueba (\qmA{31}) del diodo 1N4738A.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\columnwidth]{Curva_IdvsVd_1N4738A_tangente_Vz.png}
+\caption{Curva $I_D$ vs.\ $V_D$ y recta tangente en $I_{Z0} = \qmA{31}$ del diodo 1N4738A.}
+\label{fig:tangente}
+\end{figure}
+
+Al trazar la recta tangente a la curva $I_D$ vs.\ $V_D$ en la corriente de prueba $I_{Z0} = \qmA{31}$, se obtuvo que el corte de esta recta con el eje de tensión determina la tensión de ruptura $V_Z \approx \qV{8.16}$. Este valor es cercano al nominal de \qV{8.2} que especifica el fabricante para el 1N4738A. La pequeña diferencia se explica porque $V_Z$ es la tensión del modelo lineal ($V_Z + r_z I_Z$), y a \qmA{31} el diodo real está en \qV{8.194}, un poco por encima de $V_Z$ debido a la caída $r_z I_Z \approx \qV{0.039}$.
+
+\subsubsection{¿Cómo funciona el diodo Zener polarizado en directo y en inverso?}
+
+En polarización directa, el diodo Zener se comporta como un diodo de silicio común: casi no conduce hasta que la tensión ánodo-cátodo alcanza el voltaje de umbral, de unos \qV{0.6} a \qV{0.7}, y a partir de ahí conduce con una caída aproximadamente constante, sin aprovechar su función reguladora. En polarización inversa, con tensiones pequeñas solo circula una corriente de fuga muy baja, pero cuando la tensión inversa llega a la tensión de ruptura $V_Z$, el diodo entra en la región Zener, producida por efecto Zener o por avalancha (para $V_Z$ altos). En esa región la corriente aumenta mucho con una variación muy pequeña de la tensión, de modo que el diodo mantiene un voltaje casi constante igual a $V_Z$.
+
+%==============================================================
+\subsection{Curva de regulación de línea}
+
+Con el diodo Zener 1N4733A se procedió a sacar la curva de regulación de línea, haciendo variar la fuente de entrada de \qV{5} a \qV{12} (Fig.~\ref{fig:linea}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\columnwidth]{regulacion_de_linea_1N4733A.png}
+\caption{Curva de regulación de línea del 1N4733A: $V(R_2)$ en función de $V_{in}$.}
+\label{fig:linea}
+\end{figure}
+
+\subsubsection{¿Cómo se puede definir que la regulación está funcionando?}
+
+La regulación funciona cuando el voltaje de salida $V(R_2)$ se mantiene prácticamente constante aunque $V_{in}$ varíe. En la gráfica esto se ve como una zona plana (casi horizontal), donde la pendiente $\Delta V_{out}/\Delta V_{in}$ es muy cercana a cero. Mientras la curva siga una línea inclinada, el Zener no está regulando y la salida solo sigue a la entrada. Además, en la región de regulación la salida debe quedar cerca de la tensión $V_Z$ del diodo, que para el 1N4733A es de unos \qV{5.1} según el datasheet.
+
+\subsubsection{Análisis de la curva}
+
+La curva tiene dos zonas bien diferenciadas:
+
+\begin{itemize}
+    \item \textbf{Zona sin regulación ($V_{in}$ de \qV{5} a $\approx\qV{8}$):} el Zener no conduce de forma apreciable y el circuito se comporta como un divisor de tensión formado por $R_1 = \qohm{100}$ y $R_2 = \qohm{150}$. La salida es $V_{out} = V_{in}\, R_2/(R_1 + R_2) = 0.6\, V_{in}$, lo que coincide con la simulación: con $V_{in} = \qV{5}$ se obtienen \qV{3}, y con $V_{in} = \qV{7}$, \qV{4.2}. La pendiente es constante e igual a $0.6$, es decir, la salida varía \qV{0.6} por cada voltio de entrada.
+    \item \textbf{Zona de regulación ($V_{in} \gtrsim \qV{9}$):} cuando el voltaje en $R_2$ se acerca a $V_Z$, el diodo entra en su región de ruptura y empieza a conducir. Se produce un codo en la curva alrededor de \qV{8} a \qV{9}, y a partir de ahí la pendiente cae de $0.6$ a menos de $0.03$. Entre \qV{9} y \qV{12}, la entrada aumenta \qV{3} ($\SI{33}{\percent}$) mientras que la salida solo pasa de \qV{4.987} a \qV{5.075}, es decir, \qV{0.088} ($\approx\SI{1.7}{\percent}$).
+\end{itemize}
+
+%==============================================================
+\subsection{Curva de regulación de carga}
+
+Con el diodo Zener 1N4733A se procedió a sacar la curva de regulación de carga (Fig.~\ref{fig:carga}), fijando la fuente de entrada a \qV{12}, ya que a esa tensión de entrada el diodo Zener se encuentra en su zona de regulación.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\columnwidth]{regulacion_de_carga_1N4733A.png}
+\caption{Curva de regulación de carga del 1N4733A ($V_{in} = \qV{12}$): $V(R_2)$ en función de $R_2$.}
+\label{fig:carga}
+\end{figure}
+
+\subsubsection{Análisis de resultados}
+
+La curva tiene dos zonas:
+
+\begin{itemize}
+    \item \textbf{Sin regulación ($R_2$ de \qohm{10} a $\approx\qohm{80}$):} la carga es tan pesada que pide casi toda la corriente que entrega $R_1$, y el Zener se queda sin corriente suficiente para conducir. El circuito se comporta como un divisor de tensión, $V_{out} = V_{in}\, R_2/(R_1 + R_2)$, lo que coincide con la simulación (por ejemplo, \qV{4.00} con $R_2 = \qohm{50}$). La pendiente es alta, de $\approx\SI{84}{\milli\volt\per\ohm}$ cerca de \qohm{20}.
+    \item \textbf{Con regulación ($R_2 \gtrsim \qohm{80}$):} el Zener conduce y fija la salida cerca de \qV{5.1}. La curva se aplana: entre \qohm{100} y \qkohm{1} la salida solo sube de \qV{5.040} a \qV{5.112}, y la pendiente cae a menos de \SI{0.4}{\milli\volt\per\ohm} a partir de \qohm{150}. El pequeño aumento se debe a la resistencia dinámica del Zener, ya que al crecer $R_2$ más corriente pasa por el diodo y $V_Z$ sube un poco.
+\end{itemize}
+
+\subsubsection{Capacidad de regulación de carga}
+
+Tomando como referencia la salida sin carga práctica ($R_2 = \qkohm{1}$, \qV{5.112}), la regulación de carga es la mostrada en la Tabla~\ref{tab:regcarga}, donde
+\begin{equation}
+\mathrm{Reg.\,de\,carga} = \left(\frac{V_{\mathrm{sin\,carga}} - V_{\mathrm{plena\,carga}}}{V_{\mathrm{plena\,carga}}}\right) \times 100\%.
+\end{equation}
+
+\begin{table}[!t]
+\centering
+\caption{Regulación de carga del 1N4733A ($V_{in} = \qV{12}$).}
+\label{tab:regcarga}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+$R_2$ de plena carga & $V(R_2)$ (V) & Regulación de carga \\
+\midrule
+\qohm{80} (límite de regulación) & 4.993 & \SI{2.4}{\percent} \\
+\qohm{100} & 5.040 & \SI{1.4}{\percent} \\
+\qohm{150} & 5.075 & \SI{0.7}{\percent} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El diseño mantiene la salida dentro de $\approx\SI{2.4}{\percent}$ de variación para cargas desde \qohm{80} hasta \qkohm{1}, que corresponde a corrientes de carga de $\approx\qmA{62}$ a \qmA{5}.
+
+\subsubsection{Limitaciones del diseño}
+
+\begin{itemize}
+    \item \textbf{Corriente de carga máxima limitada por $R_1$:} la corriente total que sale de la fuente la fija $R_1$ ($\approx\qmA{69}$ a \qmA{70} con $V_{in} = \qV{12}$). Cuando la carga pide más de $\approx\qmA{62}$ ($R_2 < \qohm{80}$), el Zener se queda sin corriente y la regulación se pierde.
+    \item \textbf{Baja eficiencia:} la corriente total es casi constante, así que se desperdicia mucha potencia en $R_1$ y en el Zener aun cuando la carga consume poco.
+    \item \textbf{Regulación no ideal:} la salida sube $\approx\qV{0.07}$ entre \qohm{100} y \qkohm{1} por la resistencia dinámica del diodo, y el voltaje depende también de $V_{in}$ y de la temperatura.
+\end{itemize}
+
+%==============================================================
+\subsection{Tolerancia asignada a cada Zener}
+
+La tolerancia se estima comparando la tensión obtenida en simulación con la nominal (Tabla~\ref{tab:tol}).
+
+\begin{table}[!t]
+\centering
+\caption{Desviación de $V_Z$ respecto al valor nominal.}
+\label{tab:tol}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Diodo & $V_Z$ nominal & Valor obtenido & Desviación \\
+\midrule
+1N4738A & \qV{8.2} & \qV{8.156} (tangente) & $-\SI{0.5}{\percent}$ \\
+1N4733A & \qV{5.1} & \qV{4.99} a \qV{5.11} & $-\SI{2.1}{\percent}$ a $+\SI{0.2}{\percent}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Con desviaciones máximas de $\approx\SI{2}{\percent}$, se podría asignar una tolerancia de $\pm\SI{5}{\percent}$ a ambos diodos, que es la que normalmente corresponde a la serie con sufijo <<A>>.
+
+
+
+
+
+
+
 
 \subsection{Amplificadores operacionales}
 
