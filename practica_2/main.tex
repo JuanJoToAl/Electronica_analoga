@@ -66,8 +66,8 @@ sujetadores y multiplicadores de tensión}
 \IEEEauthorblockN{Juan José Tobar Álvarez}
 \IEEEauthorblockA{jutobara@unal.edu.co}
 \and
-\IEEEauthorblockN{Nombre Integrante 2}
-\IEEEauthorblockA{correo2@unal.edu.co}
+\IEEEauthorblockN{Jean Sebastian Claros Araujo}
+\IEEEauthorblockA{jclarosa@unal.edu.co}
 \and
 \IEEEauthorblockN{David Alejandro Montes Rodríguez}
 \IEEEauthorblockA{dmontesr@unal.edu.co}
@@ -104,6 +104,11 @@ cargadores y detectores de envolvente. Los limitan la caída
 $V_\gamma$, la tensión inversa de pico (PIV), el rizado, la zona muerta
 $|v_S|<V_\gamma$ y el tiempo de recuperación inversa~\cite{vishay}
 (Tabla~\ref{tab:comp}).
+\subsection{Sujetadores: configuración, aplicaciones y limitaciones}
+Los circuitos limitadores utilizan diodos para restringir una parte de la señal de entrada e impedir que el voltaje de salida supere un nivel establecido. Según la configuración y orientación del diodo, pueden limitar la parte positiva, la negativa o ambas, y pueden incluir una fuente de polarización para fijar el nivel de recorte. 
+Su funcionamiento depende de los estados del diodo: en polarización directa conduce y modifica la señal, y en inversa prácticamente no conduce. En diodos de silicio se considera una caída de aproximadamente 0,7 V, por lo que el nivel de limitación depende de esta caída y de la polarización usada.
+Se aplican en la protección contra sobretensiones, el acondicionamiento de señales y la modificación de formas de onda. Su limitación principal es que el diodo real no es ideal: la caída de voltaje varía con la corriente y la temperatura, por lo que el nivel de recorte puede diferir del valor teórico.
+
 
 \begin{table}[htbp]
 \caption{Topologías rectificadoras ($V_m$: amplitud de entrada;
@@ -198,13 +203,120 @@ fuente y carga y una sola referencia sirve para las dos puntas; en
 puente no existe ese nodo --- de ahí la preferencia por \textit{tap}
 central en el montaje.
 
+\subsection{Diferencias en el valor RMS y DC respecto al rectificador
+con carga puramente resistiva}
+
+Para el rectificador de onda completa con carga puramente resistiva, el valor DC es
+\begin{equation}
+V_{DC} = \frac{2V_p}{\pi} \approx 3{,}18\ \text{V}
+\end{equation}
+y el valor RMS es
+\begin{equation}
+V_{RMS} = \frac{V_p}{\sqrt{2}} \approx 3{,}54\ \text{V}.
+\end{equation}
+Como la salida cae a cero entre picos, existe una componente AC (rizado)
+considerable, de
+\begin{equation}
+V_{ac,rms} = \sqrt{V_{RMS}^{2} - V_{DC}^{2}} \approx 1{,}54\ \text{V},
+\end{equation}
+lo que da un factor de rizado de aproximadamente $48\%$. Por eso el
+valor RMS es apreciablemente mayor que el DC (relación
+$V_{RMS}/V_{DC} \approx 1{,}11$).
+
+Al añadir el filtro capacitivo (Figura~2), el condensador se carga hasta
+el valor pico y se descarga lentamente sobre la carga, de modo que la
+salida se mantiene cerca de $V_p$. El valor DC sube a $\approx 5$ V y el
+rizado se reduce a un máximo de $3\%$, es decir,
+$V_{r,rms} \approx 0{,}15$ V ($\approx 0{,}5$ V pico a pico). Como
+\begin{equation}
+V_{RMS}^{2} = V_{DC}^{2} + V_{r,rms}^{2},
+\end{equation}
+el valor RMS resulta prácticamente igual al DC ($\approx 5{,}00$ V,
+relación $\approx 1{,}00$). En consecuencia, con el filtro el valor DC
+aumenta cerca de 1,8 veces respecto al caso resistivo y el RMS se acerca
+al DC porque la componente AC se vuelve despreciable.
+
+
+
 % ---------------------------------------------------------------
 % [INTEGRANTE 2] \subsection{Limitadores: configuración, aplicaciones y limitaciones}
 % [INTEGRANTE 2] \subsection{Diferencias de RMS y DC frente al rectificador sin filtro (Fig. 2)}
 %                 (la pregunta teorica RMS/DC de 4.1 es del Integrante 2;
 %                  aqui solo se reporta lo que arroja la simulacion.)
 % [INTEGRANTE 2] \subsection{Diseño del sujetador a +3 V (Fig. 3)}
-\subsection{Sujetadores y multiplicadores: configuración, aplicaciones y limitaciones}
+
+\subsection{Circuito sujetador con offset de 3 V}
+
+Para un circuito sujetador se necesita $RC \geq 10T$. Como
+\begin{equation}
+T = \frac{1}{1{,}2\ \text{kHz}} = 0{,}83\ \text{ms},
+\end{equation}
+se escoge una $R = 220\ \text{k}\Omega$ y un capacitor de $100\ \mu\text{F}$,
+con lo cual
+\begin{equation}
+RC = 22\ \text{s} > 0{,}83\ \text{ms}.
+\end{equation}
+
+Como se usa un diodo 1N4004, con $V_D = 0{,}84$ V se necesita una fuente
+de $-2{,}16$ V en el ánodo del diodo para obtener un offset de $+3$ V. En
+base a esto se diseña el siguiente circuito:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{circuito_sujetador_3V.png}
+    \caption{Circuito sujetador con offset de $+3$ V.}
+    \label{fig:sujetador_3V}
+\end{figure}
+Con $V_1 = 6\sin(\omega t)$. En el ciclo positivo el diodo se bloquea,
+ya que $V_1$ intenta enviar corriente en sentido horario; el diodo se
+comporta como una impedancia idealmente infinita y la fuente de
+$2{,}16$ V queda desconectada, por tanto $V_o = V_1$.
+
+En el ciclo negativo la polaridad de $V_1$ se invierte y, hasta antes de
+$3$ V, $V_o = V_1$. Cuando $V_1 > 3$ V el diodo entra en conducción, ya
+que $V_1$ supera la fuente de $2{,}16$ V más el voltaje de umbral del
+diodo $V_D = 0{,}84$ V. Entonces el condensador se carga a:
+\begin{equation}
+V_1 - 2{,}16 - V_D - V_C = 0
+\end{equation}
+\begin{equation}
+V_C = V_1 - 2{,}16 - 0{,}84 = V_1 - 3.
+\end{equation}
+
+Como el pico de $V_1$ es $6$ V, entonces
+\begin{equation}
+V_C = 3\ \text{V}.
+\end{equation}
+
+El condensador se carga casi instantáneamente por la resistencia
+dinámica del diodo, la cual es pequeña. Además, la constante de tiempo
+$\tau$ de descarga del condensador es muy grande en comparación con el
+periodo; en consecuencia, el condensador se comporta como una fuente de
+$3$ V.
+
+Para que el diodo conduzca, $V_1$ debe superar la fuente de $2{,}16$ V
+y el voltaje $V_D = 0{,}84$ V. Por tanto, cuando $|V_1| < 6$ V el ánodo
+del diodo queda a un potencial menor a $3$ V y, como el cátodo está a un
+potencial mayor ($3$ V), el diodo se bloquea y la fuente de $2{,}16$ V
+queda desconectada. Por ende, al hacer la malla en sentido horario desde
+$V_1$:
+\begin{equation}
+-V_1 + 3\ \text{V} - V_o = 0
+\end{equation}
+\begin{equation}
+V_o = 3\ \text{V} - V_1, \quad \text{para el ciclo negativo,}
+\end{equation}
+y
+\begin{equation}
+V_o = 3\ \text{V} + V_1, \quad \text{para el ciclo positivo.}
+\end{equation}
+
+Así, reemplazando $V_1 = 6$ V, se tiene que $V_o = -3$ V para el ciclo
+negativo y $V_o = 9$ V para el ciclo positivo.
+
+
+
+
 
 \subsubsection{Diseño del sujetador a -4 V (Fig. 4)}
 \begin{figure}[H]
@@ -405,6 +517,79 @@ Filtro $C$ & 100  & 4.90 & 395  & 2.33 & 1.98\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Señales de salida y funciones de transferencia}
+
+\subsubsection{Circuito sujetador con offset de 3 V}
+
+Se registra la señal de salida:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{grafica_Vo circuito sujetador fig 3.png}
+    \caption{Señal de salida del circuito sujetador con offset de $+3$ V.}
+    \label{fig:salida_sujetador_3V}
+\end{figure}
+
+y se obtiene la siguiente función de transferencia:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\columnwidth]{funcion_de_transferencia_Vo_vs_Vin fig 3.png}
+  \caption{Función de transferencia del circuito sujetador con offset
+           de 3\,V.}
+  \label{fig:ft_sujetador_3V}
+\end{figure}
+
+\subsection{Circuito sujetador con offset de $-4$\,V}
+
+Se registra la señal de salida, como se muestra en la
+Fig.~\ref{fig:salida_sujetador_m4V}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\columnwidth]{grafica_Vo_offset_-4V fig 4.png}
+  \caption{Señal de salida del circuito sujetador con offset de
+           $-4$\,V.}
+  \label{fig:salida_sujetador_m4V}
+\end{figure}
+
+Se obtiene la siguiente función de
+transferencia, presentada en la Fig.~\ref{fig:ft_sujetador_m4V}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\columnwidth]{funcion_de_transferencia_offset_-4V_Vo_vs_Vin.png}
+  \caption{Función de transferencia del circuito sujetador con offset
+           de $-4$\,V.}
+  \label{fig:ft_sujetador_m4V}
+\end{figure}
+
+\subsection{Circuito sujetador-recortador}
+
+Se registra la señal de salida, como se observa en la
+Fig.~\ref{fig:salida_sujetador_recortador}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\columnwidth]{grafica_Vo_sujetador_recortador.png}
+  \caption{Señal de salida del circuito sujetador-recortador.}
+  \label{fig:salida_sujetador_recortador}
+\end{figure}
+
+y se obtiene la siguiente función de transferencia, como se muestra en la
+Fig.~\ref{fig:ft_sujetador_recortador}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\columnwidth]{funcion_de_transferencia_sujetador_recortador_Vo_vs_Vin.png}
+  \caption{Función de transferencia del circuito sujetador-recortador.}
+  \label{fig:ft_sujetador_recortador}
+\end{figure}
+
+
+
+
 
 % ---------------------------------------------------------------
 % [INTEGRANTE 3] \subsection{Simulación de las Figuras 3, 4 y 5 y comparación con los cálculos}

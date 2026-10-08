@@ -23,5 +23,6 @@
         "TEXINPUTS": "C:\\Program Files\\MiKTeX\\tex\\latex\\l3kernel;"
       }
     }
-  ]
+  ],
+  "python-envs.defaultEnvManager": "ms-python.python:system"
 }
