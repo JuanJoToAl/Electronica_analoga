@@ -15,6 +15,7 @@
 \usepackage{siunitx}
 \usepackage{xcolor}
 \usepackage{cite}
+\usepackage{placeins}
 \usepackage[hyphens]{url}
 \urlstyle{same}
 
@@ -333,7 +334,119 @@ Los circuitos se simulan en LTspice con los modelos de la librería indicada en 
 \PEND{Persona 2}{Figs. con (1) $I_Z$ extremos del circuito de caracterización (comparar con Tabla~\ref{tab:zener1}); (2) $I_Z$ vs. $R_1$ de \qohm{0} a un máximo; (3) $I_d$ vs. $V_d$ con la tangente en $I_{ZT}$ y $V_Z$; (4) curva de regulación de línea; (5) curva de regulación de carga ($R_2$ de \qohm{100} a \qkohm{1}) y \% de tolerancia.}
 
 \subsection{Amplificadores operacionales}
-\PEND{Persona 3}{Figs. con señales de entrada y salida de cada configuración (cortocircuito virtual); no inversor con $V_{CC}=\pm\qV{9}$ (limitaciones de salida); ancho de banda del inversor simulado vs. Tabla~\ref{tab:opamp_ds} y para las otras dos referencias.}
+
+\FloatBarrier
+\subsubsection{Amplificador inversor}
+Se comparan las señales de entrada y salida del amplificador inversor para
+los modelos LM348 y LF353.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion inversor lm348.png}
+\caption{Simulación del amplificador inversor con el modelo LM348.}
+\label{fig:sim_inversor_lm348}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion inversor lf353.png}
+\caption{Simulación del amplificador inversor con el modelo LF353.}
+\label{fig:sim_inversor_lf353}
+\end{figure}
+
+\subsubsection{Amplificador no inversor}
+Se muestran las señales del amplificador no inversor para los modelos LM348
+y LF353 con la alimentación nominal del diseño.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion no inversor lm348.png}
+\caption{Simulación del amplificador no inversor con el modelo LM348.}
+\label{fig:sim_no_inversor_lm348}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion no inversor lf353.png}
+\caption{Simulación del amplificador no inversor con el modelo LF353.}
+\label{fig:sim_no_inversor_lf353}
+\end{figure}
+
+\subsubsection{Amplificador no inversor con variantes en la alimentación}
+Se evalúa el efecto de usar alimentación simple y alimentación dual de
+\qV{9} en los modelos LM348 y LF353. Se resalta que al disminuirse la tensión de 
+polarización frente al $V_p$ de la onda esperada. La onda de salida se ve recortada
+a una tensión inferior a la tensión de polarización.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion lm348 9v simple.png}
+\caption{Amplificador no inversor LM348 con alimentación simple de \qV{9}.}
+\label{fig:sim_no_inversor_lm348_9v_simple}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion LM348 9v dual.png}
+\caption{Amplificador no inversor LM348 con alimentación dual de $\pm\qV{9}$.}
+\label{fig:sim_no_inversor_lm348_9v_dual}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion LF353 9v simple .png}
+\caption{Amplificador no inversor LF353 con alimentación simple de \qV{9}.}
+\label{fig:sim_no_inversor_lf353_9v_simple}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion LF353 9v dual.png}
+\caption{Amplificador no inversor LF353 con alimentación dual de $\pm\qV{9}$.}
+\label{fig:sim_no_inversor_lf353_9v_dual}
+\end{figure}
+
+\subsubsection{Amplificador sumador inversor}
+Se presentan las formas de onda del sumador inversor implementado con los
+modelos LM348 y LF353. A través de esta simulación se nota que el LM348 de
+arquitectura basada en BJT, tiene una respuesta mucho más lenta que el LF353 de arquitectura JFET. 
+Por lo que el LM348 presenta una onda cuadrada distorsionada. Mientras que el LF353 presenta
+una onda cuadrada pura a su salida.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion sumador inversor lm348.png}
+\caption{Simulación del amplificador sumador inversor con el modelo LM348.}
+\label{fig:sim_sumador_lm348}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulacion sumador inversor lf353.png}
+\caption{Simulación del amplificador sumador inversor con el modelo LF353.}
+\label{fig:sim_sumador_lf353}
+\end{figure}
+
+\subsubsection{Pruebas de ancho de banda}
+Finalmente, se compara la respuesta en frecuencia de los modelos LM348 y
+mantiene su ganancia a una frecuencia notablemente más alta que el LM348.
+Lo que demuestra a su vez que este tiene más ancho de banda(Según los Datasheet, 3 MHz frente a 1MHz para el LM348)
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulación BW LM348.png}
+\caption{Prueba de ancho de banda con el modelo LM348.}
+\label{fig:sim_bw_lm348}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\columnwidth]{simulación BW LF3535.png}
+\caption{Prueba de ancho de banda con el modelo LF353.}
+\label{fig:sim_bw_lf353}
+\end{figure}
+
+\FloatBarrier
+\subsubsection{Notas sobre las simulaciones}
+Las simulaciones se presentan para los modelos LM348 y LF353, en ese orden. Las
+gráficas correspondientes al modelo LM324 se conservaron en la carpeta
+\texttt{imagenes/LM324}, pero no se incluyen en este documento.
 
 %% =====================================================================
 \section{Montaje}

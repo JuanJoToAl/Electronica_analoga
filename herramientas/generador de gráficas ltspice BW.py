@@ -9,7 +9,7 @@ import pandas as pd
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FILE_PATH = os.path.join(BASE_DIR, "BW LM348.txt")  # Ruta del archivo exportado de LTspice
 PLOT_TITLE = (
-    "Ancho de banda inversor OpAmp LM348 (simulación)"  # Título personalizable
+    "Ancho de banda inversor OpAmp LF353 (simulación)"  # Título personalizable
 )
 # ============================================================================== 
 
