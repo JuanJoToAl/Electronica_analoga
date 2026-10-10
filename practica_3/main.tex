@@ -73,13 +73,13 @@ correo3@unal.edu.co}
 En esta práctica se estudia el diodo Zener como regulador de tensión y las configuraciones básicas de amplificadores operacionales (inversor, no inversor y sumador inversor). El objetivo general es determinar la característica $I$--$V$ del diodo Zener y diseñar reguladores de tensión y etapas de amplificación. Los objetivos específicos son: (i) comprobar el modelo característico del Zener, (ii) diseñar fuentes de tensión constante ante variaciones de la entrada o de la carga y (iii) estudiar el inversor, el no inversor y el sumador-inversor. Los conceptos y leyes empleados son las leyes de Ohm y de Kirchhoff, la ruptura inversa del Zener, el amplificador operacional ideal (ganancia infinita y cortocircuito virtual) y el ancho de banda \cite{sedra}.
 
 \subsection{Justificación}
-Los reguladores con diodo Zener y los amplificadores operacionales se emplean en sistemas donde la confiabilidad es crítica. En el sector aeroespacial, la NASA documentó un regulador de tensión DC cuya referencia es un diodo Zener \cite{nasa}, y se han evaluado reguladores shunt con Zener a temperaturas criogénicas porque algunas misiones exponen la electrónica a temperaturas muy inferiores al rango del fabricante \cite{cryo}. Los amplificadores operacionales miden tensiones del bus de potencia de una nave y almacenan en buffer las señales antes de un conversor análogo-digital \cite{tispace}; una nave mediana puede tener más de 500 sensores que requieren amplificadores de instrumentación tolerantes a la radiación, construidos con arreglos de amplificadores operacionales \cite{renesas}. En la industria médica, el electrocardiograma (ECG) acondiciona biopotenciales muy pequeños con amplificadores operacionales y diferenciales \cite{penn}. Por tanto, la práctica entrena el dimensionamiento de resistencias y potencias para fuentes estables y el diseño de etapas de ganancia que no saturen, competencias necesarias en instrumentación, potencia y acondicionamiento de señales.
+Los reguladores con diodo Zener y los amplificadores operacionales se emplean en sistemas donde la confiabilidad es crítica. En el sector aeroespacial, la NASA documentó un regulador de tensión DC cuya referencia es un diodo Zener \cite{nasa}, y se han evaluado reguladores shunt con Zener a temperaturas criogénicas, pues algunas misiones espaciales exponen los circuitos a temperaturas muy bajas y casi no hay datos por debajo del rango especificado por el fabricante \cite{cryo}. Los amplificadores operacionales miden tensiones del bus de potencia de una nave y almacenan en buffer las señales antes de un conversor análogo-digital \cite{tispace}; una nave mediana puede tener más de 500 sensores que requieren amplificadores de instrumentación tolerantes a la radiación, cuyo diseño tradicional emplea tres amplificadores operacionales \cite{renesas}. En la industria médica, el electrocardiograma (ECG) acondiciona biopotenciales muy pequeños con amplificadores operacionales y diferenciales \cite{penn}. Por tanto, la práctica entrena el dimensionamiento de resistencias y potencias para fuentes estables y el diseño de etapas de ganancia que no saturen, competencias necesarias en instrumentación, potencia y acondicionamiento de señales.
 
 \subsection{Marco teórico y consultas previas}
-\textbf{1) Hojas de datos.} La Tabla~\ref{tab:zener_ds} resume los parámetros de los Zener usados \cite{fairchild}. Se adopta $I_{ZM}$ como corriente máxima; para el 1N4738A, $I_{ZM}=\qmA{110}$ es más restrictiva que $P_D/V_Z=\qmA{122}$.
+\textbf{1) Hojas de datos.} La Tabla~\ref{tab:zener_ds} resume los parámetros de los Zener usados \cite{fairchild}; esa hoja de datos no da la corriente máxima, que se toma de la versión de montaje superficial equivalente (1N47xxAUR-1) \cite{microsemi}. Se adopta $I_{ZM}$ como corriente máxima; para el 1N4738A, $I_{ZM}=\qmA{110}$ es más restrictiva que $P_D/V_Z=\qmA{122}$.
 
 \begin{table}[!t]
-\caption{Parámetros de los diodos Zener \cite{fairchild}}
+\caption{Parámetros de los diodos Zener (\cite{fairchild}; $I_{ZM}$ de \cite{microsemi})}
 \label{tab:zener_ds}
 \centering
 \footnotesize
@@ -172,7 +172,7 @@ Com. & $R_{1\max}$ & 19900 & 100 & 0.5 & 4.975 & 0.025 & 4.1 & 9.1 \\
 \end{tabular}
 \end{table}
 
-Con $R_1=0$, $R_2$ disipa \qW{1} y el Zener \qW{0.82}, cerca de su límite de \qW{1} (la hoja de datos indica una reducción de \SI{6.67}{\milli\watt\per\celsius} sobre \SI{50}{\celsius} \cite{fairchild}); por ello $R_2$ debe ser de \qW{2} y el Zener requiere buena ventilación. Con $R_{1\max}$ cada resistencia disipa menos de \qmW{5} y basta \qW{0.25}. La fuente debe entregar al menos \qW{1.82}. Por la impedancia dinámica, $\Delta V_Z\approx Z_{ZT}(I_Z-I_{ZT})=\qohm{4.5}\cdot\qmA{79}\approx\qV{0.36}$; como $Z_{ZT}$ es un máximo, en el peor caso $I_Z\approx\qmA{106}$ con $R_1=0$.
+Con $R_1=0$ y $R_2=\qohm{100}$, $R_2$ disipa \qW{1} y el Zener \qW{0.82}, cerca de su límite de \qW{1} (la hoja de datos indica una reducción de \SI{6.67}{\milli\watt\per\celsius} sobre \SI{50}{\celsius} \cite{fairchild}); por ello $R_2$ debe ser de \qW{2} y el Zener requiere buena ventilación. Con $R_{1\max}$ cada resistencia disipa menos de \qmW{5} y basta \qW{0.25}. La fuente debe entregar al menos \qW{1.82}. Por la impedancia dinámica, $\Delta V_Z\approx Z_{ZT}(I_Z-I_{ZT})=\qohm{4.5}\cdot\qmA{79}\approx\qV{0.36}$; como $Z_{ZT}$ es un máximo, en el peor caso $I_Z\approx\qmA{106}$ con $R_1=0$ y $R_2=\qohm{90.909}$.
 
 \subsection{Fuente regulada con 1N4733A}
 Con $V_Z=\qV{5.1}$, $I_{ZM}=\qmA{178}$, $I_{ZK}=\qmA{1}$ y $P_{Z,\max}=V_ZI_{ZM}=\qW{0.908}$, la carga $R_L=\qohm{150}$ demanda
@@ -214,7 +214,7 @@ $V_1$ & $R_1$ & $V_o$ & $I_{R1}$ & $I_Z$ & $P_{R1}$ & $P_Z$ & $P_L$ & $P_{V1}$ \
 v_{o,p}+\Delta V_{sat}\le V_{CC}\le\qV{18},
 \label{eq:vcc}
 \end{equation}
-donde $\Delta V_{sat}$ es la distancia entre el riel y la máxima salida y \qV{18} es el máximo de ambos integrados \cite{lm348,lf353}. El LM348 garantiza $\pm\qV{12}$ con $\pm\qV{15}$, es decir $\Delta V_{sat}\approx\qV{3}$ \cite{lm348}, de modo que $V_{CC}\ge\qV{15}$ y se adopta $\pm\qV{16}$. El LF353 tiene $\Delta V_{sat}\approx\qV{1.5}$ típico \cite{lf353} y se usa $\pm\qV{14}$ ($\qV{14}-\qV{1.5}=\qV{12.5}\ge\qV{12}$).
+donde $\Delta V_{sat}$ es la distancia entre el riel y la máxima salida y \qV{18} es el máximo de ambos integrados \cite{lm348,lf353}. El LM348 garantiza $\pm\qV{12}$ con $\pm\qV{15}$, es decir $\Delta V_{sat}\approx\qV{3}$ \cite{lm348}, de modo que $V_{CC}\ge\qV{15}$ y se adopta $\pm\qV{16}$. El LF353 tiene $\Delta V_{sat}\approx\qV{1.5}$ típico \cite{lf353} y se usa $\pm\qV{14}$ ($\qV{14}-\qV{1.5}=\qV{12.5}\ge\qV{12}$); con el mínimo garantizado ($\Delta V_{sat}=\qV{3}$) se requerirían $\pm\qV{15}$.
 
 \textbf{Inversor.} Para $2\,V_{pp}$ de salida con $1\,V_{pp}$ de entrada, $|G_{INV}|=R_2/R_1=2$: $R_1=\qkohm{10}$, $R_2=\qkohm{20}$, salida desfasada \SI{180}{\degree} y $R_{in}=\qkohm{10}$. Se mantiene $\pm\qV{14}$ en ambos integrados (holgura amplia para \qV{1} de pico).
 
@@ -241,7 +241,7 @@ Sumador inversor & $R_1=R_2=R_f=\qkohm{10}$ & $-1$ (por entrada) & $\pm\qV{7}$ /
 %% =====================================================================
 Los circuitos se simulan en LTspice con los modelos de la librería indicada en cada esquemático. La Fig.~\ref{fig:esq} muestra el circuito de caracterización (los otros casos solo cambian $R_1$ y $R_2$, Tabla~\ref{tab:zener1}) y el regulador (para $V_1=\qV{5}$ solo cambian $V_1$ y $R_1$); la Fig.~\ref{fig:esq_op} muestra los tres circuitos con amplificador operacional (con LM348; con LF353 son los mismos circuitos con la alimentación de la Tabla~\ref{tab:opamps_diseno}).
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
 \centering
 \subimg{0.49\columnwidth}{fig1_zener_com_R1_0.png}{(a) Caracterización, 1N4738A}\hfill
 \subimg{0.49\columnwidth}{fig2_regulador_12V.png}{(b) Regulador, 1N4733A}
@@ -289,7 +289,7 @@ I_Z=\frac{V_1-V_Z}{R_1+R_2},
 \end{equation}
 inversamente proporcional a la resistencia total en serie con el diodo \cite{sedra}. Con $R_1=0$ la corriente es máxima (\qmA{109.40}), el punto más exigente para el diodo. Para $R_1<\qkohm{2}$ la caída es pronunciada (de $\approx\qmA{109}$ a $\approx\qmA{5}$), por lo que el circuito es muy sensible a $R_1$; para $R_1>\qkohm{6}$ la curva se aplana y en $R_1=\qohm{19909}$ vale \SI{506.83}{\micro\ampere}$\,\approx\qmA{0.5}$. Otras variables relacionadas son: $R_2$ (al aumentar, $I_Z$ baja y toda la curva se desplaza hacia abajo), la diferencia $V_1-V_Z=\qV{10}$, la potencia $P_Z=V_ZI_Z$ (misma forma que la curva) y $P_{R_1}=I_Z^2R_1$, que permite escoger la potencia de $R_1$. Además, la curva indica hasta qué $R_1$ se cumple $I_Z\ge I_{ZK}$, que es la condición de regulación del regulador con carga.
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
 \centering
 \subimg{0.49\columnwidth}{curva_Iz_vs_R1_1N4738A.png}{(a) $I_Z$ vs. $R_1$}\hfill
 \subimg{0.49\columnwidth}{Curva_IdvsVd_1N4738A_tangente_Vz.png}{(b) $I_D$ vs. $V_D$ y tangente}\\[3pt]
@@ -318,7 +318,7 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es $-\SI{0
 \subsection{Amplificadores operacionales}
 \textbf{Inversor y no inversor.} En la Fig.~\ref{fig:op1}(a)--(b) es posible observar que la salida tiene el doble de amplitud ($1\,V_{pp}\rightarrow2\,V_{pp}$) y está desfasada \SI{180}{\degree}, como corresponde a $G_{INV}=-2$. En la Fig.~\ref{fig:op1}(c)--(d) la salida está en fase y alcanza \qV{12} de pico sin recorte, como corresponde a $G_{NI}=+4$ con $\pm\qV{16}$ (LM348) y $\pm\qV{14}$ (LF353).
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
 \centering
 \subimg{0.49\columnwidth}{simulacion inversor lm348.png}{(a) Inversor, LM348}\hfill
 \subimg{0.49\columnwidth}{sim_inversor_lf353.png}{(b) Inversor, LF353}\\[3pt]
@@ -330,7 +330,7 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es $-\SI{0
 
 \textbf{No inversor con alimentación reducida.} En la Fig.~\ref{fig:op9v} es posible observar que, con alimentación de \qV{9} insuficiente para la excursión de \qV{12}, la salida se recorta a una tensión menor que la de alimentación: con $\pm\qV{9}$ en $\pm\qV{6}$ (LM348, \qV{3} bajo el riel) y en $\pm\qV{7.5}$ (LF353, \qV{1.5} bajo el riel), valores iguales a los $\Delta V_{sat}$ usados en el diseño. Con alimentación simple la entrada ($\pm\qV{3}$ alrededor de \qV{0}) queda fuera del rango de modo común y la salida deja de seguir el semiciclo negativo: se mantiene entre $\approx\qV{3}$ y \qV{6} (LM348) y entre $\approx\qV{1.6}$ y \qV{7.5} con estrechos pulsos hacia abajo (LF353).
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
 \centering
 \subimg{0.49\columnwidth}{simulacion lm348 9v simple.png}{(a) LM348, \qV{9} simple}\hfill
 \subimg{0.49\columnwidth}{simulacion LM348 9v dual.png}{(b) LM348, $\pm\qV{9}$}\\[3pt]
@@ -342,11 +342,11 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es $-\SI{0
 
 \textbf{Sumador inversor.} En la Fig.~\ref{fig:op_sum_bw}(a)--(b) es posible observar que la salida es $\pm\qV{2.5}$, como se calculó, pero con el LM348 los flancos son rampas de $\approx\SI{10}{\micro\second}$ y la onda se distorsiona, mientras que con el LF353 es prácticamente cuadrada. La causa es el \emph{slew rate}: \SI{0.5}{\volt\per\micro\second} frente a \SI{13}{\volt\per\micro\second} \cite{lm348,lf353}, equivalentes a $\approx\SI{10}{\micro\second}$ y $\approx\SI{0.4}{\micro\second}$ para una transición de \qV{5} (Sec.~\ref{sec:sumador}).
 
-\textbf{Ancho de banda.} En la Fig.~\ref{fig:op_sum_bw}(c)--(d) (inversor, $|G|=2$) es posible observar una ganancia plana de \SI{6}{\decibel} que cae al llegar a la frecuencia de corte. Con \eqref{eq:bw} se esperan $\approx\SI{333}{\kilo\hertz}$ (LM348) y $\approx\SI{1.33}{\mega\hertz}$ (LF353). En la curva del LM348 la ganancia cae \SI{3}{\decibel} en $\approx\SI{0.74}{\mega\hertz}$, mayor que lo estimado con el $GBW$ típico, lo que puede deberse al modelo SPICE.
-% TODO: la curva del LF353 (simulación BW LF3535.png) es idéntica a la del LM348
-% (solo cambia el título): volver a simular con el modelo LF353 y leer su f_{-3dB}.
+\textbf{Ancho de banda.} En la Fig.~\ref{fig:op_sum_bw}(c)--(d) (inversor, $|G|=2$) es posible observar una ganancia plana de \SI{6}{\decibel} que cae al llegar a la frecuencia de corte. Con \eqref{eq:bw} se esperan $\approx\SI{333}{\kilo\hertz}$ (LM348) y $\approx\SI{1.33}{\mega\hertz}$ (LF353). En la curva del LM348 la ganancia cae \SI{3}{\decibel} en $\approx\SI{0.74}{\mega\hertz}$, mayor que lo estimado con el $GBW$ típico, lo que puede deberse al modelo SPICE. La frecuencia de la señal también limita la amplitud sin distorsión: una senoidal de amplitud $A$ y frecuencia $f$ exige $SR\ge2\pi fA$, es decir \SI{75}{\milli\volt\per\micro\second} a \SI{1}{\kilo\hertz} y \qV{12} (por debajo de \SI{0.5}{\volt\per\micro\second}); con \qV{12} de pico el LM348 distorsionaría por \emph{slew rate} desde $\approx\SI{6.6}{\kilo\hertz}$.
+% TODO (confirmado): 'simulación BW LF3535.png' es la MISMA curva del LM348, solo cambia el título.
+% Volver a simular con el modelo LF353 y leer su f_{-3dB} (esperado ~1.33 MHz) antes de entregar.
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
 \centering
 \subimg{0.49\columnwidth}{simulacion sumador inversor lm348.png}{(a) Sumador, LM348}\hfill
 \subimg{0.49\columnwidth}{simulacion sumador inversor lf353.png}{(b) Sumador, LF353}\\[3pt]
@@ -367,7 +367,7 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es $-\SI{0
 En la Tabla~\ref{tab:zener1} es posible observar que pasar de $R_2=\qohm{90.909}$ a \qohm{100} reduce $I_Z$ y las potencias en $R_2$, $P_Z$ y $P_{V1}$ en $\approx9\%$, lo que da margen frente a $I_{ZM}$, mientras que con $R_{1\max}$ la suma de \qkohm{20} conserva $I_Z=\qmA{0.5}$. En la Tabla~\ref{tab:zener2} se aprecia que el regulador solo mantiene $V_o=\qV{5.1}$ para $V_1\ge\qV{8.6}$ (con $V_1=\qV{5}$ el Zener está cortado y $V_o=\qV{3}$), y que a mayor $V_1$ aumenta $I_Z$ mientras $I_L$ es constante, por lo que el Zener absorbe el exceso y la eficiencia es baja. Para los operacionales, la Tabla~\ref{tab:opamps_diseno} muestra que $V_{CC}$ se fija por la excursión de salida y no por la disipación.
 
 \subsection{Resultados simulados}
-La Tabla~\ref{tab:teo_sim} compara los valores teóricos con los simulados (los extremos de $I_Z$ están en la Tabla~\ref{tab:extremos}). Los errores del regulador son menores al $\SI{2.2}{\percent}$ y se explican por la resistencia dinámica del Zener y por el codo suave del modelo (con $I_Z\approx\qmA{5}$ a $V_1=\qV{9}$ la salida aún no llega a \qV{5.1}). En los operacionales, las ganancias y las amplitudes coinciden con las ideales, el recorte con alimentación reducida ocurre a $V_{CC}-\Delta V_{sat}$ y el LM348 se ve limitado por su slew rate. La única discrepancia importante es el ancho de banda del LM348, que el modelo SPICE ubica por encima de lo estimado con el $GBW$ típico.
+La Tabla~\ref{tab:teo_sim} compara los valores teóricos con los simulados (los extremos de $I_Z$ están en la Tabla~\ref{tab:extremos}). Los errores de $V_o$ en el regulador no superan $\approx\SI{2.2}{\percent}$ y se explican por la resistencia dinámica del Zener y por el codo suave del modelo (con $I_Z\approx\qmA{5}$ a $V_1=\qV{9}$ la salida aún no llega a \qV{5.1}). En los operacionales, las ganancias y las amplitudes coinciden con las ideales, el recorte con alimentación reducida ocurre a $V_{CC}-\Delta V_{sat}$ y el LM348 se ve limitado por su slew rate. La única discrepancia importante es el ancho de banda del LM348, que el modelo SPICE ubica por encima de lo estimado con el $GBW$ típico.
 
 \begin{table}[!t]
 \centering
@@ -408,13 +408,14 @@ $f_{-3\,\mathrm{dB}}$ inversor, LM348 & \SI{333}{\kilo\hertz} & $\approx\SI{740}
 \begin{thebibliography}{99}
 \bibitem{sedra} A. S. Sedra, K. C. Smith, T. C. Carusone, and V. Gaudet, \emph{Microelectronic Circuits}, 8th ed. New York, NY, USA: Oxford Univ. Press, 2020.
 \bibitem{nasa} NASA, ``Improved DC voltage regulator,'' NASA Tech Brief B69-10369, Sep. 1969. [Online]. Available: \url{https://ntrs.nasa.gov/api/citations/19690000365/downloads/19690000365.pdf}
-\bibitem{cryo} W. Abd El-Basit, S. M. El-Ghanam, A. M. Abd El-Maksood, and F. A. S. Soliman, ``Performance of shunt voltage regulators based on Zener diodes at cryogenic temperatures.'' [Online]. Available: \url{https://research.asu.edu.eg/handle/123456789/166889}
-\bibitem{tispace} Texas Instruments, ``Operational amplifiers for space applications,'' Technical Article SBOT046. [Online]. Available: \url{https://ti.com/document-viewer/lit/html/sbot046}
+\bibitem{cryo} W. Abd El-Basit, S. M. El-Ghanam, A. M. Abd El-Maksood, and F. A. S. Soliman, ``Performance of shunt voltage regulators based on Zener diodes at cryogenic temperatures,'' \emph{Phys. Sci. Res. Int.}, Feb. 2013. [Online]. Available: \url{https://research.asu.edu.eg/handle/123456789/166889}
+\bibitem{tispace} Texas Instruments, ``Big space exploration with the smallest operational amplifier in space-enhanced plastic,'' Technical Article SBOT046, Nov. 2023. [Online]. Available: \url{https://ti.com/document-viewer/lit/html/sbot046}
 \bibitem{renesas} Renesas Electronics, ``Examining a new in-amp architecture for communication satellites,'' White Paper. [Online]. Available: \url{https://renesas.com/en/document/whp/examining-new-amp-architecture-communication-satellites}
-\bibitem{penn} Univ. of Pennsylvania, ESE 3400 Medical Devices Lab, ``Signal conditioning/interface circuits,'' lecture notes, Fall 2023. [Online]. Available: \url{https://www.seas.upenn.edu/~ese3400/fall2023/handouts/lec3.pdf}
+\bibitem{penn} Univ. of Pennsylvania, ESE 3400 Medical Devices Lab, ``Signal conditioning/interface circuits,'' lecture notes (Lec. 5), Sep. 2023. [Online]. Available: \url{https://www.engineering.upenn.edu/~ese3400/fall2023/handouts/lec3.pdf}
 \bibitem{fairchild} Fairchild Semiconductor, ``1N4728A--1N4764A Zeners,'' Datasheet, Rev. G2, Jan. 2005. [Online]. Available: \url{https://sceweb.uhcl.edu/xiaokun/Doc/Teaching/CENG3116/782815_ZENERS.pdf}
-\bibitem{lm348} National Semiconductor, ``LM148/LM248/LM348 quad 741 op amps,'' Datasheet DS007786, Nov. 2003. [Online]. Available: \url{https://staff.washington.edu/kd1uj/BEE233/Lab3/LM348\%20quad\%20opamp\%20datasheet.pdf}
-\bibitem{lf353} Texas Instruments, ``LF353-N wide bandwidth dual JFET input operational amplifier,'' Datasheet. [Online]. Available: \url{http://www.ti.com/product/lf353-n}
+\bibitem{microsemi} Microsemi, ``Metallurgically bonded glass surface mount 1.0 W Zeners (series 1N47xxAUR-1),'' Datasheet, Rev. A, Oct. 2005. [Online]. Available: \url{https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7155/MLL4728A-1-Microsemi.pdf}
+\bibitem{lm348} National Semiconductor, ``LM148/LM248/LM348 quad 741 op amps,'' Datasheet DS007786, Nov. 2003. [Online]. Available: \url{https://staff.washington.edu/kd1uj/BEE233/Lab3/LM348%20quad%20opamp%20datasheet.pdf}
+\bibitem{lf353} Texas Instruments, ``LF353-N wide bandwidth dual JFET input operational amplifier,'' Datasheet SNOSBH3F, Rev. F, Mar. 2013. [Online]. Available: \url{http://www.ti.com/product/lf353-n}
 \end{thebibliography}
 
 \end{document}
