@@ -165,9 +165,9 @@ Caso & & $R_1$ & $R_2$ & $I_Z$ & $P_{R1}$ & $P_{R2}$ & $P_Z$ & $P_{V1}$ \\
  & & ($\Omega$) & ($\Omega$) & (mA) & (mW) & (mW) & (mW) & (mW) \\
 \midrule
 No com. & $R_1=0$ & 0 & 90.909 & 110 & 0 & 1100 & 902 & 2002 \\
-No com. & $R_{1\max}$ & 19909 & 90.909 & 0.5 & 4.977 & 0.023 & 4.1 & 9.1 \\
+No com. & $R_{1\max}$ & \num{19909} & 90.909 & 0.5 & 4.977 & 0.023 & 4.1 & 9.1 \\
 Com. & $R_1=0$ & 0 & 100 & 100 & 0 & 1000 & 820 & 1820 \\
-Com. & $R_{1\max}$ & 19900 & 100 & 0.5 & 4.975 & 0.025 & 4.1 & 9.1 \\
+Com. & $R_{1\max}$ & \num{19900} & 100 & 0.5 & 4.975 & 0.025 & 4.1 & 9.1 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -249,7 +249,7 @@ Los circuitos se simulan en LTspice con los modelos de la librería indicada en 
 \label{fig:esq}
 \end{figure}
 
-\begin{figure*}[!t]
+\begin{figure*}[htbp]
 \centering
 \subimg{0.31\textwidth}{fig3_noinversor_lm348.png}{(a) No inversor}\hfill
 \subimg{0.31\textwidth}{fig4_inversor_lm348.png}{(b) Inversor}\hfill
@@ -272,9 +272,9 @@ La Tabla~\ref{tab:extremos} compara la corriente extrema calculada con la simula
 Caso & $R_1$ ($\Omega$) & $R_2$ ($\Omega$) & Calc. (mA) & Sim. (mA) & Error \\
 \midrule
 No comercial & 0     & 90.909 & 110 & 109.4001 & $-0.5\%$ \\
-No comercial & 19909 & 90.909 & 0.5 & 0.50683634 & $+1.4\%$ \\
+No comercial & \num{19909} & 90.909 & 0.5 & 0.50683634 & $+1.4\%$ \\
 Comercial    & 0     & 100    & 100 & 99.511199 & $-0.5\%$ \\
-Comercial    & 19900 & 100    & 0.5 & 0.50683407 & $+1.4\%$ \\
+Comercial    & \num{19900} & 100    & 0.5 & 0.50683407 & $+1.4\%$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -306,11 +306,12 @@ En ruptura el diodo se aproxima por $V_D=V_{Z0}+r_zI_D$ \cite{sedra}. En la Fig.
 La regulación funciona cuando $V(R_2)$ se mantiene prácticamente constante aunque $V_{in}$ varíe (pendiente $\Delta V_{out}/\Delta V_{in}\approx0$) y cerca de $V_Z=\qV{5.1}$ \cite{fairchild}. En la Fig.~\ref{fig:zener_curvas}(c) ($V_{in}$ de \qV{5} a \qV{12}) es posible observar dos zonas. Para $V_{in}\lesssim\qV{8}$ el Zener no conduce y el circuito es un divisor, $V_{out}=V_{in}R_2/(R_1+R_2)=0.6\,V_{in}$ (pendiente 0.6; \qV{3} con $V_{in}=\qV{5}$ y \qV{4.2} con \qV{7}). Alrededor de \qV{8}--\qV{9} hay un codo (teórico: $V_{1,\min}=\qV{8.6}$) y para $V_{in}\gtrsim\qV{9}$ la pendiente cae a menos de 0.03: entre \qV{9} y \qV{12} la entrada aumenta \qV{3} ($\SI{33}{\percent}$) y la salida solo pasa de \qV{4.987} a \qV{5.075} ($\approx\SI{1.7}{\percent}$).
 
 \subsection{Regulación de carga (1N4733A, $V_{in}=\qV{12}$)}
-En la Fig.~\ref{fig:zener_curvas}(d) es posible observar que para $R_2\lesssim\qohm{80}$ la carga pide casi toda la corriente de $R_1$, el Zener se queda sin corriente y el circuito es un divisor (\qV{4.00} con $R_2=\qohm{50}$; pendiente $\approx\SI{84}{\milli\volt\per\ohm}$ cerca de \qohm{20}). El límite teórico, $R_{2,\min}=V_Z/(I_{R1}-I_{ZK})=\qV{5.1}/\qmA{68}=\qohm{75}$, es coherente con el observado ($\approx\qohm{80}$). Para $R_2\gtrsim\qohm{80}$ el Zener fija la salida cerca de \qV{5.1}: entre \qohm{100} y \qkohm{1} sube solo de \qV{5.040} a \qV{5.112} por la resistencia dinámica del diodo. Tomando $R_2=\qkohm{1}$ como sin carga,
+En la Fig.~\ref{fig:zener_curvas}(d) es posible observar que para $R_2\lesssim\qohm{80}$ la carga pide casi toda la corriente de $R_1$, el Zener se queda sin corriente y el circuito es un divisor (\qV{4.00} con $R_2=\qohm{50}$; pendiente $\approx\SI{84}{\milli\volt\per\ohm}$ cerca de \qohm{20}). El límite teórico, $R_{2,\min}=V_Z/(I_{R1}-I_{ZK})=\qV{5.1}/\qmA{68}=\qohm{75}$, es coherente con el observado ($\approx\qohm{80}$). Para $R_2\gtrsim\qohm{80}$ el Zener fija la salida cerca de \qV{5.1}: entre \qohm{100} y \qkohm{1} sube solo de \qV{5.040} a \qV{5.112} por la resistencia dinámica del diodo. Tomando $R_2=\qkohm{1}$ como sin carga, la regulación de carga se calcula con
 \begin{equation}
-\mathrm{Reg.\,de\,carga}=\frac{V_{\mathrm{sin\,carga}}-V_{\mathrm{plena\,carga}}}{V_{\mathrm{plena\,carga}}}\times100\%
+\mathrm{Reg.\,de\,carga}=\frac{V_{\mathrm{sin\,carga}}-V_{\mathrm{plena\,carga}}}{V_{\mathrm{plena\,carga}}}\times100\%,
+\label{eq:regcarga}
 \end{equation}
-da $\SI{2.4}{\percent}$ ($R_2=\qohm{80}$, $\approx\qmA{62}$), $\SI{1.4}{\percent}$ (\qohm{100}) y $\SI{0.7}{\percent}$ (\qohm{150}). Las limitaciones del diseño son: la corriente de carga máxima ($\approx\qmA{62}$) queda limitada por $R_1$ ($I_{R1}\approx\qmA{69}$); la eficiencia es baja porque la corriente total es casi constante aun con poca carga; y la regulación no es ideal ($\approx\qV{0.07}$ de variación entre \qohm{100} y \qkohm{1}, además de depender de $V_{in}$ y de la temperatura).
+y \eqref{eq:regcarga} da $\SI{2.4}{\percent}$ ($R_2=\qohm{80}$, $\approx\qmA{62}$), $\SI{1.4}{\percent}$ (\qohm{100}) y $\SI{0.7}{\percent}$ (\qohm{150}). Las limitaciones del diseño son: la corriente de carga máxima ($\approx\qmA{62}$) queda limitada por $R_1$ ($I_{R1}\approx\qmA{69}$); la eficiencia es baja porque la corriente total es casi constante aun con poca carga; y la regulación no es ideal ($\approx\qV{0.07}$ de variación entre \qohm{100} y \qkohm{1}, además de depender de $V_{in}$ y de la temperatura).
 
 \subsection{Tolerancia asignada a cada Zener}
 Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es $-\SI{0.07}{\percent}$ para el 1N4738A (\qV{8.194} vs. \qV{8.2}) y $-\SI{0.5}{\percent}$ para el 1N4733A (\qV{5.075} a $I_Z\approx\qmA{35}$ vs. \qV{5.1}). No se usa \qV{4.99} (curva de línea) porque corresponde a $I_Z\approx\qmA{5}$, en el codo. Como el simulador emplea un único modelo nominal, esto no fija la tolerancia del diodo real, pero es coherente con la tolerancia de $\pm\SI{5}{\percent}$ de la serie <<A>> \cite{fairchild}.
@@ -328,7 +329,9 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es $-\SI{0
 \label{fig:op1}
 \end{figure}
 
-\textbf{No inversor con alimentación reducida.} En la Fig.~\ref{fig:op9v} es posible observar que, con alimentación de \qV{9} insuficiente para la excursión de \qV{12}, la salida se recorta a una tensión menor que la de alimentación: con $\pm\qV{9}$ en $\pm\qV{6}$ (LM348, \qV{3} bajo el riel) y en $\pm\qV{7.5}$ (LF353, \qV{1.5} bajo el riel), valores iguales a los $\Delta V_{sat}$ usados en el diseño. Con alimentación simple la entrada ($\pm\qV{3}$ alrededor de \qV{0}) queda fuera del rango de modo común y la salida deja de seguir el semiciclo negativo: se mantiene entre $\approx\qV{3}$ y \qV{6} (LM348) y entre $\approx\qV{1.6}$ y \qV{7.5} con estrechos pulsos hacia abajo (LF353).
+\textbf{Cortocircuito virtual.} Con realimentación negativa y ganancia de lazo abierto muy alta, la salida se ajusta hasta que $v_-\approx v_+$, de modo que en el inversor el nodo inversor queda en una tierra virtual y la ganancia depende solo de $R_2/R_1$ \cite{sedra}. Es lo que permite diseñar cada configuración con la ecuación~\eqref{eq:ganancias}. En la Fig.~\ref{fig:op1} el corto se evidencia porque la ganancia obtenida con el LM348 y con el LF353 es la misma y coincide con \eqref{eq:ganancias}: sin él, $v_o/v_i$ dependería de la ganancia de lazo abierto de cada integrado. La evidencia directa es graficar $v_-$ junto a $v_+$, que difieren solo en $|v_o|/A_{OL}$, despreciable frente a $v_o$.
+
+\textbf{No inversor con alimentación reducida.} En la Fig.~\ref{fig:op9v} es posible observar que, con alimentación de \qV{9} insuficiente para la excursión de \qV{12}, la salida se recorta a una tensión menor que la de alimentación: con $\pm\qV{9}$ en $\pm\qV{6}$ (LM348, \qV{3} bajo el riel) y en $\pm\qV{7.5}$ (LF353, \qV{1.5} bajo el riel), valores iguales a los $\Delta V_{sat}$ usados en el diseño. Esa holgura se debe a que los transistores de la etapa de salida necesitan una caída mínima respecto a cada riel para conducir, por lo que la excursión máxima es $V_{CC}-\Delta V_{sat}$. Con alimentación simple la entrada ($\pm\qV{3}$ alrededor de \qV{0}) queda fuera del rango de modo común y la salida deja de seguir el semiciclo negativo: se mantiene entre $\approx\qV{3}$ y \qV{6} (LM348) y entre $\approx\qV{1.6}$ y \qV{7.5} con estrechos pulsos hacia abajo (LF353).
 
 \begin{figure}[htbp]
 \centering
@@ -342,17 +345,15 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es $-\SI{0
 
 \textbf{Sumador inversor.} En la Fig.~\ref{fig:op_sum_bw}(a)--(b) es posible observar que la salida es $\pm\qV{2.5}$, como se calculó, pero con el LM348 los flancos son rampas de $\approx\SI{10}{\micro\second}$ y la onda se distorsiona, mientras que con el LF353 es prácticamente cuadrada. La causa es el \emph{slew rate}: \SI{0.5}{\volt\per\micro\second} frente a \SI{13}{\volt\per\micro\second} \cite{lm348,lf353}, equivalentes a $\approx\SI{10}{\micro\second}$ y $\approx\SI{0.4}{\micro\second}$ para una transición de \qV{5} (Sec.~\ref{sec:sumador}).
 
-\textbf{Ancho de banda.} En la Fig.~\ref{fig:op_sum_bw}(c)--(d) (inversor, $|G|=2$) es posible observar una ganancia plana de \SI{6}{\decibel} que cae al llegar a la frecuencia de corte. Con \eqref{eq:bw} se esperan $\approx\SI{333}{\kilo\hertz}$ (LM348) y $\approx\SI{1.33}{\mega\hertz}$ (LF353). En la curva del LM348 la ganancia cae \SI{3}{\decibel} en $\approx\SI{0.74}{\mega\hertz}$, mayor que lo estimado con el $GBW$ típico, lo que puede deberse al modelo SPICE. La frecuencia de la señal también limita la amplitud sin distorsión: una senoidal de amplitud $A$ y frecuencia $f$ exige $SR\ge2\pi fA$, es decir \SI{75}{\milli\volt\per\micro\second} a \SI{1}{\kilo\hertz} y \qV{12} (por debajo de \SI{0.5}{\volt\per\micro\second}); con \qV{12} de pico el LM348 distorsionaría por \emph{slew rate} desde $\approx\SI{6.6}{\kilo\hertz}$.
-% TODO (confirmado): 'simulación BW LF3535.png' es la MISMA curva del LM348, solo cambia el título.
-% Volver a simular con el modelo LF353 y leer su f_{-3dB} (esperado ~1.33 MHz) antes de entregar.
+\textbf{Ancho de banda.} En la Fig.~\ref{fig:op_sum_bw}(c)--(d) (inversor, $|G|=2$) es posible observar una ganancia plana de \SI{6}{\decibel} ($20\log_{10}2=\SI{6.02}{\decibel}$) que cae al llegar a la frecuencia de corte, medida \SI{3}{\decibel} por debajo de esa ganancia plana. Con \eqref{eq:bw} se esperan $\approx\SI{333}{\kilo\hertz}$ (LM348) y $\approx\SI{1.33}{\mega\hertz}$ (LF353). La simulación da $\approx\SI{570}{\kilo\hertz}$ para el LM348 ($+\SI{71}{\percent}$) y $\approx\SI{1.32}{\mega\hertz}$ para el LF353 ($-\SI{1.2}{\percent}$). El LF353 concuerda con su $GBW$ de \SI{4}{\mega\hertz}; en cambio, el $GBW$ implícito del LM348 ($\approx\SI{570}{\kilo\hertz}\cdot3\approx\SI{1.7}{\mega\hertz}$) supera el típico de \SI{1}{\mega\hertz}, lo que puede deberse al modelo SPICE. La frecuencia de la señal también limita la amplitud sin distorsión: una senoidal de amplitud $A$ y frecuencia $f$ exige $SR\ge2\pi fA$, es decir \SI{75}{\milli\volt\per\micro\second} a \SI{1}{\kilo\hertz} y \qV{12} (por debajo de \SI{0.5}{\volt\per\micro\second}); con \qV{12} de pico el LM348 distorsionaría por \emph{slew rate} desde $\approx\SI{6.6}{\kilo\hertz}$.
 
 \begin{figure}[htbp]
 \centering
 \subimg{0.49\columnwidth}{simulacion sumador inversor lm348.png}{(a) Sumador, LM348}\hfill
 \subimg{0.49\columnwidth}{simulacion sumador inversor lf353.png}{(b) Sumador, LF353}\\[3pt]
-\subimg{0.49\columnwidth}{simulación BW LM348.png}{(c) Ancho de banda, LM348}\hfill
-\subimg{0.49\columnwidth}{simulación BW LF3535.png}{(d) Ancho de banda, LF353}
-\caption{Sumador inversor (forma de onda) y respuesta en frecuencia del inversor.}
+\subimg{0.49\columnwidth}{bw_inversor_lm348.png}{(c) Ancho de banda, LM348}\hfill
+\subimg{0.49\columnwidth}{bw_inversor_lf353.png}{(d) Ancho de banda, LF353}
+\caption{Sumador inversor (forma de onda) y respuesta en frecuencia del inversor (ganancia y fase; la línea discontinua marca la frecuencia de corte esperada con \eqref{eq:bw}).}
 \label{fig:op_sum_bw}
 \end{figure}
 
@@ -367,7 +368,7 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es $-\SI{0
 En la Tabla~\ref{tab:zener1} es posible observar que pasar de $R_2=\qohm{90.909}$ a \qohm{100} reduce $I_Z$ y las potencias en $R_2$, $P_Z$ y $P_{V1}$ en $\approx9\%$, lo que da margen frente a $I_{ZM}$, mientras que con $R_{1\max}$ la suma de \qkohm{20} conserva $I_Z=\qmA{0.5}$. En la Tabla~\ref{tab:zener2} se aprecia que el regulador solo mantiene $V_o=\qV{5.1}$ para $V_1\ge\qV{8.6}$ (con $V_1=\qV{5}$ el Zener está cortado y $V_o=\qV{3}$), y que a mayor $V_1$ aumenta $I_Z$ mientras $I_L$ es constante, por lo que el Zener absorbe el exceso y la eficiencia es baja. Para los operacionales, la Tabla~\ref{tab:opamps_diseno} muestra que $V_{CC}$ se fija por la excursión de salida y no por la disipación.
 
 \subsection{Resultados simulados}
-La Tabla~\ref{tab:teo_sim} compara los valores teóricos con los simulados (los extremos de $I_Z$ están en la Tabla~\ref{tab:extremos}). Los errores de $V_o$ en el regulador no superan $\approx\SI{2.2}{\percent}$ y se explican por la resistencia dinámica del Zener y por el codo suave del modelo (con $I_Z\approx\qmA{5}$ a $V_1=\qV{9}$ la salida aún no llega a \qV{5.1}). En los operacionales, las ganancias y las amplitudes coinciden con las ideales, el recorte con alimentación reducida ocurre a $V_{CC}-\Delta V_{sat}$ y el LM348 se ve limitado por su slew rate. La única discrepancia importante es el ancho de banda del LM348, que el modelo SPICE ubica por encima de lo estimado con el $GBW$ típico.
+La Tabla~\ref{tab:teo_sim} compara los valores teóricos con los simulados (los extremos de $I_Z$ están en la Tabla~\ref{tab:extremos}). Los errores de $V_o$ en el regulador no superan $\approx\SI{2.2}{\percent}$ y se explican por la resistencia dinámica del Zener y por el codo suave del modelo (con $I_Z\approx\qmA{5}$ a $V_1=\qV{9}$ la salida aún no llega a \qV{5.1}). En los operacionales, las ganancias y las amplitudes coinciden con las ideales, el recorte con alimentación reducida ocurre a $V_{CC}-\Delta V_{sat}$ y el LM348 se ve limitado por su slew rate. La única discrepancia importante es el ancho de banda del LM348, que el modelo SPICE ubica $\approx\SI{71}{\percent}$ por encima de lo estimado con el $GBW$ típico, mientras que el del LF353 coincide con lo esperado.
 
 \begin{table}[!t]
 \centering
@@ -389,7 +390,8 @@ No inversor, $v_{o,p}$ & \qV{12} & \qV{12} & $0\%$ \\
 Sumador, $v_{o,p}$ & \qV{2.5} & \qV{2.5} & $0\%$ \\
 Transición del sumador, LM348 & \SI{10}{\micro\second} & $\approx\SI{10}{\micro\second}$ & --- \\
 Recorte a $\pm\qV{9}$ (LM348 / LF353) & \qV{6} / \qV{7.5} & \qV{6} / \qV{7.5} & $0\%$ \\
-$f_{-3\,\mathrm{dB}}$ inversor, LM348 & \SI{333}{\kilo\hertz} & $\approx\SI{740}{\kilo\hertz}$ & $+120\%$ \\
+$f_{-3\,\mathrm{dB}}$ inversor, LM348 & \SI{333}{\kilo\hertz} & $\approx\SI{570}{\kilo\hertz}$ & $+71\%$ \\
+$f_{-3\,\mathrm{dB}}$ inversor, LF353 & \SI{1.33}{\mega\hertz} & $\approx\SI{1.32}{\mega\hertz}$ & $-1.2\%$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -401,7 +403,7 @@ $f_{-3\,\mathrm{dB}}$ inversor, LM348 & \SI{333}{\kilo\hertz} & $\approx\SI{740}
 \item En el circuito de caracterización, $R_2=\qohm{90.909}$ limita $I_Z$ a \qmA{110} y $R_{1\max}=\qohm{19909}$ lo lleva a \qmA{0.5}; la simulación coincide con el cálculo dentro de $\approx\SI{1.4}{\percent}$. Con valores comerciales ($R_2=\qohm{100}$, $R_1=\qkohm{19.9}$) $I_Z$ máxima baja $\approx9\%$ (\qmA{100} calculada, \qmA{99.5} simulada) y la mínima no cambia; $P_Z=\qW{0.82}$ exige $R_2$ de \qW{2}.
 \item En el regulador con 1N4733A, $R_1\in[\qohm{32.547},\qohm{197.143}]$ y se eligió \qohm{100}/\qW{1}, que regula desde \qV{8.6} hasta $\approx\qV{15}$. En simulación $V_o=\qV{5.075}$ a \qV{12} ($-\SI{0.5}{\percent}$), la regulación de línea es $\approx\SI{1.7}{\percent}$ entre \qV{9} y \qV{12}, la de carga es de \SIrange{0.7}{2.4}{\percent} para $R_2\ge\qohm{80}$ (límite teórico \qohm{75}) y con $V_1=\qV{5}$ no hay regulación porque $V_1<V_Z$.
 \item Los circuitos con amplificador operacional ($G_{NI}=4$, $G_{INV}=-2$, $v_o=-(v_{in1}+v_{in2})$) dieron en simulación las amplitudes de diseño (\qV{12}, \qV{1} y \qV{2.5} de pico) sin recorte con $V_{CC}=\pm\qV{16}/\pm\qV{14}$, $\pm\qV{14}$ y $\pm\qV{7}/\pm\qV{5}$ (LM348/LF353); con \qV{9} el recorte ocurre \qV{3} (LM348) y \qV{1.5} (LF353) por debajo del riel, como se supuso.
-\item El LM348, limitado por su slew rate de \SI{0.5}{\volt\per\micro\second}, distorsiona la onda cuadrada del sumador ($\approx\SI{10}{\micro\second}$ de transición), mientras que el LF353 ($\SI{13}{\volt\per\micro\second}$) no. Su ancho de banda simulado ($\approx\SI{0.74}{\mega\hertz}$) supera el estimado de \SI{333}{\kilo\hertz}, diferencia que se contrastará con el montaje.
+\item El LM348, limitado por su slew rate de \SI{0.5}{\volt\per\micro\second}, distorsiona la onda cuadrada del sumador ($\approx\SI{10}{\micro\second}$ de transición), mientras que el LF353 ($\SI{13}{\volt\per\micro\second}$) no. En el ancho de banda del inversor, el LF353 simulado ($\approx\SI{1.32}{\mega\hertz}$) coincide con el estimado ($-\SI{1.2}{\percent}$), mientras que el del LM348 ($\approx\SI{0.57}{\mega\hertz}$) supera los \SI{333}{\kilo\hertz} estimados en $\approx\SI{71}{\percent}$, diferencia que se contrastará con el montaje.
 \end{itemize}
 
 %% =====================================================================
