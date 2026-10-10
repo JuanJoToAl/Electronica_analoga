@@ -26,8 +26,20 @@
 \AtBeginDocument{\decimalpoint}
 \addto\captionsspanish{\renewcommand{\figurename}{Fig.}\renewcommand{\tablename}{Tabla}}
 
-% Rutas tolerantes a la ubicación del archivo fuente
-\graphicspath{{practica_3/}{practica_3/Figuras/}{practica_3/figuras/}{practica_3/imagenes/}{./}{./Figuras/}{./figuras/}{./imagenes/}}
+% Rutas tolerantes a la ubicación del archivo fuente y nueva estructura
+\graphicspath{
+    {./}
+    {./Figuras/}
+    {./Figuras/Esquematicos/}
+    {./Figuras/LM324/}
+    {./Figuras/LM348/}
+    {./Figuras/LF353/}
+    {practica_3/}
+    {practica_3/Figuras/}
+    {practica_3/Figuras/Esquematicos/}
+    {practica_3/Figuras/LM348/}
+    {practica_3/Figuras/LF353/}
+}
 
 % --- Atajos de unidades (siempre con unidades) ---
 \newcommand{\qV}[1]{\SI{#1}{\volt}}
@@ -274,18 +286,18 @@ Con $R_1=R_2=R_f=R=\qkohm{10}$, la ecuación~\eqref{eq:ganancias} da $v_o=-(v_{i
 \centering
 \begin{minipage}{0.31\textwidth}
   \centering
-  \includegraphics[width=0.95\textwidth]{fig3_noinversor_lm324.png}
-  \centerline{\footnotesize (a) No inversor, LM324}
+  \includegraphics[width=0.95\textwidth]{fig3_noinversor_lm348.png}
+  \centerline{\footnotesize (a) No inversor, LM348}
 \end{minipage}\hfill
 \begin{minipage}{0.31\textwidth}
   \centering
-  \includegraphics[width=0.95\textwidth]{fig4_inversor_lm324.png}
-  \centerline{\footnotesize (b) Inversor, LM324}
+  \includegraphics[width=0.95\textwidth]{fig4_inversor_lm348.png}
+  \centerline{\footnotesize (b) Inversor, LM348}
 \end{minipage}\hfill
 \begin{minipage}{0.31\textwidth}
   \centering
-  \includegraphics[width=0.95\textwidth]{fig5_sumador_lm324.png}
-  \centerline{\footnotesize (c) Sumador, LM324}
+  \includegraphics[width=0.95\textwidth]{fig5_sumador_lm348.png}
+  \centerline{\footnotesize (c) Sumador, LM348}
 \end{minipage}\\[1ex]
 \begin{minipage}{0.31\textwidth}
   \centering
@@ -538,7 +550,7 @@ los modelos LM348 y LF353.
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.55\columnwidth]{simulacion inversor lf353.png}
+\includegraphics[width=0.55\columnwidth]{sim_inversor_lf353.png}
 \caption{Simulación del amplificador inversor con el modelo LF353.}
 \label{fig:sim_inversor_lf353}
 \end{figure}
