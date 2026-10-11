@@ -1,13 +1,15 @@
 import os
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import pandas as pd
 
 # ==============================================================================
 # CONFIGURACIÓN DE USUARIO (Modifica estas variables)
 # ==============================================================================
-FILE_PATH = "LF353.txt"  # Ruta o nombre del archivo exportado de LTspice
+FILE_PATH = "sujetador recortador actualizado.txt"  # Nombre del archivo exportado de LTspice
 PLOT_TITLE = (
-    "Respuesta Temporal - OpAmp LF353 (LTspice)"  # Título personalizable
+    "Sujetador 5VDC recortador"  # Título personalizable
 )
 # ==============================================================================
 
@@ -59,4 +61,6 @@ def graficar_ltspice(ruta_archivo: str, titulo: str):
 
 
 if __name__ == "__main__":
-  graficar_ltspice(FILE_PATH, PLOT_TITLE)
+  ruta_script = Path(__file__).resolve().parent
+  ruta_archivo = ruta_script / FILE_PATH
+  graficar_ltspice(str(ruta_archivo), PLOT_TITLE)
