@@ -8,14 +8,14 @@ import matplotlib.pyplot as plt
 # CONFIGURACIÓN DE USUARIO (Modifica estas variables)
 # ==============================================================================
 # Archivo principal (ej. Salida del rectificador o sujetador)
-ARCHIVO_1 = "salida sujetador recortador.csv"
+ARCHIVO_1 = "salida sujetador 3VDC.csv"
 
 # Segundo archivo opcional (ej. Señal de entrada). Déjalo como None si no lo usas.
 # ARCHIVO_2 = "entrada_transformador.csv"
-ARCHIVO_2 = None#"entrada sujetador -4VDC.csv"
+ARCHIVO_2 = "entrada sujetador 12vpp.csv"
 
 # Título de la gráfica
-TITULO_GRAFICA = "Respuesta Experimental - Sujetador Recortador"
+TITULO_GRAFICA = "Respuesta Experimental - Sujetador 3VDC"
 ALINEAR_SENALES = True
 # ==============================================================================
 

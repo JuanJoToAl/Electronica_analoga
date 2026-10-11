@@ -47,7 +47,7 @@
 \urlstyle{same}
 \Urlmuskip=0mu plus 1mu\relax  % evita cajas subllenas en las URL
 
-\graphicspath{{figuras/}{./}}   % busca en ./figuras/ y en la raiz
+\graphicspath{{figuras/}{montajes/}{graficas experimentales/}{./}}   % busca en ./figuras/, ./montajes/, ./graficas experimentales/ y la raiz
 
 % Los flotantes son muchos: con los valores por defecto LaTeX crea
 % paginas casi vacias de solo figuras. Con esto se empaquetan junto al
@@ -586,13 +586,96 @@ Fig.~\ref{fig:ft_sujetador_recortador}.
 
 %=====================================================================
 \section{Montaje}
+A continuación se presentan los montajes de medición de los circuitos anteriormente diseñados:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{rectificador de onda completa.jpg}
+  \caption{Montaje experimental del rectificador de onda completa.}
+  \label{fig:montaje_rectificador}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{multiplicador de tensión.jpg}
+  \caption{Montaje experimental del multiplicador de tensión.}
+  \label{fig:montaje_multiplicador}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[angle=-180,width=0.95\columnwidth]{sujetador 3VDC.jpg}
+  \caption{Montaje experimental del circuito sujetador con offset de $+3$ V.}
+  \label{fig:montaje_sujetador_3v}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{sujetador -4vdc.jpg}
+  \caption{Montaje experimental del circuito sujetador con offset de $-4$ V.}
+  \label{fig:montaje_sujetador_menos4v}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[angle=-90,width=0.75\columnwidth]{sujetador recortador.jpg}
+  \caption{Montaje experimental del circuito sujetador-recortador.}
+  \label{fig:montaje_sujetador_recortador}
+\end{figure}
+
 %=====================================================================
 % Numeral 5: se completa el dia de la practica con los ocho circuitos
 % en protoboard y las imagenes de entrada/salida del osciloscopio.
-Esta sección se desarrollará durante la sesión de laboratorio.
 
 %=====================================================================
 \section{Análisis de resultados}
+
+Como consecuencia de realizar los distintos experimentos, se obtuvieron los siguientes resultados:
+
+\subsection{Gráficas experimentales}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{rectificador de onda completa.png}
+  \caption{Respuesta experimental del rectificador de onda completa.}
+  \label{fig:experimental_rectificador}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{salida fuente DC.png}
+  \caption{Salida experimental de la fuente DC con rectificador de onda completa.}
+  \label{fig:experimental_fuente_dc}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{duplicador de tensión.png}
+  \caption{Respuesta experimental del duplicador de tensión.}
+  \label{fig:experimental_duplicador}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{entrada vs salida sujetador 3v.png}
+  \caption{Entrada y salida experimentales del sujetador con offset de $+3$ V.}
+  \label{fig:experimental_sujetador_3v}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{entrada vs salida sujetador -4VDC.png}
+  \caption{Entrada y salida experimentales del sujetador con offset de $-4$ V.}
+  \label{fig:experimental_sujetador_menos4v}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{salida sujetador recortador.png}
+  \caption{Salida experimental del sujetador-recortador.}
+  \label{fig:experimental_sujetador_recortador}
+\end{figure}
+
 %=====================================================================
 % [INTEGRANTE 1]
 El error entre cálculo y simulación (Tabla~\ref{tab:rect}) proviene del
