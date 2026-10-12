@@ -15,9 +15,9 @@
 %     Todos los numeros salen de los .txt de LTspice del 20/09.
 %   - Se anade la transferencia de la Fig. 2 (ya no es opcional).
 %   - Se corrige el error "Incompatible glue units": lo causaba la
-%     secuencia \,\% dentro de $...$ (babel-spanish ya inserta solo el
-%     espacio fino antes del %, asi que el \, sobraba). Ahora se
-%     escribe 3\% y no 3\,\%.
+%     secuencia \% dentro de $...$ (babel-spanish ya inserta solo el
+%     espacio antes del %, asi que no hace falta \,. Ahora se
+%     escribe 3\% sin \, antes del porcentaje.
 %
 %  OJO: hay que SUBIR A OVERLEAF el archivo CircuitoRectificadorFig2.png
 %  (no esta en el proyecto; por eso el log decia "File not found").
@@ -640,6 +640,19 @@ Como consecuencia de realizar los distintos experimentos, se obtuvieron los sigu
   \caption{Respuesta experimental del rectificador de onda completa.}
   \label{fig:experimental_rectificador}
 \end{figure}
+Las dos fuentes están en contrafase, con período de
+\(1\,\text{ms}\) y picos positivos de \(\approx 5.33\,\text{V}\),
+un \(4\%\) por debajo del diseño. La salida tiene período de
+\(0.5\,\text{ms}\) (onda completa) y pico de \(4.82\,\text{V}\),
+lo que implica una caída efectiva de \(\approx 0.5\,\text{V}\)
+por diodo, coherente con la simulación. El error del pico
+(\(-3.8\%\) frente a los \(5.01\,\text{V}\) simulados) se debe
+sobre todo a la menor amplitud de la fuente. Se obtiene
+\(V_{\mathrm{DC}} = 2.87\,\text{V}\) y
+\(V_{\mathrm{rms}} = 3.28\,\text{V}\), es decir,
+\(V_{\mathrm{rms}}/V_{\mathrm{DC}} = 1.14\), igual que en la
+simulación. Entre picos hay una zona muerta de
+\(\approx 44\,\mu\text{s}\).
 
 \begin{figure}[H]
   \centering
@@ -648,33 +661,86 @@ Como consecuencia de realizar los distintos experimentos, se obtuvieron los sigu
   \label{fig:experimental_fuente_dc}
 \end{figure}
 
+Con el filtro, la salida se mantiene en
+$V_{\mathrm{DC}} = 4.65\,\mathrm{V}$ con un rizado de
+$54\,\mathrm{mV}$ pico--pico ($r \approx 0.33\%$),
+muy por debajo del $3\%$ exigido. La componente
+dominante del rizado es de $2\,\mathrm{kHz}$, como
+corresponde a onda completa. La DC quedó $\approx 7\%$
+por debajo de los $5.00\,\mathrm{V}$ simulados, porque
+el pico de la fuente ($\approx 5.33\,\mathrm{V}$) es
+menor que el de diseño y el diodo cae $\approx 0.65\,\mathrm{V}$.
+El rizado es $\approx 30\%$ mayor que el simulado,
+por la tolerancia y la ESR de los electrolíticos.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.95\columnwidth]{duplicador de tensión.png}
   \caption{Respuesta experimental del duplicador de tensión.}
   \label{fig:experimental_duplicador}
 \end{figure}
-
+La salida del duplicador es una tensión negativa casi
+constante de $-4.73\,\mathrm{V}$, con rizado de
+$73\,\mathrm{mV}$ pico--pico y componente dominante en
+$100\,\mathrm{Hz}$: un pulso de recarga por ciclo, propio
+de un doblador de media onda. Queda $\approx 7\%$ por
+debajo de los $-5.12\,\mathrm{V}$ simulados, con una
+ganancia efectiva de $1.60$ ($1.71$ en simulación) y
+$\approx 0.60\,\mathrm{V}$ de caída por diodo. La
+diferencia se atribuye a la carga de la sonda, las fugas
+de los electrolíticos y la tolerancia de los condensadores.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.95\columnwidth]{entrada vs salida sujetador 3v.png}
   \caption{Entrada y salida experimentales del sujetador con offset de $+3$ V.}
   \label{fig:experimental_sujetador_3v}
 \end{figure}
-
+La salida es una réplica desplazada de la entrada, sin
+deformación: ambas tienen $\approx 11.9\,\mathrm{V_{pp}}$
+y la salida oscila entre $-2.72\,\mathrm{V}$ y
+$+9.21\,\mathrm{V}$. El desplazamiento medido es de
+$3.20\,\mathrm{V}$, constante, frente a los
+$3.00\,\mathrm{V}$ de diseño ($+6.7\%$). Esto implica
+una caída real del diodo de $\approx 0.60\,\mathrm{V}$,
+no los $0.84\,\mathrm{V}$ del cálculo, porque con
+$R = 220\,\mathrm{k\Omega}$ la corriente es de
+microamperios. Para obtener exactamente $+3\,\mathrm{V}$
+habría que usar una fuente de $\approx 2.36\,\mathrm{V}$.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.95\columnwidth]{entrada vs salida sujetador -4VDC.png}
   \caption{Entrada y salida experimentales del sujetador con offset de $-4$ V.}
   \label{fig:experimental_sujetador_menos4v}
 \end{figure}
-
+La salida es una copia de la entrada ($\pm 5.8\,\mathrm{V}$,
+$1.2\,\mathrm{kHz}$) desplazada hacia abajo, pero aparece
+aplanada en $+2.12\,\mathrm{V}$ y $-8.52\,\mathrm{V}$.
+La meseta superior coincide con el diseño y la simulación
+($\approx 2\,\mathrm{V}$), fijada por la rama de
+$1.3\,\mathrm{V}$ más la caída del diodo. Desde ese
+máximo el desplazamiento es de $\approx -3.7\,\mathrm{V}$,
+frente a los $-4\,\mathrm{V}$ de diseño, por la menor
+amplitud de entrada. La meseta inferior no aparece en la
+simulación ($\approx -10\,\mathrm{V}$) y debe verificarse
+contra la escala o el \textit{offset} del osciloscopio.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.95\columnwidth]{salida sujetador recortador.png}
   \caption{Salida experimental del sujetador-recortador.}
   \label{fig:experimental_sujetador_recortador}
 \end{figure}
+
+La salida queda recortada en $9.06\,\mathrm{V}$ arriba y
+$0.96\,\mathrm{V}$ abajo, a $\leq 0.12\,\mathrm{V}$ de los
+niveles de $9\,\mathrm{V}$ y $1\,\mathrm{V}$ del diseño y
+de la simulación. Esto confirma que la señal de
+$14\,\mathrm{V_{pp}}$ se desplazó hacia $+5\,\mathrm{V}$
+y se recortó con las ramas de $8.3\,\mathrm{V}$ y
+$1.7\,\mathrm{V}$, con una media de $5.02\,\mathrm{V}$.
+Las esquinas redondeadas se deben a la característica
+exponencial del diodo real. Fuera del recorte la señal
+se transmite sin distorsión, con una pendiente cercana
+a la de la entrada.
 
 %=====================================================================
 % [INTEGRANTE 1]
@@ -701,9 +767,21 @@ permanente solo circula corriente de fuga.
 %=====================================================================
 % [INTEGRANTE 1 - se integran con las de los demas]
 \begin{itemize}
-\item Compensar $V_\gamma$ en la amplitud de la fuente ($V_m=5.56$~V)
-dio 5.01~V de salida, $0.2\%$ por debajo de lo pedido: el modelo de
-caída constante sirve para diseñar y no solo para analizar.
+
+\item El montaje se desvió entre 4 y 7\% de la simulación (p.\,ej., $4.65\,\mathrm{V}$ frente a $5.00\,\mathrm{V}$ en la fuente DC), 
+por la menor amplitud real de la fuente y por pérdidas que la simulación ideal no incluye.
+
+\item La caída real del diodo dependió de la corriente ($\approx 0.5$ a $0.8\,\mathrm{V}$): 
+por eso el sujetador de $+3\,\mathrm{V}$ desplazó $3.2\,\mathrm{V}$ y no $3.0\,\mathrm{V}$.
+
+\item El sujetador de $+3\,\mathrm{V}$ y el sujetador-recortador cumplieron su función sin distorsión, 
+con niveles a $\leq 0.12\,\mathrm{V}$ de lo diseñado.
+
+\item El sujetador de $-4\,\mathrm{V}$ mostró una meseta inferior en $-8.52\,\mathrm{V}$ ausente en la simulación; 
+debe verificarse contra la configuración del osciloscopio.
+
+\item Compensar $V_\gamma$ en la amplitud de la fuente ($V_m = 5.56\,\mathrm{V}$) dio $5.01\,\mathrm{V}$ 
+ de salida, $0.2\%$ por debajo de lo pedido: el modelo de caída constante sirve para diseñar y no solo para analizar.  
 \item El \textit{tap} central se prefirió por conservar tierra común
 fuente--carga, lo que evita la medida diferencial en el osciloscopio de
 doble traza.

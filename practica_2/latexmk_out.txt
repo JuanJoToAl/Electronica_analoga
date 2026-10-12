@@ -1,0 +1,154 @@
+Initial Win CP for (console input, console output, system): (CP850, CP65001, CP1252)
+I changed them all to CP1252
+Rc files read (in order):
+  NONE
+Latexmk: This is Latexmk, John Collins, 9 March 2026. Version 4.88.
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  main.tex
+Category 'changed_user':
+  main.tex
+
+------------
+Run number 1 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -recorder  "main.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(main.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-08-10>
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/ieeetran\IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+-- This is a 10 point document.
+) (C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\t1ptm.fd))
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def)
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts.cfg)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/es\babel
+-spanish.tex)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/babel-spanish\spanish.l
+df))
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty))
+ (C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+))) (C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\l3backend-pdft
+ex.def) (main.aux)
+-- Lines per column: 56 (exact).
+
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg)) (C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+Underfull \vbox (badness 5548) has occurred while \output is active [1{C:/Users
+/anjes/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/anjes/AppData
+/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}] [2 <./CircuitoRectificador
+Fig1.png> <./TransferenciaRectificadorFig1.pdf> <./CircuitoRectificadorFig2.png
+> <./SalidaRectificadorFig2.pdf> <./TransferenciaRectificadorFig2.pdf> <./circu
+ito_sujetador_3V.png>]
+Underfull \hbox (badness 1661) in paragraph at lines 342--347
+\T1/ptm/m/n/10 Dado que, co-mo se in-di-co an-te-rior-men-te el vol-ta-je de
+
+Underfull \hbox (badness 10000) in paragraph at lines 342--347
+
+[3 <./sujetador_7Vp_-4V.png> <./sujetador_7Vp_-4v_parametrizado.png>] [4 <./suj
+etador_recortador_5V_1V_9V.png> <./CircuitoMultiplicadorFig6.png> <./SalidaMult
+iplicadorFig6.pdf> <./TransferenciaMultiplicadorFig6.pdf>]
+Underfull \vbox (badness 4303) has occurred while \output is active [5 <./grafi
+ca_Vo circuito sujetador fig 3.png> <./funcion_de_transferencia_Vo_vs_Vin fig 3
+.png> <./grafica_Vo_offset_-4V fig 4.png> <./funcion_de_transferencia_offset_-4
+V_Vo_vs_Vin.png> <./grafica_Vo_sujetador_recortador.png> <./funcion_de_transfer
+encia_sujetador_recortador_Vo_vs_Vin.png>]
+Underfull \vbox (badness 2790) has occurred while \output is active
+Underfull \vbox (badness 10000) has occurred while \output is active [6 <./mont
+ajes/rectificador de onda completa.jpg> <./montajes/multiplicador de tensión.j
+pg> <./montajes/sujetador 3VDC.jpg> <./montajes/sujetador -4vdc.jpg> <./montaje
+s/sujetador recortador.jpg>]
+Underfull \vbox (badness 10000) has occurred while \output is active [7 <./graf
+icas experimentales/rectificador de onda completa.png> <./graficas experimental
+es/salida fuente DC.png> <./graficas experimentales/duplicador de tensión.png>
+ <./graficas experimentales/entrada vs salida sujetador 3v.png> <./graficas exp
+erimentales/entrada vs salida sujetador -4VDC.png>]
+(C:\Users\anjes\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd)
+Underfull \hbox (badness 10000) in paragraph at lines 817--821
+[]\T1/ptm/m/n/8 Vishay Ge-ne-ral Se-mi-con-duc-tor, ``1N4001 th-ru 1N4007:
+
+Underfull \hbox (badness 10000) in paragraph at lines 817--821
+\T1/ptm/m/n/8 Ge-ne-ral pur-po-se plas-tic rec-ti-fier,'' ho-ja de da-tos, 2023
+. [En
+
+Underfull \hbox (badness 10000) in paragraph at lines 817--821
+\T1/ptm/m/n/8 l�-nea]. Dis-po-ni-ble: $https : / / assets . rs-[]online . com /
+ v1698967669 /
+
+** Conference Paper **
+Before submitting the final camera ready copy, remember to:
+
+ 1. Manually equalize the lengths of two columns on the last page
+ of your paper;
+
+ 2. Ensure that any PostScript and/or PDF output post-processing
+ uses only Type 1 fonts and that every step in the generation
+ process uses the appropriate paper size.
+
+[8 <./graficas experimentales/salida sujetador recortador.png>] (main.aux) )
+(see the transcript file for additional information)<C:/Users/anjes/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/anjes/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users
+/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
+C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmm
+i7.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmmi8.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmr10.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmr6.pfb><C:/Users/anjes/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/anjes/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/anjes/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/anjes/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/anjes/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/
+anjes/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/
+anjes/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/
+anjes/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (8 pages, 15501397 bytes).
+Transcript written on main.log.
+Latexmk: Getting log file 'main.log'
+Latexmk: Examining 'main.fls'
+Latexmk: Examining 'main.log'
+Latexmk: Log file says output to 'main.pdf'
+Latexmk: All targets (main.pdf) are up-to-date
+
+Reverting Windows console CPs to (in,out) = (850,65001)
