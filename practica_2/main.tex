@@ -1,38 +1,10 @@
 %=====================================================================
-%  PREINFORME PRACTICA 2 - CONFIGURACIONES CON DIODOS
+%  INFORME PRACTICA 2 - CONFIGURACIONES CON DIODOS (version corregida)
 %  Electronica Analoga I - 2026-II - Universidad Nacional de Colombia
+%  Compilar con pdfLaTeX (dos pasadas para resolver \ref y \cite).
 %
-%  PARTE DEL INTEGRANTE 1. Ocupa ~1.5-1.8 paginas de IEEEtran a doble
-%  columna (titulo y referencias incluidos). Las subsecciones de los
-%  Integrantes 2 y 3 quedan comentadas EN EL ORDEN DE LA GUIA para que
-%  cada uno pegue su texto sin romper la numeracion de figuras, tablas
-%  y ecuaciones. Entre los tres NO deben superar 7 paginas sin contar
-%  referencias.
-%
-%  CAMBIOS DE ESTA VERSION:
-%   - La Fig. 2 ya es ONDA COMPLETA con tap central + filtro (antes se
-%     habia simulado media onda): n=2 en (2), C=10 uF, RL=5 kOhm.
-%     Todos los numeros salen de los .txt de LTspice del 20/09.
-%   - Se anade la transferencia de la Fig. 2 (ya no es opcional).
-%   - Se corrige el error "Incompatible glue units": lo causaba la
-%     secuencia \% dentro de $...$ (babel-spanish ya inserta solo el
-%     espacio antes del %, asi que no hace falta \,. Ahora se
-%     escribe 3\% sin \, antes del porcentaje.
-%
-%  OJO: hay que SUBIR A OVERLEAF el archivo CircuitoRectificadorFig2.png
-%  (no esta en el proyecto; por eso el log decia "File not found").
-%
-%  Compilar con pdfLaTeX. Figuras usadas (en ./figuras/ o en la raiz;
-%  se referencian SIN extension, asi que cualquiera puede cambiarse
-%  por una captura .png con el mismo nombre):
-%     CircuitoRectificadorFig1        (esquematico, tap central)
-%     TransferenciaRectificadorFig1   (Vo vs Vi)
-%     CircuitoRectificadorFig2        (esquematico, tap central + C)
-%     SalidaRectificadorFig2          (Vi y Vo en el tiempo, 1 kHz)
-%     TransferenciaRectificadorFig2   (Vo vs Vi)
-%     CircuitoMultiplicadorFig6       (esquematico, SINE(0 3 100))
-%     SalidaMultiplicadorFig6         (Vo en el tiempo)
-%     TransferenciaMultiplicadorFig6  (Vo vs Vi)
+%  Las partes del Integrante 3 que aun no estan escritas quedan
+%  comentadas con % al final de la seccion Simulacion.
 %=====================================================================
 \documentclass[conference,10pt]{IEEEtran}
 
@@ -41,17 +13,21 @@
 \usepackage[spanish,es-nodecimaldot,es-noquoting]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
-\usepackage{float}
 \usepackage{booktabs}
 \usepackage{url}
 \urlstyle{same}
-\Urlmuskip=0mu plus 1mu\relax  % evita cajas subllenas en las URL
+\Urlmuskip=0mu plus 1mu\relax
 
-\graphicspath{{figuras/}{montajes/}{graficas experimentales/}{./}}   % busca en ./figuras/, ./montajes/, ./graficas experimentales/ y la raiz
+% Las tablas deben llamarse "Tabla" (babel-spanish las llama "Cuadro")
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
 
-% Los flotantes son muchos: con los valores por defecto LaTeX crea
-% paginas casi vacias de solo figuras. Con esto se empaquetan junto al
-% texto y el documento baja ~media pagina.
+\graphicspath{{figuras/}{montajes/}{graficas experimentales/}{./}}
+
+% Estilo unico de simbolos (V_DC, V_RMS, V_gamma)
+\newcommand{\VDC}{V_{\mathrm{DC}}}
+\newcommand{\VRMS}{V_{\mathrm{RMS}}}
+\newcommand{\Vg}{V_\gamma}
+
 \setcounter{topnumber}{3}\setcounter{bottomnumber}{2}
 \setcounter{totalnumber}{4}
 \renewcommand{\topfraction}{0.95}\renewcommand{\bottomfraction}{0.9}
@@ -76,39 +52,46 @@ sujetadores y multiplicadores de tensión}
 \maketitle
 
 %=====================================================================
-\section{Introducción y justificación}
-% [INTEGRANTE 1]
+\section{Introducción/Justificación}
 %=====================================================================
 El diodo $pn$ impone una dirección preferente a la corriente; de esa
 propiedad se derivan las cuatro familias de circuitos de esta práctica:
 rectificadores, limitadores, sujetadores y multiplicadores de
-tensión~\cite{sedra}. El objetivo es diseñar, simular y montar ocho
-circuitos basados en la conmutación del diodo, contrastando el modelo
-de caída constante $V_\gamma$ con la simulación. Su alcance excede lo
-académico: la NASA rectificó 55~V CA de un sistema Brayton a 1100~V CC
-para alimentar el propulsor iónico NSTAR con 91\% de
-eficiencia~\cite{nasep}, y la celda de la Fig.~\ref{fig:mult}(a) es la
-base de los multiplicadores Cockcroft--Walton de las fuentes de rayos X
-y de alta tensión sin transformador~\cite{park}.
+tensión~\cite{sedra}. Su análisis combina la ley de Ohm y la ley de
+tensiones de Kirchhoff con el modelo de caída constante $\Vg$: el diodo
+conduce con $v_D=\Vg$ si la corriente es positiva y es un circuito
+abierto en caso contrario~\cite{sedra}.
+
+\textbf{Objetivo general:} estudiar el funcionamiento de circuitos
+limitadores, multiplicadores, sujetadores y rectificadores.
+\textbf{Objetivos específicos:} (i) identificar aplicaciones de los
+diodos; (ii) estudiar el comportamiento de multiplicadores,
+sujetadores y limitadores; (iii) analizar el rectificador de onda
+completa. Para ello se diseñan, simulan y montan ocho circuitos,
+contrastando el modelo de caída constante con la simulación y con la
+medición.
+
+\textbf{Justificación.} Estas configuraciones están presentes en toda
+fuente de alimentación. En una prueba de la NASA con un sistema Brayton
+de 1.6~kW, la salida de $\approx55$~V CA se rectificó y convirtió a
+1\,100~V CC para alimentar un propulsor iónico NSTAR, con 91\% de
+eficiencia~\cite{nasep}. Los multiplicadores Cockcroft--Walton, como la
+celda de la Fig.~\ref{fig:mult}(a), generan alta tensión CC a partir de
+baja tensión CA en aplicaciones médicas e industriales como la
+imagenología de rayos X y la aceleración de partículas~\cite{park}.
 
 %=====================================================================
 \section{Cálculos}
 %=====================================================================
 \subsection{Rectificadores: configuración, aplicaciones y limitaciones}
-% [INTEGRANTE 1]
 En media onda un diodo bloquea un semiciclo; en onda completa con
 \textit{tap} central dos diodos conducen alternadamente sobre un
 secundario dividido; en puente, cuatro diodos encaminan ambos
 semiciclos con igual polaridad~\cite{sedra}. Se usan en fuentes CA/CC,
-cargadores y detectores de envolvente. Los limitan la caída
-$V_\gamma$, la tensión inversa de pico (PIV), el rizado, la zona muerta
-$|v_S|<V_\gamma$ y el tiempo de recuperación inversa~\cite{vishay}
+cargadores y detectores de envolvente. Su desempeño está limitado por
+la caída $\Vg$, la tensión inversa de pico (PIV), el rizado, la zona
+muerta $|v_S|<\Vg$ y el tiempo de recuperación inversa~\cite{vishay}
 (Tabla~\ref{tab:comp}).
-\subsection{Sujetadores: configuración, aplicaciones y limitaciones}
-Los circuitos limitadores utilizan diodos para restringir una parte de la señal de entrada e impedir que el voltaje de salida supere un nivel establecido. Según la configuración y orientación del diodo, pueden limitar la parte positiva, la negativa o ambas, y pueden incluir una fuente de polarización para fijar el nivel de recorte. 
-Su funcionamiento depende de los estados del diodo: en polarización directa conduce y modifica la señal, y en inversa prácticamente no conduce. En diodos de silicio se considera una caída de aproximadamente 0,7 V, por lo que el nivel de limitación depende de esta caída y de la polarización usada.
-Se aplican en la protección contra sobretensiones, el acondicionamiento de señales y la modificación de formas de onda. Su limitación principal es que el diodo real no es ideal: la caída de voltaje varía con la corriente y la temperatura, por lo que el nivel de recorte puede diferir del valor teórico.
-
 
 \begin{table}[htbp]
 \caption{Topologías rectificadoras ($V_m$: amplitud de entrada;
@@ -121,52 +104,81 @@ $f$: frecuencia de entrada). $^1$Nodo común entre fuente y carga.}
 \toprule
 \textbf{Parámetro} & \textbf{Media onda} & \textbf{Tap central} & \textbf{Puente}\\
 \midrule
-$V_{o,\text{pico}}$      & $V_m-V_\gamma$   & $V_m-V_\gamma$      & $V_m-2V_\gamma$\\
-$V_{DC}$ (ideal)         & $V_m/\pi$        & $2V_m/\pi$          & $2V_m/\pi$\\
-$f_o$ / PIV              & $f$ / $V_m$      & $2f$ / $2V_m{-}V_\gamma$ & $2f$ / $V_m{-}V_\gamma$\\
-N.\ diodos / tierra$^1$  & 1 / Sí           & 2 / Sí              & 4 / No\\
+$V_{o,\text{pico}}$      & $V_m-\Vg$   & $V_m-\Vg$      & $V_m-2\Vg$\\
+$\VDC$ (ideal)           & $V_m/\pi$   & $2V_m/\pi$     & $2V_m/\pi$\\
+$f_o$ / PIV              & $f$ / $V_m$ & $2f$ / $2V_m{-}\Vg$ & $2f$ / $V_m{-}\Vg$\\
+N.\ diodos / tierra$^1$  & 1 / Sí      & 2 / Sí         & 4 / No\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Diseño de los rectificadores de las Figuras 1 y 2}
-% [INTEGRANTE 1 - Fig. 1: carga resistiva; Fig. 2: filtro capacitivo]
+\subsection{Limitadores y sujetadores: configuración, aplicaciones y
+limitaciones}
+Los \textbf{limitadores} utilizan diodos para restringir una parte de
+la señal de entrada e impedir que la tensión de salida supere un nivel
+establecido. Según la orientación del diodo, pueden limitar la parte
+positiva, la negativa o ambas, y pueden incluir una fuente de
+polarización que fija el nivel de recorte. El diodo conduce en directa
+y prácticamente no conduce en inversa; en silicio se considera una
+caída de $\approx0.7$~V, de modo que el nivel de recorte depende de
+esa caída y de la polarización usada. Se aplican en protección contra
+sobretensiones y en acondicionamiento de señales.
+
+Un \textbf{sujetador} desplaza el nivel DC de la señal sin alterar su
+forma: un condensador en serie con la entrada se carga a través de un
+diodo hasta una tensión $V_C$ y, como $\tau=RC\gg T$ (criterio
+$RC\ge10T$), la conserva durante el ciclo, de modo que actúa como una
+fuente DC en serie con la señal~\cite{boylestad}. Si el diodo se
+conecta a una fuente de polarización $\VDC$, el condensador se carga a
+\begin{equation}
+V_C=V_p-\VDC-V_D,
+\label{eq:vc}
+\end{equation}
+donde $V_p$ es el pico de la entrada y $V_D$ la caída del diodo; la
+ec.~\eqref{eq:vc} fija la fuente de polarización necesaria para cada
+desplazamiento. Se usan para restaurar el nivel DC de una señal
+acoplada en AC. Su limitación principal es que el diodo real no es
+ideal: la caída varía con la corriente y la temperatura, por lo que
+el nivel de recorte o de desplazamiento puede diferir del valor teórico.
+
+\subsection{Diseño de los rectificadores de las Figuras 1 y 2 de la guía}
 Para la salida de $\approx5$~V con período de entrada de 1~ms
 (Fig.~1 de la guía) se elige \textit{tap} central
 (Tabla~\ref{tab:comp}: conserva tierra común) con dos fuentes
-desfasadas $180^\circ$. De $v_O=|v_S|-V_\gamma$,
-
+desfasadas $180^\circ$. De $v_O=|v_S|-\Vg$, con $\Vg\approx0.55$~V a
+$\approx5$~mA (modelo SPICE del 1N4004),
 \begin{equation}
-V_m=V_{o,\text{pico}}+V_\gamma=5+0.55=5.56\ \text{V}.
+V_m=V_{o,\text{pico}}+\Vg\approx5.01+0.55=5.56\ \text{V},
 \label{eq:vm}
 \end{equation}
-
-Con $R_L=1$~k$\Omega$, $I_{L,\text{pico}}=5.01$~mA y
-$\text{PIV}=2V_m-V_\gamma=10.6$~V, muy por debajo de los límites del
+que es la amplitud de cada fuente para obtener una salida de pico
+$\approx5$~V. Con $R_L=1$~k$\Omega$, $I_{L,\text{pico}}=5.01$~mA y
+$\text{PIV}=2V_m-\Vg=10.6$~V, muy por debajo de los límites del
 1N4004 ($I_{F(AV)}=1$~A, $V_{RRM}=400$~V)~\cite{vishay}
 (Fig.~\ref{fig:rect}).
 
-El segundo circuito exige $V_{DC}\approx5$~V con $r\le3\%$ a 1~kHz.
+El segundo circuito exige $\VDC\approx5$~V con $r\le3\%$ a 1~kHz.
 Se conserva el \textit{tap} central y se añade $C$ en paralelo con
 $R_L$: el condensador se carga hasta el pico y se descarga sobre la
 carga entre picos; si $\tau=R_LC\gg T$ la descarga se linealiza
 y~\cite{sedra}
-
 \begin{equation}
-V_{r(pp)}\approx\frac{V_{DC}}{n\,f\,R_L\,C},
+V_{r(pp)}\approx\frac{\VDC}{n\,f\,R_L\,C},
 \qquad
-r=\frac{V_{r(pp)}}{2\sqrt{3}\,V_{DC}},
+r=\frac{V_{r(pp)}}{2\sqrt{3}\,\VDC},
 \label{eq:rizado}
 \end{equation}
+donde $V_{r(pp)}$ es el rizado pico a pico, $r$ el factor de rizado
+(valor rms de una onda triangular dividido por $\VDC$), y $n=1$ en
+media onda o $n=2$ en onda completa. Con $n=2$, $\VDC=5$~V,
+$R_L=5$~k$\Omega$ y $f=1$~kHz se requiere $C\ge0.96\ \mu$F
+---o $C\ge3.3\ \mu$F si el 3\% se impone sobre el rizado
+pico--pico---; se adopta el valor comercial $C=10\ \mu$F, con el que
+$\tau=50\,T$, $V_{r(pp)}=50$~mV y $r=0.29\%$. La tensión inversa sube a
+$V_m+\VDC=10.6$~V, dentro de los límites del 1N4004. La
+Fig.~\ref{fig:filtro} muestra el circuito resultante.
 
-con $n=1$ en media onda y $n=2$ en onda completa. Con $n=2$,
-$V_{DC}=5$~V, $R_L=5$~k$\Omega$ y $f=1$~kHz se requiere
-$C\ge0.96\ \mu$F ---o $C\ge3.3\ \mu$F si el $3\%$ se impone sobre el
-rizado pico--pico---; se adopta el valor comercial $C=10\ \mu$F, con el
-que $\tau=50\,T$, $V_{r(pp)}=50$~mV y $r=0.29\%$. La tensión inversa
-sube a $V_m+V_{DC}=10.6$~V, dentro de los límites del 1N4004.
-
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.46\columnwidth]{CircuitoRectificadorFig1}
 \hfill
@@ -177,207 +189,179 @@ transferencia simulada.}
 \label{fig:rect}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.47\columnwidth]{CircuitoRectificadorFig2}\\[2pt]
 \includegraphics[width=0.46\columnwidth]{SalidaRectificadorFig2}
 \hfill
 \includegraphics[width=0.46\columnwidth]{TransferenciaRectificadorFig2}
 \caption{Rectificador de onda completa con filtro capacitivo
-($V_m{=}5.6$~V, $f{=}1$~kHz, $R_L{=}5$~k$\Omega$, $C{=}10\,\mu$F):
+($V_m=5.6$~V, $f=1$~kHz, $R_L=5$~k$\Omega$, $C=10\,\mu$F):
 (a) circuito, (b) entrada y salida en el tiempo y (c) transferencia
 $v_o$--$v_{S1}$.}
 \label{fig:filtro}
 \end{figure}
 
 \subsection{Medición y condiciones de la señal de entrada}
-% [INTEGRANTE 1 - las 3 preguntas de la Fig. 1]
 \textbf{Puente:} la carga queda flotante, de modo que medir a la vez
 entrada y salida con tierras comunes cortocircuita diodos; se requiere
 medida diferencial o registros por separado.
-\textbf{Entrada:} alterna y bipolar, con $V_m\gg V_\gamma$ y frecuencia
+\textbf{Entrada:} alterna y bipolar, con $V_m\gg\Vg$ y frecuencia
 baja frente al inverso del $t_{rr}$ del diodo; en \textit{tap} central,
 ambas fuentes con igual amplitud y desfase exacto de $180^\circ$.
 \textbf{Tierras:} en \textit{tap} central el punto medio es común a
 fuente y carga y una sola referencia sirve para las dos puntas; en
-puente no existe ese nodo --- de ahí la preferencia por \textit{tap}
+puente no existe ese nodo, de ahí la preferencia por \textit{tap}
 central en el montaje.
 
 \subsection{Diferencias en el valor RMS y DC respecto al rectificador
 con carga puramente resistiva}
-
-Para el rectificador de onda completa con carga puramente resistiva, el valor DC es
+Para el rectificador de onda completa con carga puramente resistiva y
+$V_p=5$~V, el valor DC es
 \begin{equation}
-V_{DC} = \frac{2V_p}{\pi} \approx 3{,}18\ \text{V}
+\VDC=\frac{2V_p}{\pi}\approx3.18\ \text{V}
+\label{eq:vdc_res}
 \end{equation}
 y el valor RMS es
 \begin{equation}
-V_{RMS} = \frac{V_p}{\sqrt{2}} \approx 3{,}54\ \text{V}.
+\VRMS=\frac{V_p}{\sqrt{2}}\approx3.54\ \text{V}.
+\label{eq:vrms_res}
 \end{equation}
-Como la salida cae a cero entre picos, existe una componente AC (rizado)
-considerable, de
+Como la salida cae a cero entre picos, existe una componente AC
+(rizado) considerable, de
 \begin{equation}
-V_{ac,rms} = \sqrt{V_{RMS}^{2} - V_{DC}^{2}} \approx 1{,}54\ \text{V},
+V_{\mathrm{ac,RMS}}=\sqrt{\VRMS^{2}-\VDC^{2}}\approx1.54\ \text{V},
+\label{eq:vac}
 \end{equation}
-lo que da un factor de rizado de aproximadamente $48\%$. Por eso el
-valor RMS es apreciablemente mayor que el DC (relación
-$V_{RMS}/V_{DC} \approx 1{,}11$).
+lo que da un factor de rizado de $\approx48\%$ y una relación
+$\VRMS/\VDC\approx1.11$: el valor RMS es apreciablemente mayor que el
+DC.
 
-Al añadir el filtro capacitivo (Figura~2), el condensador se carga hasta
-el valor pico y se descarga lentamente sobre la carga, de modo que la
-salida se mantiene cerca de $V_p$. El valor DC sube a $\approx 5$ V y el
-rizado se reduce a un máximo de $3\%$, es decir,
-$V_{r,rms} \approx 0{,}15$ V ($\approx 0{,}5$ V pico a pico). Como
+Al añadir el filtro capacitivo (Fig.~\ref{fig:filtro}), el condensador
+se carga hasta el valor pico y se descarga lentamente sobre la carga,
+de modo que la salida se mantiene cerca de $V_p$. El valor DC sube a
+$\approx5$~V y el rizado se reduce a un máximo de 3\%, es decir,
+$V_{r,\mathrm{RMS}}\approx0.15$~V ($\approx0.5$~V pico a pico). Como
 \begin{equation}
-V_{RMS}^{2} = V_{DC}^{2} + V_{r,rms}^{2},
+\VRMS^{2}=\VDC^{2}+V_{r,\mathrm{RMS}}^{2},
+\label{eq:vrms2}
 \end{equation}
-el valor RMS resulta prácticamente igual al DC ($\approx 5{,}00$ V,
-relación $\approx 1{,}00$). En consecuencia, con el filtro el valor DC
-aumenta cerca de 1,8 veces respecto al caso resistivo y el RMS se acerca
-al DC porque la componente AC se vuelve despreciable.
+el valor RMS resulta prácticamente igual al DC ($\approx5.00$~V,
+relación $\approx1.00$). En consecuencia, con el filtro el valor DC
+aumenta $\approx1.6$ veces respecto al caso resistivo
+($5.00/3.18$) y el RMS se acerca al DC porque la componente AC se
+vuelve despreciable.
 
-
-
-% ---------------------------------------------------------------
-% [INTEGRANTE 2] \subsection{Limitadores: configuración, aplicaciones y limitaciones}
-% [INTEGRANTE 2] \subsection{Diferencias de RMS y DC frente al rectificador sin filtro (Fig. 2)}
-%                 (la pregunta teorica RMS/DC de 4.1 es del Integrante 2;
-%                  aqui solo se reporta lo que arroja la simulacion.)
-% [INTEGRANTE 2] \subsection{Diseño del sujetador a +3 V (Fig. 3)}
-
-\subsection{Circuito sujetador con offset de 3 V}
-
-Para un circuito sujetador se necesita $RC \geq 10T$. Como
+\subsection{Diseño del sujetador con desplazamiento de $+3$~V
+(Fig.~3 de la guía)}
+Un sujetador requiere $RC\ge10T$. Como
 \begin{equation}
-T = \frac{1}{1{,}2\ \text{kHz}} = 0{,}83\ \text{ms},
+T=\frac{1}{1.2\ \text{kHz}}=0.83\ \text{ms},
+\label{eq:T}
 \end{equation}
-se escoge una $R = 220\ \text{k}\Omega$ y un capacitor de $100\ \mu\text{F}$,
-con lo cual
+se escoge $R=220\ \text{k}\Omega$ y $C=100\ \mu\text{F}$, con lo cual
 \begin{equation}
-RC = 22\ \text{s} > 0{,}83\ \text{ms}.
+RC=22\ \text{s}\gg10T=8.3\ \text{ms}.
+\label{eq:RC3}
 \end{equation}
+Con un diodo 1N4004 se toma $V_D=0.84$~V. Para desplazar
+$v_1=6\sin(\omega t)$~V en $+3$~V el condensador debe cargarse a
+$V_C=3$~V; de la ec.~\eqref{eq:vc},
+\begin{equation}
+\VDC=V_p-V_C-V_D=6-3-0.84=2.16\ \text{V},
+\label{eq:vdc3}
+\end{equation}
+conectada de modo que el ánodo del diodo quede a $-2.16$~V y el
+cátodo en la salida (Fig.~\ref{fig:sujetador_3V}).
 
-Como se usa un diodo 1N4004, con $V_D = 0{,}84$ V se necesita una fuente
-de $-2{,}16$ V en el ánodo del diodo para obtener un offset de $+3$ V. En
-base a esto se diseña el siguiente circuito:
-
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\columnwidth]{circuito_sujetador_3V.png}
-    \caption{Circuito sujetador con offset de $+3$ V.}
+    \caption{Circuito sujetador con desplazamiento de $+3$~V.}
     \label{fig:sujetador_3V}
 \end{figure}
-Con $V_1 = 6\sin(\omega t)$. En el ciclo positivo el diodo se bloquea,
-ya que $V_1$ intenta enviar corriente en sentido horario; el diodo se
-comporta como una impedancia idealmente infinita y la fuente de
-$2{,}16$ V queda desconectada, por tanto $V_o = V_1$.
 
-En el ciclo negativo la polaridad de $V_1$ se invierte y, hasta antes de
-$3$ V, $V_o = V_1$. Cuando $V_1 > 3$ V el diodo entra en conducción, ya
-que $V_1$ supera la fuente de $2{,}16$ V más el voltaje de umbral del
-diodo $V_D = 0{,}84$ V. Entonces el condensador se carga a:
+En el valle de $v_1$ el diodo conduce cuando la salida intenta bajar de
+$-(\VDC+V_D)=-3$~V y la fija en ese valor; el condensador queda cargado a
 \begin{equation}
-V_1 - 2{,}16 - V_D - V_C = 0
+V_C=v_o-v_{1,\min}=-3-(-6)=3\ \text{V}.
+\label{eq:vc3}
 \end{equation}
+Como $\tau\gg T$, el condensador se comporta como una fuente de 3~V en
+serie con la entrada y el diodo queda en inversa mientras $v_o>-3$~V,
+con la fuente de 2.16~V desconectada. Por tanto, al aplicar la ley de
+tensiones de Kirchhoff,
 \begin{equation}
-V_C = V_1 - 2{,}16 - 0{,}84 = V_1 - 3.
+v_o=v_1+V_C=v_1+3\ \text{V},
+\label{eq:vo3}
 \end{equation}
+de modo que $v_o$ oscila entre $-3$~V y $9$~V, como pide la guía.
 
-Como el pico de $V_1$ es $6$ V, entonces
-\begin{equation}
-V_C = 3\ \text{V}.
-\end{equation}
+\subsection{Diseño del sujetador con desplazamiento de $-4$~V
+(Fig.~4 de la guía)}
+Siguiendo la topología de sujetadores del libro de
+Boylestad~\cite{boylestad} (Fig.~\ref{fig:sujetador_divisor}), el
+condensador se carga a $V_C$ según la ec.~\eqref{eq:vc} y simula una
+fuente DC en serie con la fuente AC.
 
-El condensador se carga casi instantáneamente por la resistencia
-dinámica del diodo, la cual es pequeña. Además, la constante de tiempo
-$\tau$ de descarga del condensador es muy grande en comparación con el
-periodo; en consecuencia, el condensador se comporta como una fuente de
-$3$ V.
-
-Para que el diodo conduzca, $V_1$ debe superar la fuente de $2{,}16$ V
-y el voltaje $V_D = 0{,}84$ V. Por tanto, cuando $|V_1| < 6$ V el ánodo
-del diodo queda a un potencial menor a $3$ V y, como el cátodo está a un
-potencial mayor ($3$ V), el diodo se bloquea y la fuente de $2{,}16$ V
-queda desconectada. Por ende, al hacer la malla en sentido horario desde
-$V_1$:
-\begin{equation}
--V_1 + 3\ \text{V} - V_o = 0
-\end{equation}
-\begin{equation}
-V_o = 3\ \text{V} - V_1, \quad \text{para el ciclo negativo,}
-\end{equation}
-y
-\begin{equation}
-V_o = 3\ \text{V} + V_1, \quad \text{para el ciclo positivo.}
-\end{equation}
-
-Así, reemplazando $V_1 = 6$ V, se tiene que $V_o = -3$ V para el ciclo
-negativo y $V_o = 9$ V para el ciclo positivo.
-
-
-
-\subsubsection{Diseño del sujetador a -4 V (Fig. 4)}
-
-Siguiendo la topología indicada para los sujetadores según el libro de Boylestad \cite{boylestad}. Los sujetadores
-funcionan al cargar un condensador a un nivel de tensión deseado. El condensador tras cargarse simula una fuente de tensión DC en serie con la fuente AC 
-que genera la onda. El valor al que se carga este condensador es determinado por el voltaje en el catodo del diodo y el voltaje pico de la onda. Por lo que
-el voltaje al que se carga está modelado por la siguiente ecuación:
-$$V_c = V_p - V_{DC} - V_d$$
-
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.6\columnwidth]{sujetador_7Vp_-4V.png}
-\caption{Topología del sujetador}
+\caption{Topología del sujetador.}
 \label{fig:sujetador_divisor}
 \end{figure}
 
-Tras determinar la topología del sujetador a construir,
-luego se le aplican valores comerciales de resistencias y condensadores, 
-así como diodos que sean conocidos.
-Basandose en el hecho de que $\tau >> T$  , lo primero es reconocer que $T = 1/f = 1/ (1.2\times 10^{3} s^{-1}) = 0.83 \times 10^{-3}s $.
-Mientras que para evitar riesgos debidos a la polaridad y para facilitar la carga rápida del condensador cuando el diodo conduzca,
-se optó por un condensador de 0.47 $\mu F$, el cual se puede encontrar como condensador de poliéster, para obtener este $\tau$ alto con
-resistencias comerciales se optó por usar una resistencia de $220 k \Omega$.
-$$ \tau = RC = 0.47 \times 10^{-6}* 2.2 \times 10^{5} = 0.1 s $$
-$$ 0.1s >>> 0.00083 s$$
-Dado que, como se indico anteriormente el voltaje de desplazamiento vertical está dado por el voltaje de carga del condensador, conociendo la onda que se va a sujetar 
-y conociendo el voltaje de caida de tensión en el diodo, se puede conocer el voltaje que requiere tener la fuente entre sus terminales.
-Para este propósito se elige como diodo el 1N4148, con un $V_D = 0.7 V$ y se despeja $V_{DC}$ en la ecuación de este sujetador.
-\\
-$$V_{DC}= -V_c +V_p - V_d$$
-$$V_{DC}= -4V +6V - 0.7V$$
-$$V_{DC}= 1.3V$$
+Como $\tau\gg T$, con $T=1/f=0.83$~ms, se escoge un condensador de
+poliéster de $0.47\ \mu$F (evita riesgos de polaridad y carga rápido
+cuando el diodo conduce) y $R=220\ \text{k}\Omega$:
+\begin{equation}
+\tau=RC=0.47\times10^{-6}\cdot2.2\times10^{5}\approx0.1\ \text{s}\gg T.
+\label{eq:tau4}
+\end{equation}
+Se elige el diodo 1N4148 con $V_D=0.7$~V. Para un desplazamiento de
+$-4$~V, $V_C=4$~V y, de la ec.~\eqref{eq:vc} despejando $\VDC$,
+\begin{equation}
+\VDC=V_p-V_C-V_D=6-4-0.7=1.3\ \text{V}.
+\label{eq:vdc4}
+\end{equation}
+Con el ánodo del diodo en la salida, la señal queda limitada
+superiormente en $\VDC+V_D=2$~V, y su valle en $-10$~V. La
+Fig.~\ref{fig:sujetador_divisor_parametrizado} muestra el diseño final.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.8\columnwidth]{sujetador_7Vp_-4v_parametrizado.png}
-\caption{Diseño final del sujetador para elevar -4 VDC la señal dada}
+\caption{Diseño final del sujetador para desplazar $-4$~V la señal
+dada.}
 \label{fig:sujetador_divisor_parametrizado}
 \end{figure}
 
+\subsection{Diseño del sujetador-recortador (Fig.~5 de la guía)}
+Se mantiene la lógica de carga y descarga del condensador, por lo que
+$R$ y $C$ pueden ser los mismos. Para un desplazamiento positivo se
+invierte el diodo respecto al caso anterior~\cite{boylestad}
+(cátodo en la salida) y, con $V_p=7$~V y $V_C=5$~V, la ec.~\eqref{eq:vc}
+da
+\begin{equation}
+V_{\mathrm{DC1}}=7-5-0.7=1.3\ \text{V}.
+\label{eq:vdc_r1}
+\end{equation}
+Las tensiones de recorte siguen $V_r=\VDC\pm V_D$ según el diodo esté
+orientado hacia abajo (recorte positivo) o hacia arriba (recorte
+negativo). Para recortar en 9~V y en 1~V:
+\begin{equation}
+V_{\mathrm{DC2}}=9-0.7=8.3\ \text{V},
+\qquad
+V_{\mathrm{DC3}}=1+0.7=1.7\ \text{V}.
+\label{eq:vdc_r23}
+\end{equation}
+Estos valores solo son válidos si la caída en los diodos es de 0.7~V,
+por lo que de nuevo se elige el 1N4148 (Fig.~\ref{fig:sujetador_recortador_1}).
 
-\subsubsection{Diseño del sujetador con recorte en +-4 V (Fig. 5)}
-Por su parte, el circuito sujetador-recortador aplica una lógica similar, sobretodo respecto al sujetador, sin embargo; hay algunos cambios a tener en cuenta:
-\\
-Ya que se mantiene la lógica de descarga del condensador, y de carga del condensador, tanto la resistencia como el condensador se pueden mantener iguales, sin embargo;
-tal y como indica el libro de Boylestdad\cite{boylestad}, para causar un desplazamiento positivo en la onda, se requiere invertir
-el sentido del diodo, por lo que la ecuación respecto al voltaje del capacitor quedaría de la siguiente manera:
-$$-V_c = V_p - V_{DC} - V_d$$
-Mientras que la sección de los recortadores también emplea diodos y fuentes, cuyas tensiones de recorte están dadas por la siguiente expresión:
-$$V_r = V_{DC} \pm V_d$$
-Dependiendo de si el diodo se encuentra orientado hacía abajo para el recorte positivo, y orientado hacía arriba para el recorte negativo. Por lo que:
-$$V_{DC1} = 7V - 5V - 0.7V$$
-$$V_{DC1} = 1.3V$$
-$$V_{DC2} = 9V-0.7V$$
-$$V_{DC2} = 8.3V$$
-$$V_{DC3} = 1V+0.7V$$
-$$V_{DC3} = 1.7V$$
-
-Para que estos cálculos tengan válidez, la caida en los diodos debe ser de $0.7V$, por lo que otra vez se elige el 1N4148.
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\columnwidth]{sujetador_recortador_5V_1V_9V.png}
-\caption{Diseño del sujetador +5VDC con recorte en 1V y 9V}
+\caption{Diseño del sujetador $+5$~V con recorte en 1~V y 9~V.}
 \label{fig:sujetador_recortador_1}
 \end{figure}
 
@@ -386,7 +370,6 @@ Para que estos cálculos tengan válidez, la caida en los diodos debe ser de $0.
 %=====================================================================
 
 \subsection{Rectificadores de las Figuras 1 y 2}
-% [INTEGRANTE 1 - numeral 4.2.2]
 La Tabla~\ref{tab:rect} contrasta diseño y simulación. La
 Fig.~\ref{fig:rect}(b) es la ``V'' característica del rectificador de
 onda completa: pico de 5.01~V, período de 0.5~ms (la mitad del de
@@ -394,10 +377,10 @@ entrada) y zona muerta de $\pm0.35$~V en el origen. Con filtro
 (Fig.~\ref{fig:filtro}(b)) la salida se establece en 0.22~ms y se
 sostiene en 5.00~V con 41.7~mV de rizado pico--pico y período de
 0.499~ms: $r=0.24\%$ ($0.83\%$ medido sobre el rizado pico--pico),
-dentro del $3\%$ exigido en ambos criterios. Sin filtro
-$V_{\text{rms}}/V_{DC}=1.14$; con él ambos valores coinciden en 5.00~V
-y el factor de forma cae a 1.00, de modo que el multímetro True RMS y
-el de continua marcarían lo mismo. En la Fig.~\ref{fig:filtro}(c) la
+dentro del 3\% exigido en ambos criterios. Sin filtro
+$\VRMS/\VDC=1.14$; con él ambos valores coinciden en 5.00~V y el
+factor de forma cae a 1.00, de modo que el multímetro True RMS y el de
+continua marcarían lo mismo. En la Fig.~\ref{fig:filtro}(c) la
 transferencia deja de ser la ``V'': tras el tramo de carga inicial
 colapsa en una banda horizontal en 5.00~V, porque en régimen
 permanente la salida la fija la carga de $C$ y no el valor instantáneo
@@ -406,9 +389,9 @@ debajo de $V_m$.
 
 \begin{table}[htbp]
 \caption{Rectificadores a $f=1$~kHz: cálculo contra simulación.
-Fig.~\ref{fig:rect}: $V_m{=}5.56$~V, $R_L{=}1$~k$\Omega$.
-Fig.~\ref{fig:filtro}: $V_m{=}5.6$~V, $R_L{=}5$~k$\Omega$,
-$C{=}10\,\mu$F.}
+Fig.~\ref{fig:rect}: $V_m=5.56$~V, $R_L=1$~k$\Omega$.
+Fig.~\ref{fig:filtro}: $V_m=5.6$~V, $R_L=5$~k$\Omega$,
+$C=10\,\mu$F.}
 \label{tab:rect}
 \centering
 \footnotesize
@@ -416,38 +399,36 @@ $C{=}10\,\mu$F.}
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Parámetro} & \textbf{Ideal} & \textbf{Teórico} & \textbf{LTspice} & \textbf{Err.}\\
- & $V_\gamma{=}0$ & $V_\gamma{\neq}0$ & & [\%]\\
+ & $\Vg=0$ & $\Vg\neq0$ & & [\%]\\
 \midrule
-\multicolumn{5}{l}{\textit{Fig.~\ref{fig:rect} --- carga resistiva}}\\
+\multicolumn{5}{l}{\textit{Fig.~\ref{fig:rect}: carga resistiva}}\\
 $V_{o,\text{pico}}$ [V]  & 5.56 & 5.01 & 5.01 & 0.04\\
-$V_{DC}$ [V]             & 3.54 & 3.01 & 3.04 & 1.06\\
-$V_{\text{rms}}$ [V]     & 3.93 & 3.44 & 3.46 & 0.35\\
+$\VDC$ [V]               & 3.54 & 3.01 & 3.04 & 1.06\\
+$\VRMS$ [V]              & 3.93 & 3.44 & 3.46 & 0.35\\
 \midrule
-\multicolumn{5}{l}{\textit{Fig.~\ref{fig:filtro} --- filtro capacitivo}}\\
+\multicolumn{5}{l}{\textit{Fig.~\ref{fig:filtro}: filtro capacitivo}}\\
 $V_{o,\text{pico}}$ [V]  & 5.60 & 5.05 & 5.02 & 0.67\\
-$V_{DC}$ [V]             & 5.57 & 5.03 & 5.00 & 0.69\\
-$V_{\text{rms}}$ [V]     & 5.57 & 5.03 & 5.00 & 0.69\\
+$\VDC$ [V]               & 5.57 & 5.03 & 5.00 & 0.69\\
+$\VRMS$ [V]              & 5.57 & 5.03 & 5.00 & 0.69\\
 $V_{r(pp)}$ [mV]         & 56.0 & 50.0 & 41.7 & 16.6\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Multiplicador de tensión (Fig. 6 de la guía)}
-% [INTEGRANTE 1 - numeral 4.2.1]
+\subsection{Multiplicador de tensión (Fig.~6 de la guía)}
 Con $v(t)=3\sin(\omega t)$~V a 100~Hz, $C_1$--$D_1$ sujeta la entrada
 entre $0$ y $-2V_m$ y $D_2$--$C_2$ detecta ese pico, así que en régimen
 permanente
-
 \begin{equation}
-V_O\approx-2\left(V_m-V_\gamma\right)=-5.1\ \text{V},
+V_O\approx-2\left(V_m-\Vg\right)=-5.1\ \text{V},
 \label{eq:doblador}
 \end{equation}
-
-un \textbf{doblador de tensión de media onda con salida negativa}
-(Cockcroft--Walton elemental). La Fig.~\ref{fig:mult}(b) muestra la
-salida creciendo en escalones, uno por ciclo, hasta $-5.12$~V
-($0.5\%$ sobre \eqref{eq:doblador} y $14.6\%$ bajo el ideal
-$-2V_m$). En la Fig.~\ref{fig:mult}(c) la transferencia no es
+con $\Vg\approx0.45$~V (caída equivalente de los diodos con corriente
+de fuga), un \textbf{doblador de tensión de media onda con salida
+negativa} (Cockcroft--Walton elemental). La Fig.~\ref{fig:mult}(b)
+muestra la salida creciendo en escalones, uno por ciclo, hasta
+$-5.12$~V ($0.5\%$ sobre la ec.~\eqref{eq:doblador} y $14.6\%$ bajo el
+ideal $-2V_m$). En la Fig.~\ref{fig:mult}(c) la transferencia no es
 univaluada: los tramos colapsan en $v_o\approx-5.12$~V con
 $|v_o|>V_m$, y ese es el criterio de identificación: el
 \textit{rectificador} da una curva univaluada por el origen (la ``V''
@@ -458,344 +439,349 @@ recta de pendiente unitaria desplazada verticalmente; solo el
 \textit{multiplicador} pierde la dependencia con $v_i$ ---la fija la
 carga de los condensadores--- y supera la amplitud de entrada.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.44\columnwidth]{CircuitoMultiplicadorFig6}\\[2pt]
 \includegraphics[width=0.46\columnwidth]{SalidaMultiplicadorFig6}
 \hfill
 \includegraphics[width=0.46\columnwidth]{TransferenciaMultiplicadorFig6}
-\caption{Multiplicador ($C_1{=}C_2{=}10\,\mu$F, 1N4004,
-$v(t){=}3\sin(\omega t)$~V, 100~Hz): (a) circuito, (b) salida en el
+\caption{Multiplicador ($C_1=C_2=10\,\mu$F, 1N4004,
+$v(t)=3\sin(\omega t)$~V, 100~Hz): (a) circuito, (b) salida en el
 tiempo y (c) transferencia $v_o$--$v_i$.}
 \label{fig:mult}
 \end{figure}
 
 \subsection{Efecto de la frecuencia y de la amplitud}
-% [INTEGRANTE 1]
 La Tabla~\ref{tab:frec} reúne los dos circuitos con condensador. Pasar
 de 100~Hz a 1~kHz acorta diez veces la descarga entre picos: el rizado
 del multiplicador baja de 45.7 a 24.7~mV y su establecimiento de 47.3 a
-11.8~ms, y el del filtro pasa de 395 a 41.7~mV mientras $V_{DC}$ sube
+11.8~ms, y el del filtro pasa de 395 a 41.7~mV mientras $\VDC$ sube
 de 4.90 a 5.00~V. A 100~Hz el filtro aún cumple el criterio rms
 ($r=2.33\%$), pero agota el margen y quedaría fuera de especificación
 ($8.1\%$) medido sobre el rizado pico--pico: el diseño solo es robusto
 a la frecuencia para la que se dimensionó $C$, y bajar $f$ obliga a
-subir $C$ en la misma proporción. Con la amplitud, por~\eqref{eq:vm}
-y~\eqref{eq:doblador} la salida escala linealmente con $V_m$ pero
-desplazada en $V_\gamma$ ---o $2V_\gamma$ en el doblador---; si
-$V_m\to V_\gamma$ los diodos dejan de conducir, de ahí que la ganancia
-efectiva del doblador sea 1.71 y no 2.
+subir $C$ en la misma proporción, como indica la ec.~\eqref{eq:rizado}.
+Con la amplitud, por las ecs.~\eqref{eq:vm} y~\eqref{eq:doblador} la
+salida escala linealmente con $V_m$ pero desplazada en $\Vg$ ---o
+$2\Vg$ en el doblador---; si $V_m\to\Vg$ los diodos dejan de conducir,
+de ahí que la ganancia efectiva del doblador sea 1.71 y no 2.
 
 \begin{table}[htbp]
 \caption{Efecto de la frecuencia en los circuitos con condensador
-($r$ calculado como en~\eqref{eq:rizado}).}
+($r$ calculado como en la ec.~\eqref{eq:rizado}).}
 \label{tab:frec}
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lccccc}
 \toprule
-\textbf{Circuito} & $f$ [Hz] & $V_{DC}$ [V] & $V_{r(pp)}$ [mV] & $r$ [\%] & $t_{95\%}$ [ms]\\
+\textbf{Circuito} & $f$ [Hz] & $\VDC$ [V] & $V_{r(pp)}$ [mV] & $r$ [\%] & $t_{95\%}$ [ms]\\
 \midrule
 Multiplicador & 100  & $-5.12$ & 45.7 & 0.257 & 47.3\\
-(Fig.~\ref{fig:mult}) & 1000 & $-5.21$ & 24.7 & 0.137 & 11.8\\
+(Fig.~\ref{fig:mult}) & 1\,000 & $-5.21$ & 24.7 & 0.137 & 11.8\\
 Filtro $C$ & 100  & 4.90 & 395  & 2.33 & 1.98\\
-(Fig.~\ref{fig:filtro}) & 1000 & 5.00 & 41.7 & 0.241 & 0.22\\
+(Fig.~\ref{fig:filtro}) & 1\,000 & 5.00 & 41.7 & 0.241 & 0.22\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Señales de salida y funciones de transferencia}
+\subsection{Señales de salida y funciones de transferencia de los
+sujetadores y el sujetador-recortador}
+En la Fig.~\ref{fig:sim_sujetador_3V} es posible observar que la
+salida del sujetador de $+3$~V es la entrada desplazada hacia arriba,
+con picos de $\approx9$~V y valles de $\approx-3$~V (ec.~\eqref{eq:vo3}),
+y que su transferencia es una recta de pendiente unitaria con ordenada
+en el origen de $+3$~V, además del tramo inicial de carga del
+condensador. En la Fig.~\ref{fig:sim_sujetador_m4V} la salida del
+sujetador de $-4$~V oscila entre $\approx-10$~V y $\approx+2$~V y su
+transferencia es una recta de pendiente unitaria con ordenada
+$-4$~V. En la Fig.~\ref{fig:sim_sujetador_recortador} la salida del
+sujetador-recortador queda desplazada hacia $+5$~V y recortada en
+$\approx1$~V y $\approx9$~V, y la transferencia muestra las mesetas de
+recorte con pendiente unitaria entre ellas.
 
-\subsubsection{Circuito sujetador con offset de 3 V}
-
-Se registra la señal de salida:
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\columnwidth]{grafica_Vo circuito sujetador fig 3.png}
-    \caption{Señal de salida del circuito sujetador con offset de $+3$ V.}
-    \label{fig:salida_sujetador_3V}
-\end{figure}
-
-y se obtiene la siguiente función de transferencia:
-
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\columnwidth]{funcion_de_transferencia_Vo_vs_Vin fig 3.png}
-  \caption{Función de transferencia del circuito sujetador con offset
-           de 3\,V.}
-  \label{fig:ft_sujetador_3V}
+  \includegraphics[width=0.48\columnwidth]{grafica_Vo circuito sujetador fig 3.png}
+  \hfill
+  \includegraphics[width=0.48\columnwidth]{funcion_de_transferencia_Vo_vs_Vin fig 3.png}
+  \caption{Sujetador con desplazamiento de $+3$~V: (a) señal de salida
+  y (b) función de transferencia.}
+  \label{fig:sim_sujetador_3V}
 \end{figure}
 
-\subsection{Circuito sujetador con offset de $-4$\,V}
-
-Se registra la señal de salida, como se muestra en la
-Fig.~\ref{fig:salida_sujetador_m4V}.
-
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\columnwidth]{grafica_Vo_offset_-4V fig 4.png}
-  \caption{Señal de salida del circuito sujetador con offset de
-           $-4$\,V.}
-  \label{fig:salida_sujetador_m4V}
+  \includegraphics[width=0.48\columnwidth]{grafica_Vo_offset_-4V fig 4.png}
+  \hfill
+  \includegraphics[width=0.48\columnwidth]{funcion_de_transferencia_offset_-4V_Vo_vs_Vin.png}
+  \caption{Sujetador con desplazamiento de $-4$~V: (a) señal de salida
+  y (b) función de transferencia.}
+  \label{fig:sim_sujetador_m4V}
 \end{figure}
 
-Se obtiene la siguiente función de
-transferencia, presentada en la Fig.~\ref{fig:ft_sujetador_m4V}.
-
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\columnwidth]{funcion_de_transferencia_offset_-4V_Vo_vs_Vin.png}
-  \caption{Función de transferencia del circuito sujetador con offset
-           de $-4$\,V.}
-  \label{fig:ft_sujetador_m4V}
+  \includegraphics[width=0.48\columnwidth]{grafica_Vo_sujetador_recortador.png}
+  \hfill
+  \includegraphics[width=0.48\columnwidth]{funcion_de_transferencia_sujetador_recortador_Vo_vs_Vin.png}
+  \caption{Sujetador-recortador: (a) señal de salida y (b) función de
+  transferencia.}
+  \label{fig:sim_sujetador_recortador}
 \end{figure}
-
-\subsection{Circuito sujetador-recortador}
-
-Se registra la señal de salida, como se observa en la
-Fig.~\ref{fig:salida_sujetador_recortador}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\columnwidth]{grafica_Vo_sujetador_recortador.png}
-  \caption{Señal de salida del circuito sujetador-recortador.}
-  \label{fig:salida_sujetador_recortador}
-\end{figure}
-
-y se obtiene la siguiente función de transferencia, como se muestra en la
-Fig.~\ref{fig:ft_sujetador_recortador}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\columnwidth]{funcion_de_transferencia_sujetador_recortador_Vo_vs_Vin.png}
-  \caption{Función de transferencia del circuito sujetador-recortador.}
-  \label{fig:ft_sujetador_recortador}
-\end{figure}
-
-
-
-
 
 % ---------------------------------------------------------------
-% [INTEGRANTE 3] \subsection{Simulación de las Figuras 3, 4 y 5 y comparación con los cálculos}
-% [INTEGRANTE 3] \subsection{Diseño a partir de las funciones de transferencia (Figuras 7a y 7b)}
-% [INTEGRANTE 3] \subsection{¿Pueden conducir simultáneamente los dos diodos del limitador?}
+% [PENDIENTE, INTEGRANTE 3] (dejar comentado hasta completarlo)
+% \subsection{Comparación de las Figuras 3, 4 y 5 con los cálculos (con error relativo \%)}
+% \subsection{Diseño a partir de las funciones de transferencia (Figuras 7a y 7b)}
+% \subsection{¿Pueden conducir simultáneamente los dos diodos del limitador?}
 % ---------------------------------------------------------------
 
 %=====================================================================
 \section{Montaje}
-A continuación se presentan los montajes de medición de los circuitos anteriormente diseñados:
+%=====================================================================
+La Fig.~\ref{fig:montaje_rectificador} muestra el montaje del
+rectificador de onda completa; la Fig.~\ref{fig:montaje_fuente_dc}, el
+de la fuente DC (rectificador con filtro capacitivo); y las
+Figs.~\ref{fig:montaje_sujetador_3v}, \ref{fig:montaje_sujetador_menos4v}
+y~\ref{fig:montaje_sujetador_recortador}, los de los sujetadores de
+$+3$~V y $-4$~V y del sujetador-recortador.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\columnwidth]{rectificador de onda completa.jpg}
+  \includegraphics[width=0.75\columnwidth]{rectificador de onda completa.jpg}
   \caption{Montaje experimental del rectificador de onda completa.}
   \label{fig:montaje_rectificador}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\columnwidth]{fuente DC.jpg}
+  \includegraphics[width=0.75\columnwidth]{fuente DC.jpg}
   \caption{Montaje experimental de la fuente DC.}
   \label{fig:montaje_fuente_dc}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[angle=-180,width=0.95\columnwidth]{sujetador 3VDC.jpg}
-  \caption{Montaje experimental del circuito sujetador con offset de $+3$ V.}
+  \includegraphics[angle=-180,width=0.75\columnwidth]{sujetador 3VDC.jpg}
+  \caption{Montaje experimental del sujetador con desplazamiento de $+3$~V.}
   \label{fig:montaje_sujetador_3v}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\columnwidth]{sujetador -4vdc.jpg}
-  \caption{Montaje experimental del circuito sujetador con offset de $-4$ V.}
+  \includegraphics[width=0.75\columnwidth]{sujetador -4vdc.jpg}
+  \caption{Montaje experimental del sujetador con desplazamiento de $-4$~V.}
   \label{fig:montaje_sujetador_menos4v}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[angle=-90,width=0.75\columnwidth]{sujetador recortador.jpg}
-  \caption{Montaje experimental del circuito sujetador-recortador.}
+  \includegraphics[angle=-90,width=0.4\columnwidth]{sujetador recortador.jpg}
+  \caption{Montaje experimental del sujetador-recortador.}
   \label{fig:montaje_sujetador_recortador}
 \end{figure}
 
 %=====================================================================
-% Numeral 5: se completa el dia de la practica con los ocho circuitos
-% en protoboard y las imagenes de entrada/salida del osciloscopio.
-
-%=====================================================================
 \section{Análisis de resultados}
-
-Como consecuencia de realizar los distintos experimentos, se obtuvieron los siguientes resultados:
-
+%=====================================================================
 \subsection{Gráficas experimentales}
+En todos los casos el error relativo es
+$\varepsilon=(|\text{medido}|-|\text{ref.}|)/|\text{ref.}|$ y se
+resume en la Tabla~\ref{tab:exp}.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\columnwidth]{rectificador de onda completa.png}
+  \includegraphics[width=0.9\columnwidth]{rectificador de onda completa.png}
   \caption{Respuesta experimental del rectificador de onda completa.}
   \label{fig:experimental_rectificador}
 \end{figure}
-Las dos fuentes están en contrafase, con período de
-\(1\,\text{ms}\) y picos positivos de \(\approx 5.33\,\text{V}\),
-un \(4\%\) por debajo del diseño. La salida tiene período de
-\(0.5\,\text{ms}\) (onda completa) y pico de \(4.82\,\text{V}\),
-lo que implica una caída efectiva de \(\approx 0.5\,\text{V}\)
-por diodo, coherente con la simulación. El error del pico
-(\(-3.8\%\) frente a los \(5.01\,\text{V}\) simulados) se debe
-sobre todo a la menor amplitud de la fuente. Se obtiene
-\(V_{\mathrm{DC}} = 2.87\,\text{V}\) y
-\(V_{\mathrm{rms}} = 3.28\,\text{V}\), es decir,
-\(V_{\mathrm{rms}}/V_{\mathrm{DC}} = 1.14\), igual que en la
-simulación. Entre picos hay una zona muerta de
-\(\approx 44\,\mu\text{s}\).
+En la Fig.~\ref{fig:experimental_rectificador} es posible observar que
+las dos fuentes están en contrafase, con período de 1~ms y picos
+positivos de $\approx5.33$~V, 4.1\% por debajo de los 5.56~V de diseño.
+La salida tiene período de 0.5~ms (onda completa) y pico de 4.82~V; la
+diferencia de $\approx0.5$~V respecto al pico de la fuente es la caída
+del diodo, coherente con la simulación. El error del pico
+($-3.8\%$ frente a los 5.01~V simulados) se debe sobre todo a la
+menor amplitud de la fuente. Se obtiene $\VDC=2.87$~V ($-5.6\%$ frente
+a 3.04~V) y $\VRMS=3.28$~V ($-5.2\%$ frente a 3.46~V), es decir,
+$\VRMS/\VDC=1.14$, igual que en la simulación. Entre picos hay una zona
+muerta de $\approx44\,\mu$s.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\columnwidth]{salida fuente DC.png}
-  \caption{Salida experimental de la fuente DC con rectificador de onda completa.}
+  \includegraphics[width=0.9\columnwidth]{salida fuente DC.png}
+  \caption{Salida experimental de la fuente DC (rectificador de onda
+  completa con filtro capacitivo).}
   \label{fig:experimental_fuente_dc}
 \end{figure}
+En la Fig.~\ref{fig:experimental_fuente_dc} la salida se mantiene en
+$\VDC=4.65$~V con un rizado de 54~mV pico--pico ($r\approx0.33\%$), muy
+por debajo del 3\% exigido; la componente dominante del rizado es de
+2~kHz, como corresponde a onda completa. La DC quedó $7.0\%$ por
+debajo de los 5.00~V simulados, porque el pico de la fuente
+($\approx5.33$~V) es menor que el de diseño y el diodo cae
+$\approx0.65$~V. El rizado es $29.5\%$ mayor que el simulado
+(41.7~mV), lo que se atribuye a la tolerancia y a la ESR de los
+electrolíticos.
 
-Con el filtro, la salida se mantiene en
-$V_{\mathrm{DC}} = 4.65\,\mathrm{V}$ con un rizado de
-$54\,\mathrm{mV}$ pico--pico ($r \approx 0.33\%$),
-muy por debajo del $3\%$ exigido. La componente
-dominante del rizado es de $2\,\mathrm{kHz}$, como
-corresponde a onda completa. La DC quedó $\approx 7\%$
-por debajo de los $5.00\,\mathrm{V}$ simulados, porque
-el pico de la fuente ($\approx 5.33\,\mathrm{V}$) es
-menor que el de diseño y el diodo cae $\approx 0.65\,\mathrm{V}$.
-El rizado es $\approx 30\%$ mayor que el simulado,
-por la tolerancia y la ESR de los electrolíticos.
-
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\columnwidth]{duplicador de tensión.png}
+  \includegraphics[width=0.9\columnwidth]{duplicador de tensión.png}
   \caption{Respuesta experimental del duplicador de tensión.}
   \label{fig:experimental_duplicador}
 \end{figure}
-La salida del duplicador es una tensión negativa casi
-constante de $-4.73\,\mathrm{V}$, con rizado de
-$73\,\mathrm{mV}$ pico--pico y componente dominante en
-$100\,\mathrm{Hz}$: un pulso de recarga por ciclo, propio
-de un doblador de media onda. Queda $\approx 7\%$ por
-debajo de los $-5.12\,\mathrm{V}$ simulados, con una
-ganancia efectiva de $1.60$ ($1.71$ en simulación) y
-$\approx 0.60\,\mathrm{V}$ de caída por diodo. La
-diferencia se atribuye a la carga de la sonda, las fugas
-de los electrolíticos y la tolerancia de los condensadores.
-\begin{figure}[H]
+En la Fig.~\ref{fig:experimental_duplicador} la salida del duplicador
+es una tensión negativa casi constante de $-4.73$~V, con rizado de
+73~mV pico--pico y componente dominante en 100~Hz: un pulso de recarga
+por ciclo, propio de un doblador de media onda. Queda $7.6\%$ por
+debajo de los $-5.12$~V simulados, con una ganancia efectiva de 1.60
+(1.71 en simulación) y $\approx0.60$~V de caída por diodo. La
+diferencia se atribuye a la carga de la sonda, las fugas de los
+electrolíticos y la tolerancia de los condensadores.
+
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\columnwidth]{entrada vs salida sujetador 3v.png}
-  \caption{Entrada y salida experimentales del sujetador con offset de $+3$ V.}
+  \includegraphics[width=0.9\columnwidth]{entrada vs salida sujetador 3v.png}
+  \caption{Entrada y salida experimentales del sujetador con
+  desplazamiento de $+3$~V.}
   \label{fig:experimental_sujetador_3v}
 \end{figure}
-La salida es una réplica desplazada de la entrada, sin
-deformación: ambas tienen $\approx 11.9\,\mathrm{V_{pp}}$
-y la salida oscila entre $-2.72\,\mathrm{V}$ y
-$+9.21\,\mathrm{V}$. El desplazamiento medido es de
-$3.20\,\mathrm{V}$, constante, frente a los
-$3.00\,\mathrm{V}$ de diseño ($+6.7\%$). Esto implica
-una caída real del diodo de $\approx 0.60\,\mathrm{V}$,
-no los $0.84\,\mathrm{V}$ del cálculo, porque con
-$R = 220\,\mathrm{k\Omega}$ la corriente es de
-microamperios. Para obtener exactamente $+3\,\mathrm{V}$
-habría que usar una fuente de $\approx 2.36\,\mathrm{V}$.
-\begin{figure}[H]
+En la Fig.~\ref{fig:experimental_sujetador_3v} la salida es una réplica
+desplazada de la entrada, sin deformación: ambas tienen
+$\approx11.9\ \text{V}_{\text{pp}}$ y la salida oscila entre $-2.72$~V
+y $+9.21$~V ($+2.3\%$ en el máximo frente a 9~V). El desplazamiento
+medido es de 3.20~V, constante, frente a los 3.00~V de diseño
+($+6.7\%$). Esto implica una caída real del diodo de $\approx0.60$~V,
+no los 0.84~V del cálculo, porque con $R=220\ \text{k}\Omega$ la
+corriente es de microamperios. Para obtener exactamente $+3$~V habría
+que usar una fuente de $\approx2.36$~V.
+
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\columnwidth]{entrada vs salida sujetador -4VDC.png}
-  \caption{Entrada y salida experimentales del sujetador con offset de $-4$ V.}
+  \includegraphics[width=0.9\columnwidth]{entrada vs salida sujetador -4VDC.png}
+  \caption{Entrada y salida experimentales del sujetador con
+  desplazamiento de $-4$~V.}
   \label{fig:experimental_sujetador_menos4v}
 \end{figure}
-La salida es una copia de la entrada ($\pm 5.8\,\mathrm{V}$,
-$1.2\,\mathrm{kHz}$) desplazada hacia abajo, pero aparece
-aplanada en $+2.12\,\mathrm{V}$ y $-8.52\,\mathrm{V}$.
-La meseta superior coincide con el diseño y la simulación
-($\approx 2\,\mathrm{V}$), fijada por la rama de
-$1.3\,\mathrm{V}$ más la caída del diodo. Desde ese
-máximo el desplazamiento es de $\approx -3.7\,\mathrm{V}$,
-frente a los $-4\,\mathrm{V}$ de diseño, por la menor
-amplitud de entrada. La meseta inferior no aparece en la
-simulación ($\approx -10\,\mathrm{V}$) y debe verificarse
-contra la escala o el \textit{offset} del osciloscopio.
-\begin{figure}[H]
+En la Fig.~\ref{fig:experimental_sujetador_menos4v} la salida es una
+copia de la entrada ($\pm5.8$~V, 1.2~kHz) desplazada hacia abajo, pero
+aparece aplanada en $+2.12$~V y $-8.52$~V. La meseta superior coincide
+con el diseño y la simulación ($\approx2$~V, $+6.0\%$), fijada por la
+rama de 1.3~V más la caída del diodo. Desde ese máximo el desplazamiento
+es de $\approx-3.7$~V, frente a los $-4$~V de diseño ($-7.5\%$), por la
+menor amplitud de entrada. La meseta inferior no aparece en la
+simulación ($\approx-10$~V) y se atribuye a la escala o al
+\textit{offset} del osciloscopio, pues el circuito no tiene ningún
+elemento que limite la salida en el valle.
+
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\columnwidth]{salida sujetador recortador.png}
+  \includegraphics[width=0.9\columnwidth]{salida sujetador recortador.png}
   \caption{Salida experimental del sujetador-recortador.}
   \label{fig:experimental_sujetador_recortador}
 \end{figure}
+En la Fig.~\ref{fig:experimental_sujetador_recortador} la salida queda
+recortada en 9.06~V arriba ($+0.7\%$) y 0.96~V abajo ($-4.0\%$), a
+$\le0.06$~V de los niveles de 9~V y 1~V del diseño y de la simulación.
+Esto confirma que la señal de $14\ \text{V}_{\text{pp}}$ se desplazó
+hacia $+5$~V y se recortó con las ramas de 8.3~V y 1.7~V, con una
+media de 5.02~V. Las esquinas redondeadas se deben a la característica
+exponencial del diodo real. Fuera del recorte la señal se transmite sin
+distorsión, con una pendiente cercana a la de la entrada.
 
-La salida queda recortada en $9.06\,\mathrm{V}$ arriba y
-$0.96\,\mathrm{V}$ abajo, a $\leq 0.12\,\mathrm{V}$ de los
-niveles de $9\,\mathrm{V}$ y $1\,\mathrm{V}$ del diseño y
-de la simulación. Esto confirma que la señal de
-$14\,\mathrm{V_{pp}}$ se desplazó hacia $+5\,\mathrm{V}$
-y se recortó con las ramas de $8.3\,\mathrm{V}$ y
-$1.7\,\mathrm{V}$, con una media de $5.02\,\mathrm{V}$.
-Las esquinas redondeadas se deben a la característica
-exponencial del diodo real. Fuera del recorte la señal
-se transmite sin distorsión, con una pendiente cercana
-a la de la entrada.
+\begin{table}[htbp]
+\caption{Medición contra referencia, con
+$\varepsilon=(|\text{medido}|-|\text{ref.}|)/|\text{ref.}|$. Ref.:
+LTspice para rectificador, filtro y duplicador; valor de diseño para
+sujetadores y recortador.}
+\label{tab:exp}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Circuito / parámetro} & \textbf{Ref.} & \textbf{Medido} & $\varepsilon$ [\%]\\
+\midrule
+Rectificador: $V_{o,\text{pico}}$ [V] & 5.01 & 4.82 & $-3.8$\\
+Rectificador: $\VDC$ [V]              & 3.04 & 2.87 & $-5.6$\\
+Rectificador: $\VRMS$ [V]             & 3.46 & 3.28 & $-5.2$\\
+Fuente DC: $\VDC$ [V]                 & 5.00 & 4.65 & $-7.0$\\
+Fuente DC: $V_{r(pp)}$ [mV]           & 41.7 & 54   & $+29.5$\\
+Duplicador: $V_O$ [V]                 & $-5.12$ & $-4.73$ & $-7.6$\\
+Sujetador $+3$~V: desplaz. [V]        & 3.00 & 3.20 & $+6.7$\\
+Sujetador $+3$~V: $v_{o,\max}$ [V]    & 9.00 & 9.21 & $+2.3$\\
+Sujetador $-4$~V: $v_{o,\max}$ [V]    & 2.00 & 2.12 & $+6.0$\\
+Sujetador-recortador: nivel sup. [V]  & 9.00 & 9.06 & $+0.7$\\
+Sujetador-recortador: nivel inf. [V]  & 1.00 & 0.96 & $-4.0$\\
+\bottomrule
+\end{tabular}
+\end{table}
 
-%=====================================================================
-% [INTEGRANTE 1]
+\subsection{Error entre cálculo y simulación}
 El error entre cálculo y simulación (Tabla~\ref{tab:rect}) proviene del
-modelo del diodo: sin $V_\gamma$ se sobreestima $V_{DC}$ en 16\%, y
-con $V_\gamma$ constante el error cae al 1\%; el remanente se debe a
-que el modelo SPICE es exponencial (la caída pasa de 0.50~V a 1.5~mA a
-0.55~V a 5~mA). Con filtro los errores de $V_{DC}$ y
-$V_{\text{rms}}$ son de $0.69\%$, pero el del rizado llega al
-$16.6\%$: este es de modelo y no de dispositivo, pues~\eqref{eq:rizado}
-supone descarga lineal durante todo el semiperíodo cuando el diodo
-conduce el 17\% del tiempo y $C$ solo se descarga los 0.41~ms
-restantes ---el rizado medido es el 83\% del estimado---. El error es
-conservador, pues la ecuación sobredimensiona $C$, que es la dirección
-segura al diseñar. Lo mismo explica el multiplicador: entre los $-6$~V
-ideales y los $-5.12$~V simulados están las dos caídas directas,
-menores a las nominales (0.44~V equivalente) porque en régimen
-permanente solo circula corriente de fuga.
-% [PENDIENTE tras el laboratorio: comparar las medidas de osciloscopio y
-%  multimetro (DC y True RMS) con las Tablas II y III.]
+modelo del diodo: sin $\Vg$ se sobreestima $\VDC$ en 16\%, y con $\Vg$
+constante el error cae al 1\%; el remanente se debe a que el modelo
+SPICE es exponencial (la caída pasa de 0.50~V a 1.5~mA a 0.55~V a
+5~mA). Con filtro los errores de $\VDC$ y $\VRMS$ son de 0.69\%, pero
+el del rizado llega al 16.6\%: este es de modelo y no de dispositivo,
+pues la ec.~\eqref{eq:rizado} supone descarga lineal durante todo el
+semiperíodo cuando el diodo conduce el 17\% del tiempo y $C$ solo se
+descarga los 0.41~ms restantes ---el rizado medido es el 83\% del
+estimado---. El error es conservador, pues la ecuación sobredimensiona
+$C$, que es la dirección segura al diseñar. Lo mismo explica el
+multiplicador: entre los $-6$~V ideales y los $-5.12$~V simulados están
+las dos caídas directas, menores a las nominales (0.44~V equivalente)
+porque en régimen permanente solo circula corriente de fuga.
 
 %=====================================================================
 \section{Conclusiones}
 %=====================================================================
-% [INTEGRANTE 1 - se integran con las de los demas]
 \begin{itemize}
+\item \textbf{Modelo de caída constante.} Sin $\Vg$ el $\VDC$ del
+rectificador resistivo se sobreestima en 16\% (3.54~V frente a 3.04~V
+simulados); con $\Vg=0.55$~V el error cae al 1\% (3.01~V). Compensar
+$\Vg$ en la amplitud de la fuente ($V_m=5.56$~V) dio 5.01~V de salida,
+0.2\% por encima de lo pedido: el modelo sirve para diseñar y no solo
+para analizar.
 
-\item El montaje se desvió entre 4 y 7\% de la simulación (p.\,ej., $4.65\,\mathrm{V}$ frente a $5.00\,\mathrm{V}$ en la fuente DC), 
-por la menor amplitud real de la fuente y por pérdidas que la simulación ideal no incluye.
+\item \textbf{Rectificador de onda completa.} En el montaje la fuente
+entregó 5.33~V (4.1\% menos que el diseño) y el pico de salida fue de
+4.82~V ($-3.8\%$ frente a la simulación); el factor de forma medido
+(1.14) coincidió con el simulado.
 
-\item La caída real del diodo dependió de la corriente ($\approx 0.5$ a $0.8\,\mathrm{V}$): 
-por eso el sujetador de $+3\,\mathrm{V}$ desplazó $3.2\,\mathrm{V}$ y no $3.0\,\mathrm{V}$.
+\item \textbf{Filtro capacitivo.} Con $C=10\,\mu$F y $R_L=5$~k$\Omega$
+($\tau=50\,T$) el rizado fue de 50~mV calculados, 41.7~mV simulados y
+54~mV medidos ($r=0.33\%$), un orden de magnitud por debajo del 3\%
+exigido; la ecuación de descarga lineal sobredimensiona $C$ (16.6\% de
+error), lo que es seguro al diseñar. La DC medida fue 7.0\% menor que la
+simulada.
 
-\item El sujetador de $+3\,\mathrm{V}$ y el sujetador-recortador cumplieron su función sin distorsión, 
-con niveles a $\leq 0.12\,\mathrm{V}$ de lo diseñado.
+\item \textbf{Frecuencia.} A 100~Hz el rizado del filtro se multiplicó
+por 9.5 y el margen frente al 3\% casi desapareció: $C$ debe crecer en
+proporción inversa a $f$.
 
-\item El sujetador de $-4\,\mathrm{V}$ mostró una meseta inferior en $-8.52\,\mathrm{V}$ ausente en la simulación; 
-debe verificarse contra la configuración del osciloscopio.
+\item \textbf{Multiplicador.} Es un doblador de salida negativa
+($-5.10$~V teóricos, $-5.12$~V simulados, $-4.73$~V medidos); su
+transferencia con $|v_o|>V_m$ lo distingue del rectificador filtrado,
+cuya banda horizontal cumple $|v_o|<V_m$. La ganancia efectiva fue 1.71
+en simulación y 1.60 en el montaje, frente a 2 ideal.
 
-\item Compensar $V_\gamma$ en la amplitud de la fuente ($V_m = 5.56\,\mathrm{V}$) dio $5.01\,\mathrm{V}$ 
- de salida, $0.2\%$ por debajo de lo pedido: el modelo de caída constante sirve para diseñar y no solo para analizar.  
-\item El \textit{tap} central se prefirió por conservar tierra común
-fuente--carga, lo que evita la medida diferencial en el osciloscopio de
-doble traza.
-\item Con $C=10\,\mu$F y $R_L=5$~k$\Omega$ ($\tau=50\,T$) el rizado en
-onda completa fue de 41.7~mV sobre 5.00~V ($r=0.24\%$), un orden de
-magnitud por debajo del $3\%$ exigido, y el factor de forma pasó de
-1.14 a 1.00.
-\item La Fig.~\ref{fig:mult} es un doblador de salida negativa
-($-5.12$~V simulados frente a $-5.10$~V teóricos); su transferencia con
-$|v_o|>V_m$ lo distingue del rectificador filtrado, que también da una
-banda horizontal pero con $|v_o|<V_m$.
-\item A 100~Hz el rizado del filtro se multiplicó por 9.5 y el margen
-frente al $3\%$ casi desapareció: la frecuencia gobierna la calidad de
-la continua.
+\item \textbf{Sujetadores.} La caída real del diodo dependió de la
+corriente ($\approx0.5$ a $0.8$~V): con 1N4004 y corrientes de
+microamperios, el sujetador de $+3$~V desplazó 3.20~V (6.7\% más que el
+diseño) porque se supuso $V_D=0.84$~V y la caída real fue
+$\approx0.60$~V. En el de $-4$~V la meseta inferior en $-8.52$~V no
+aparece en la simulación y se atribuye a la configuración del
+osciloscopio.
+
+\item \textbf{Sujetador-recortador.} Los niveles medidos (9.06~V y
+0.96~V) quedaron a $\le0.06$~V de los 9~V y 1~V diseñados y simulados,
+con la señal transmitida sin distorsión entre ellos.
+
+\item \textbf{Medición.} El \textit{tap} central se prefirió por
+conservar tierra común fuente--carga, lo que evita la medida diferencial
+en el osciloscopio de doble traza.
 \end{itemize}
 
 %=====================================================================
@@ -804,25 +790,31 @@ la continua.
 \bibitem{sedra}
 A. S. Sedra, K. C. Smith, T. C. Carusone y V. Gaudet, \emph{Microelectronic
 Circuits}, 8.ª ed. Nueva York, NY, EE.UU.: Oxford University Press, 2020.
-\bibitem{boylestad}
-R. L. Boylestad y L. Nashelsky, \textit{Electrónica: teoría de circuitos y dispositivos electrónicos}, 10.\textsuperscript{a} ed. México: Pearson Educación, 2009. [En línea]. Disponible en: \url{https://hugochoque.com/documentos/Electronica_Boylestad_10a_Ed.pdf}. [Accedido: 23-sep-2026].
+
 \bibitem{nasep}
 National Academies of Sciences, Engineering, and Medicine, \emph{Space
 Nuclear Propulsion for Human Mars Exploration}. Washington, DC, EE.UU.:
 The National Academies Press, 2021. [En línea]. Disponible:
-\url{https://www.nationalacademies.org/read/25977/chapter/5}
+\url{https://www.nationalacademies.org/read/25977/chapter/5}.
+[Accedido: 12-oct-2026].
 
 \bibitem{park}
 S. Park, J. Yang y J. Rivas-Davila, ``A hybrid Cockcroft--Walton/Dickson
 multiplier for high voltage generation,'' \emph{IEEE Trans. Power
 Electron.}, 2019. [En línea]. Disponible:
-\url{https://par.nsf.gov/servlets/purl/10106507}
+\url{https://par.nsf.gov/servlets/purl/10106507}.
+[Accedido: 12-oct-2026].
 
 \bibitem{vishay}
 Vishay General Semiconductor, ``1N4001 thru 1N4007: General purpose
-plastic rectifier,'' hoja de datos, 2023. [En línea]. Disponible:
-\url{https://assets.rs-online.com/v1698967669/Datasheets/
-allowbreak{}13e6e46c15cf22864bd07ab7e9c4439c.pdf}
+plastic rectifier,'' hoja de datos, Doc. 88503. [En línea]. Disponible:
+\url{https://assets.rs-online.com/v1698967669/Datasheets/13e6e46c15cf22864bd07ab7e9c4439c.pdf}.
+[Accedido: 12-oct-2026].
+
+\bibitem{boylestad}
+R. L. Boylestad y L. Nashelsky, \emph{Electrónica: teoría de circuitos y
+dispositivos electrónicos}, 10.\textsuperscript{a} ed. México: Pearson
+Educación, 2009.
 
 \end{thebibliography}
 
