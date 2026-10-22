@@ -258,6 +258,29 @@ con $f_z=\SI{106}{Hz}$, un adelanto de $5.0^\circ$ sobre la inversión ideal.
 \end{equation}
 Como $v_{gs}=v_{in}$, la amplitud máxima de entrada es \SI{79}{mV} y la de salida de unos \SI{384}{mV}; la señal de 50 mV produce $HD_2=\SI{3.17}{\percent}$.
 
+\subsection{Diseño del amplificador de fuente degenerada}
+Para el diseño del amplificador de fuente degenerada se tienen las siguientes ecuaciones disponibles:
+la ganancia está dada por: 
+$$ A_v = -\frac{Z_{in}}{Z_{in} + R_sig}*\frac{(Z_{out} || R_L)}{\frac{1}{g_m} + R_s}$$
+Dado que $R_sig$ corresponde a la impedancia de salida del generador de señales, cuyo valor es
+$50 \Omega$, se espera que esta sea muy pequeña comparada con la impedancia de entrada,
+por lo que esta primera parte de la ecuación se considera equivalente a $1$. 
+\\
+Teniendo en cuenta que se desea una ganancia $A_v$ de 3, que la impedancia de salida de este amplificador es $Z_{out}= R_d$
+y que el símbolo menos en la ecuación simboliza la inversión de la fase, la ecuación queda parametrizada de la siguiente forma:
+\\
+$$ 3 = \frac{(R_d|| R_L)}{\frac{1}{g_m} + R_s}$$
+Para que esta ecuación relacione R_d y R_s se requiere condicionar el diseño mediante la transconductancia,
+la cual según la guía se puede obtener mediante la expresión:
+$$g_m = \sqrt{2k_n*I_d}
+Con este proposito se elige $k_n= 0.0932 A/V^2$ ya que este es el valor que se toma en el modelo SPICE descargado desde la página de \textit{onsemi}. 
+A su vez entonces se determina $I_d = 10 mA$ de manera arbitraria para obtener condiciones de saturación alcanzables en laboratorio
+sin superar las condiciones de trabajo del MOSFET.
+\\
+Por lo anterior $g_m = \sqrt{0.0932 \frac{A}{V^2} * 0.01 A} = 0.043 A/V$.
+\\
+Considerando todos estos parametros, la ecuación se puede expresar de la siguiente manera.
+
 %==================================================================
 \section{Simulación}
 %==================================================================
