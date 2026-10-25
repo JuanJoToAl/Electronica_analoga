@@ -366,18 +366,46 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es \pct{-0
 %% =====================================================================
 \section{Montaje}
 %% =====================================================================
-Los circuitos se armaron en protoboard con fuente DC, generador de señales, osciloscopio digital Rigol DHO812 y dos multímetros digitales, según las Figs.~\ref{fig:esq} y~\ref{fig:esq_op}. En el 1N4738A se midió $V_Z$ con $R_2=\qohm{100}$ y $R_1=0$, y con $R_1=\qkohm{19.9}$ (Tabla~\ref{tab:zener1}). En el regulador con 1N4733A ($R_1=\qohm{100}$, $R_L=\qohm{150}$ nominal, $V_1=5$, 9 y \qV{12}) se midieron $V_o$, la corriente del diodo $I_Z$ (multímetro en serie con el Zener) y la corriente total $I_T$ de la fuente (multímetro en serie con ella). Los amplificadores (LM348) usaron las resistencias y la alimentación de la Tabla~\ref{tab:opamps_diseno}, con senoidales de \SI{1}{\kilo\hertz} (\qVpp{1} en el inversor, \qV{3} de pico en el no inversor) y, en el sumador, dos cuadradas en fase de \SI{10}{\kilo\hertz}: $v_{in1}$ de \qVpp{2} y $v_{in2}$ de \qVpp{3}. El osciloscopio dispone de dos canales activos, por lo que registró la salida en CH1 y solo una de las entradas en CH2 (en el sumador, $v_{in2}$); en las tres mediciones se tomaron 1000 puntos por canal, y los datos se exportaron a CSV y se graficaron con Python.
+Los circuitos se armaron en protoboard con fuente DC, 
+generador de señales, osciloscopio digital Rigol DHO812 y 
+dos multímetros digitales, 
+según las Figs.~\ref{fig:esq} y~\ref{fig:esq_op}. 
+En el 1N4738A se midió $V_Z$ con $R_2=\qohm{100}$ y $R_1=0$, y 
+con $R_1=\qkohm{19.9}$ (Tabla~\ref{tab:zener1}). 
+En el regulador con 1N4733A ($R_1=\qohm{100}$, $R_L=\qohm{150}$ 
+nominal, $V_1=5$, 9 y \qV{12}) se midieron $V_o$, la corriente del 
+diodo $I_Z$ (multímetro en configuración amperímetrica en serie con el Zener) y la corriente total 
+$I_T$ de la fuente (multímetro en serie con ella en modo amperímetrico). 
+\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[width = 0.9\columnwidth]{Figuras/Montaje_Zener.jpg}
+  \caption{Montaje de un diodo zener en configuración para medir la corriente total del circuito}
+  \label{fig:Montaje_zener}
+\end{figure}
+Los amplificadores (LM348) usaron las resistencias y 
+la alimentación de la Tabla~\ref{tab:opamps_diseno}, con entradas
+sinusoidales de \SI{1}{\kilo\hertz} (\qVpp{1} en el inversor, 
+\qV{3} de pico en el no inversor) y, en el sumador, 
+dos cuadradas en fase de \SI{10}{\kilo\hertz}: $v_{in1}$ de \qVpp{2} y 
+$v_{in2}$ de \qVpp{3}. Para el montaje de este circuito se aprovechó
+que el LM348 es un integrado de 14 pines el cual contiene 4 amplificadores operacionales,
+por lo cual se montaron tanto el amplificador inversor (rojo), como el no inversor(amarillo) y el sumador inversor (azul) de manera simultanea.
+A la vez que se aprovecharon distintos cables jumper para la alimentación y las conexiones a tierra de los circuitos.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width = 0.7\columnwidth]{Figuras/Montaje_opamps.jpg}
+  \caption{Montaje de las 3 configuraciones de OpAmps sobre el LM348}
+  \label{fig:Montaje_opams}
+\end{figure}
+\\
+\\
+El osciloscopio dispone de dos canales activos, 
+por lo que registró la salida en CH1 y solo una de las entradas en 
+CH2 (en el sumador, $v_{in2}$); en las tres mediciones se tomaron 
+1000 puntos por canal. Posteriormente los datos se exportaron en formato \textit{.CSV}
+y se graficaron la librería \textit{Matplotlib} de Python.
 
-%% --- FOTOS DEL MONTAJE (descomentar cuando estén las imágenes) ---
-%% Añadir al final del párrafo de esta sección:
-%%   ``La Fig.~\ref{fig:montaje} muestra los montajes en protoboard.''
-%% \begin{figure}[htbp]
-%% \centering
-%% \subimg{0.49\columnwidth}{foto_montaje_zener.jpg}{(a) Regulador con Zener}\hfill
-%% \subimg{0.49\columnwidth}{foto_montaje_opamp.jpg}{(b) Amplificador operacional}
-%% \caption{Montaje experimental en protoboard: (a) circuito con diodo Zener; (b) circuito con LM348.}
-%% \label{fig:montaje}
-%% \end{figure}
 
 %% =====================================================================
 \section{Análisis de resultados}
