@@ -20,7 +20,7 @@
 \usepackage[hyphens]{url}
 \urlstyle{same}
 
-\sisetup{output-decimal-marker={.}, group-minimum-digits=5}
+\sisetup{output-decimal-marker={.}, group-minimum-digits=5, retain-explicit-plus}
 \providecommand{\decimalpoint}{}
 \AtBeginDocument{\decimalpoint}
 \addto\captionsspanish{\renewcommand{\figurename}{Fig.}\renewcommand{\tablename}{Tabla}}
@@ -351,7 +351,7 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es \pct{-0
 
 \textbf{Sumador inversor.} En la Fig.~\ref{fig:op_sum_bw}(a)--(b) es posible observar que la salida es $\pm\qV{2.5}$, como se calculó, pero con el LM348 los flancos son rampas de $\approx\SI{10}{\micro\second}$ y la onda se distorsiona, mientras que con el LF353 es prácticamente cuadrada. La causa es el \emph{slew rate}: \SI{0.5}{\volt\per\micro\second} frente a \SI{13}{\volt\per\micro\second} \cite{lm348,lf353}, equivalentes a $\approx\SI{10}{\micro\second}$ y $\approx\SI{0.4}{\micro\second}$ para una transición de \qV{5} (Sec.~\ref{sec:sumador}).
 
-\textbf{Ancho de banda.} En la Fig.~\ref{fig:op_sum_bw}(c)--(d) (inversor, $|G|=2$) es posible observar una ganancia plana de \SI{6}{\decibel} ($20\log_{10}2=\SI{6.02}{\decibel}$) que cae al llegar a la frecuencia de corte, medida \SI{3}{\decibel} por debajo de esa ganancia plana. Con \eqref{eq:bw} se esperan $\approx\SI{333}{\kilo\hertz}$ (LM348) y $\approx\SI{1.33}{\mega\hertz}$ (LF353). La simulación da $\approx\SI{570}{\kilo\hertz}$ para el LM348 (\pct{+71}) y $\approx\SI{1.32}{\mega\hertz}$ para el LF353 (\pct{-1.2}). El LF353 concuerda con su $GBW$ de \SI{4}{\mega\hertz}; en cambio, el $GBW$ implícito del LM348 ($\approx\SI{570}{\kilo\hertz}\cdot3\approx\SI{1.7}{\mega\hertz}$) supera el típico de \SI{1}{\mega\hertz}, lo que puede deberse al modelo SPICE. La frecuencia de la señal también limita la amplitud sin distorsión: una senoidal de amplitud $A$ y frecuencia $f$ exige $SR\ge2\pi fA$, es decir \SI{75}{\milli\volt\per\micro\second} a \SI{1}{\kilo\hertz} y \qV{12} (por debajo de \SI{0.5}{\volt\per\micro\second}); con \qV{12} de pico el LM348 distorsionaría por \emph{slew rate} desde $\approx\SI{6.6}{\kilo\hertz}$.
+\textbf{Ancho de banda.} En la Fig.~\ref{fig:op_sum_bw}(c)--(d) (inversor, $|G|=2$) es posible observar una ganancia plana de \SI{6}{\decibel} ($20\log_{10}2=\SI{6.02}{\decibel}$) que cae al llegar a la frecuencia de corte, medida \SI{3}{\decibel} por debajo de esa ganancia plana. Con \eqref{eq:bw} se esperan $\approx\SI{333}{\kilo\hertz}$ (LM348) y $\approx\SI{1.33}{\mega\hertz}$ (LF353). La simulación da $\approx\SI{302}{\kilo\hertz}$ para el LM348 (\pct{-9.3}) y $\approx\SI{1.32}{\mega\hertz}$ para el LF353 (\pct{-1.2}). Ambos concuerdan con el $GBW$ típico de su hoja de datos \cite{lm348,lf353}: el del LF353 reproduce sus \SI{4}{\mega\hertz}, y el $GBW$ implícito del LM348 ($\approx\SI{302}{\kilo\hertz}\cdot3\approx\SI{0.91}{\mega\hertz}$) queda \pct{-9.3} por debajo del típico de \SI{1}{\mega\hertz}, diferencia razonable para un valor típico y para un modelo con polos de orden superior (en $f_{-3\,\mathrm{dB}}$ la fase simulada es $\approx\SI{125}{\degree}$ y no los \SI{135}{\degree} de un sistema de un solo polo). La frecuencia de la señal también limita la amplitud sin distorsión: una senoidal de amplitud $A$ y frecuencia $f$ exige $SR\ge2\pi fA$, es decir \SI{75}{\milli\volt\per\micro\second} a \SI{1}{\kilo\hertz} y \qV{12} (por debajo de \SI{0.5}{\volt\per\micro\second}); con \qV{12} de pico el LM348 distorsionaría por \emph{slew rate} desde $\approx\SI{6.6}{\kilo\hertz}$.
 
 \begin{figure}[htbp]
 \centering
@@ -366,45 +366,25 @@ Medida cerca de $I_{ZT}$, la desviación de $V_Z$ respecto al nominal es \pct{-0
 %% =====================================================================
 \section{Montaje}
 %% =====================================================================
-Los circuitos se armaron en protoboard con fuente DC, 
-generador de señales, osciloscopio digital Rigol DHO812 y 
-dos multímetros digitales, 
-según las Figs.~\ref{fig:esq} y~\ref{fig:esq_op}. 
-En el 1N4738A se midió $V_Z$ con $R_2=\qohm{100}$ y $R_1=0$, y 
-con $R_1=\qkohm{19.9}$ (Tabla~\ref{tab:zener1}). 
-En el regulador con 1N4733A ($R_1=\qohm{100}$, $R_L=\qohm{150}$ 
-nominal, $V_1=5$, 9 y \qV{12}) se midieron $V_o$, la corriente del 
-diodo $I_Z$ (multímetro en configuración amperímetrica en serie con el Zener) y la corriente total 
-$I_T$ de la fuente (multímetro en serie con ella en modo amperímetrico). 
-\\
-\begin{figure}[h]
+Los circuitos se armaron en protoboard con fuente DC, generador de señales, osciloscopio digital Rigol DHO812 y dos multímetros digitales, según las Figs.~\ref{fig:esq} y~\ref{fig:esq_op}. En el 1N4738A se midió $V_Z$ con $R_2=\qohm{100}$ y $R_1=0$, y con $R_1=\qkohm{19.9}$ (Tabla~\ref{tab:zener1}). En el regulador con 1N4733A ($R_1=\qohm{100}$, $R_L=\qohm{150}$ nominal, $V_1=5$, 9 y \qV{12}) se midieron $V_o$, la corriente del diodo $I_Z$ (multímetro en configuración amperímetrica en serie con el Zener) y la corriente total $I_T$ de la fuente (multímetro en serie con ella en modo amperímetrico), como se aprecia en la Fig.~\ref{fig:Montaje_zener}.
+
+\begin{figure}[htbp]
   \centering
   \includegraphics[width = 0.9\columnwidth]{Figuras/Montaje_Zener.jpg}
   \caption{Montaje de un diodo zener en configuración para medir la corriente total del circuito}
   \label{fig:Montaje_zener}
 \end{figure}
-Los amplificadores (LM348) usaron las resistencias y 
-la alimentación de la Tabla~\ref{tab:opamps_diseno}, con entradas
-sinusoidales de \SI{1}{\kilo\hertz} (\qVpp{1} en el inversor, 
-\qV{3} de pico en el no inversor) y, en el sumador, 
-dos cuadradas en fase de \SI{10}{\kilo\hertz}: $v_{in1}$ de \qVpp{2} y 
-$v_{in2}$ de \qVpp{3}. Para el montaje de este circuito se aprovechó
-que el LM348 es un integrado de 14 pines el cual contiene 4 amplificadores operacionales,
-por lo cual se montaron tanto el amplificador inversor (rojo), como el no inversor(amarillo) y el sumador inversor (azul) de manera simultanea.
-A la vez que se aprovecharon distintos cables jumper para la alimentación y las conexiones a tierra de los circuitos.
-\begin{figure}[h]
+
+Los amplificadores (LM348) usaron las resistencias y la alimentación de la Tabla~\ref{tab:opamps_diseno}, con entradas sinusoidales de \SI{1}{\kilo\hertz} (\qVpp{1} en el inversor, \qV{3} de pico en el no inversor) y, en el sumador, dos cuadradas en fase de \SI{10}{\kilo\hertz}: $v_{in1}$ de \qVpp{2} y $v_{in2}$ de \qVpp{3}. Para el montaje de este circuito se aprovechó que el LM348 es un integrado de 14 pines que contiene 4 amplificadores operacionales, por lo cual se montaron el amplificador inversor (rojo), el no inversor (amarillo) y el sumador inversor (azul) de manera simultánea, como se muestra en la Fig.~\ref{fig:Montaje_opams}. Además, se usaron cables jumper para la alimentación y las conexiones a tierra de los circuitos.
+
+\begin{figure}[htbp]
   \centering
   \includegraphics[width = 0.7\columnwidth]{Figuras/Montaje_opamps.jpg}
   \caption{Montaje de las 3 configuraciones de OpAmps sobre el LM348}
   \label{fig:Montaje_opams}
 \end{figure}
-\\
-\\
-El osciloscopio dispone de dos canales activos, 
-por lo que registró la salida en CH1 y solo una de las entradas en 
-CH2 (en el sumador, $v_{in2}$); en las tres mediciones se tomaron 
-1000 puntos por canal. Posteriormente los datos se exportaron en formato \textit{.CSV}
-y se graficaron la librería \textit{Matplotlib} de Python.
+
+El osciloscopio dispone de dos canales activos, por lo que registró la salida en CH1 y solo una de las entradas en CH2 (en el sumador, $v_{in2}$); en las tres mediciones se tomaron 1000 puntos por canal. Posteriormente los datos se exportaron en formato \textit{.CSV} y se graficaron con la librería \textit{Matplotlib} de Python.
 
 
 %% =====================================================================
@@ -414,7 +394,7 @@ y se graficaron la librería \textit{Matplotlib} de Python.
 En la Tabla~\ref{tab:zener1} es posible observar que pasar de $R_2=\qohm{90.909}$ a \qohm{100} reduce $I_Z$ y las potencias en $R_2$, $P_Z$ y $P_{V1}$ en $\approx$\pct{9}, lo que da margen frente a $I_{ZM}$, mientras que con $R_{1\max}$ la suma de \qkohm{20} conserva $I_Z=\qmA{0.5}$. En la Tabla~\ref{tab:zener2} se aprecia que el regulador solo mantiene $V_o=\qV{5.1}$ para $V_1\ge\qV{8.6}$ (con $V_1=\qV{5}$ el Zener está cortado y $V_o=\qV{3}$), y que a mayor $V_1$ aumenta $I_Z$ mientras $I_L$ es constante, por lo que el Zener absorbe el exceso y la eficiencia es baja. Para los operacionales, la Tabla~\ref{tab:opamps_diseno} muestra que $V_{CC}$ se fija por la excursión de salida y no por la disipación.
 
 \subsection{Resultados simulados}
-La Tabla~\ref{tab:teo_sim} compara los valores teóricos con los simulados (los extremos de $I_Z$ están en la Tabla~\ref{tab:extremos}). Los errores de $V_o$ en el regulador no superan $\approx$\pct{2.2} y se explican por la resistencia dinámica del Zener y por el codo suave del modelo (con $I_Z\approx\qmA{5}$ a $V_1=\qV{9}$ la salida aún no llega a \qV{5.1}). En los operacionales, las ganancias y las amplitudes coinciden con las ideales, el recorte con alimentación reducida ocurre a $V_{CC}-\Delta V_{sat}$ y el LM348 se ve limitado por su slew rate. La única discrepancia importante es el ancho de banda del LM348, que el modelo SPICE ubica $\approx$\pct{71} por encima de lo estimado con el $GBW$ típico, mientras que el del LF353 coincide con lo esperado.
+La Tabla~\ref{tab:teo_sim} compara los valores teóricos con los simulados (los extremos de $I_Z$ están en la Tabla~\ref{tab:extremos}). Los errores de $V_o$ en el regulador no superan $\approx$\pct{2.2} y se explican por la resistencia dinámica del Zener y por el codo suave del modelo (con $I_Z\approx\qmA{5}$ a $V_1=\qV{9}$ la salida aún no llega a \qV{5.1}). En los operacionales, las ganancias y las amplitudes coinciden con las ideales, el recorte con alimentación reducida ocurre a $V_{CC}-\Delta V_{sat}$ y el LM348 se ve limitado por su slew rate. Los anchos de banda simulados quedan cerca de lo estimado con el $GBW$ típico: \pct{-9.3} para el LM348 ($\approx\SI{302}{\kilo\hertz}$) y \pct{-1.2} para el LF353; el LM348 es el que más se aparta, pero dentro de lo esperable para un valor típico de hoja de datos.
 
 \begin{table}[htbp]
 \centering
@@ -436,7 +416,7 @@ No inversor, $v_{o,p}$ & \qV{12} & \qV{12} & \pct{0} \\
 Sumador, $v_{o,p}$ & \qV{2.5} & \qV{2.5} & \pct{0} \\
 Transición del sumador, LM348 & \SI{10}{\micro\second} & $\approx\SI{10}{\micro\second}$ & $\approx$\pct{0} \\
 Recorte a $\pm\qV{9}$ (LM348 / LF353) & \qV{6} / \qV{7.5} & \qV{6} / \qV{7.5} & \pct{0} \\
-$f_{-3\,\mathrm{dB}}$ inversor, LM348 & \SI{333}{\kilo\hertz} & $\approx\SI{570}{\kilo\hertz}$ & \pct{+71} \\
+$f_{-3\,\mathrm{dB}}$ inversor, LM348 & \SI{333}{\kilo\hertz} & $\approx\SI{302}{\kilo\hertz}$ & \pct{-9.3} \\
 $f_{-3\,\mathrm{dB}}$ inversor, LF353 & \SI{1.33}{\mega\hertz} & $\approx\SI{1.32}{\mega\hertz}$ & \pct{-1.2} \\
 \bottomrule
 \end{tabular}
@@ -482,7 +462,7 @@ $V_1$ & $V_o$ & $I_Z$ & $I_T$ & $I_L$ & $R_{L,\mathrm{ef}}$ & $P_{R1}$ & $P_Z$ &
 \end{tabular}
 \end{table}
 
-En la Tabla~\ref{tab:exp_z3} es posible observar que, con \qohm{150}, $V_o$ se desvía \pct{-20.2} (\qV{5}) y \pct{-16.9} (\qV{9}) e $I_T$ hasta \pct{+29.8}, mientras que con \qohm{92} los errores bajan a $\le$\pct{1.7} y la $I_Z$ de \qV{12} coincide (\qmA{13.58} frente a \qmA{13.57}); la desviación proviene de la carga, no del diodo ni de la fuente. Frente a la simulación con \qohm{150} (\qV{3.00}, \qV{4.987} y \qV{5.075}), los errores de $V_o$ son \pct{-20.2}, \pct{-15.0} y \pct{+0.9}. Con esa carga el Zener solo regula si $V_1\ge V_Z+R_1(I_{ZK}+V_Z/R_L)\approx\qV{10.7}$: a \qV{9} no conduce y $V_o$ sigue al divisor, y a \qV{12} regula con $V_o=\qV{5.12}$ (\pct{+0.4} frente a \qV{5.1}, dentro de $\pm$\pct{5}). Con tres puntos no se obtiene una curva de regulación de línea experimental. Las potencias cumplen el diseño ($P_{R1}\le\qmW{468.5}$ con resistor de \qW{1}; $P_Z=\qmW{69.5}<\qW{0.908}$) y la eficiencia $P_L/P_{V1}$ fue \pct{47.9}, \pct{47.1} y \pct{34.2} (frente a \pct{20.9} calculado a \qV{12}). Con \qohm{92}, $R_1=\qohm{68}$ habría regulado desde $\approx\qV{8.9}$, por lo que la carga real debe medirse antes de fijar $R_1$.
+En la Tabla~\ref{tab:exp_z3} es posible observar que, con \qohm{150}, $V_o$ se desvía \pct{-20.2} (\qV{5}) y \pct{-16.9} (\qV{9}) e $I_T$ hasta \pct{+29.8}, mientras que con \qohm{92} los errores bajan a $\le$\pct{1.7} y la $I_Z$ de \qV{12} coincide (\qmA{13.58} frente a \qmA{13.57}); la desviación proviene de la carga, no del diodo ni de la fuente. Frente a la simulación con \qohm{150} (\qV{3.00}, \qV{4.987} y \qV{5.075}), los errores de $V_o$ son \pct{-20.2}, \pct{-15.0} y \pct{+0.9}. Con la carga efectiva de $\approx\qohm{92}$ el Zener solo regula si $V_1\ge V_Z+R_1(I_{ZK}+V_Z/R_{L,\mathrm{ef}})\approx\qV{10.7}$ (con \qohm{150} serían \qV{8.6}): a \qV{9} no conduce y $V_o$ sigue al divisor, y a \qV{12} regula con $V_o=\qV{5.12}$ (\pct{+0.4} frente a \qV{5.1}, dentro de $\pm$\pct{5}). Con tres puntos no se obtiene una curva de regulación de línea experimental. Las potencias cumplen el diseño ($P_{R1}\le\qmW{468.5}$ con resistor de \qW{1}; $P_Z=\qmW{69.5}<\qW{0.908}$) y la eficiencia $P_L/P_{V1}$ fue \pct{47.9}, \pct{47.1} y \pct{34.2} (frente a \pct{20.9} calculado a \qV{12}). Con \qohm{92}, $R_1=\qohm{68}$ habría regulado desde $\approx\qV{8.9}$, por lo que la carga real debe medirse antes de fijar $R_1$.
 
 \begin{table}[htbp]
 \caption{Teoría y medición del regulador ($\Delta$ y $\varepsilon$ respecto a la teoría con \qohm{150}; última columna: teoría con \qohm{92})}
@@ -507,7 +487,7 @@ $I_T$ (mA), \qV{12} & 69.0 & 68.1 & $-0.90$ & $-1.3$ & 69.0 & $-1.3$ \\
 \end{table}
 
 \subsection{Resultados experimentales: amplificadores operacionales}
-En la Fig.~\ref{fig:lab_op} y la Tabla~\ref{tab:exp_op} (amplitudes y fases por ajuste senoidal a \SI{1}{\kilo\hertz}) es posible observar que el inversor invierte la señal ($|G|=2.07$, desfase $\approx\SI{172}{\degree}$; a \SI{1}{\kilo\hertz} el ancho de banda del LM348 solo introduciría $<\SI{0.2}{\degree}$, luego la diferencia se atribuye al ruido de $\approx\qV{0.17}$ eficaces, $\approx$\pct{16} de la amplitud de salida). El no inversor llega a \qV{12.42} de pico sin recorte, en fase (\SI{-0.4}{\degree}) y con $G=+4.21$. El sumador entrega una cuadrada invertida de \qVpp{5.02}, que corresponde a la suma de las dos entradas aplicadas (\qVpp{2}$+$\qVpp{3}) aunque en CH2 solo se vea $v_{in2}$, con flancos en rampa, de $SR=\SI{0.61}{\volt\per\micro\second}$ (subida) y \SI{0.41}{\volt\per\micro\second} (bajada); el promedio coincide con la hoja de datos \cite{lm348} y confirma la distorsión de flancos simulada.
+En la Fig.~\ref{fig:lab_op} y la Tabla~\ref{tab:exp_op} (amplitudes y fases por ajuste senoidal a \SI{1}{\kilo\hertz}) es posible observar que el inversor invierte la señal ($|G|=2.07$, desfase $\approx\SI{172}{\degree}$; a \SI{1}{\kilo\hertz} el ancho de banda del LM348 solo introduciría $\approx\SI{0.2}{\degree}$, luego la diferencia se atribuye al ruido de $\approx\qV{0.17}$ eficaces, $\approx$\pct{16} de la amplitud de salida). El no inversor llega a \qV{12.42} de pico sin recorte, en fase (\SI{-0.4}{\degree}) y con $G=+4.21$. El sumador entrega una cuadrada invertida de \qVpp{5.02}, que corresponde a la suma de las dos entradas aplicadas (\qVpp{2}$+$\qVpp{3}) aunque en CH2 solo se vea $v_{in2}$, con flancos en rampa, de $SR=\SI{0.61}{\volt\per\micro\second}$ (subida) y \SI{0.41}{\volt\per\micro\second} (bajada); el promedio coincide con la hoja de datos \cite{lm348} y confirma la distorsión de flancos simulada.
 
 \begin{figure}[htbp]
 \centering
@@ -538,7 +518,7 @@ Sumador & $SR$ medio (\si{\volt\per\micro\second}) & 0.5 & $\approx0.5$ & 0.51 &
 \end{tabular}
 \end{table}
 
-Los errores de ganancia (\pct{+3.5} y \pct{+5.3}) no vienen del integrado, cuyo error de lazo cerrado es despreciable: con resistores de $\pm$\pct{5}, $R_2/R_1$ puede desviarse hasta $\pm$\pct{10} ($G_{INV}\in[1.8,2.2]$, $G_{NI}\in[3.7,4.3]$), lo que cubre lo medido. Las señales tienen además un nivel medio de $\approx\qV{0.6}$ (el sumador oscila entre \qV{-1.93} y \qV{+3.09}, no $\pm\qV{2.5}$, aunque la amplitud pico a pico sí coincide), y la entrada capturada ($v_{in2}$) tiene un nivel medio similar; como en un sumador inversor un desplazamiento positivo de las entradas produce uno negativo en la salida, el de la salida no se explica solo por $v_{in2}$ y puede venir del nivel DC de $v_{in1}$ (no capturada) o del cero de los canales, sin verificar. Solo se capturó el LM348 y no se midió la respuesta en frecuencia, por lo que el ancho de banda simulado (\SI{570}{\kilo\hertz}) no pudo contrastarse.
+Los errores de ganancia (\pct{+3.5} y \pct{+5.3}) no vienen del integrado, cuyo error de lazo cerrado es despreciable: con resistores de $\pm$\pct{5}, $R_2/R_1$ puede desviarse hasta $\pm$\pct{10} ($G_{INV}\in[1.8,2.2]$, $G_{NI}\in[3.7,4.3]$), lo que cubre lo medido. Las señales tienen además un nivel medio de $\approx\qV{0.6}$ (el sumador oscila entre \qV{-1.93} y \qV{+3.09}, no $\pm\qV{2.5}$, aunque la amplitud pico a pico sí coincide), y la entrada capturada ($v_{in2}$) tiene un nivel medio similar; como en un sumador inversor un desplazamiento positivo de las entradas produce uno negativo en la salida, el de la salida no se explica solo por $v_{in2}$ y puede venir del nivel DC de $v_{in1}$ (no capturada) o del cero de los canales, sin verificar. Solo se capturó el LM348 y no se midió la respuesta en frecuencia, por lo que el ancho de banda simulado (\SI{302}{\kilo\hertz}) no pudo contrastarse.
 
 %% =====================================================================
 \section{Conclusiones}
@@ -549,7 +529,7 @@ Los errores de ganancia (\pct{+3.5} y \pct{+5.3}) no vienen del integrado, cuyo 
 \item El regulador con 1N4733A, $R_1=\qohm{100}$ y \qW{1} cumple en simulación ($V_o=\qV{5.075}$ a \qV{12}, \pct{-0.5} frente a \qV{5.1}; regulación de línea $\approx$\pct{1.7} entre \qV{9} y \qV{12}; regulación de carga \pct{0.7}--\pct{2.4} para $R_2\ge\qohm{80}$), pero el intervalo de $R_1$ calculado solo es válido para $V_1=\qV{12}$ y debe recalcularse si se pide regular desde tensiones menores.
 \item En el montaje la carga efectiva fue $\approx\qohm{92}$ y no \qohm{150}: con la carga nominal $V_o$ se desvió hasta \pct{-20.2}, pero con \qohm{92} el modelo reproduce $V_o$ e $I_T$ con errores $\le$\pct{1.7}. Por eso el Zener solo regula desde $\approx\qV{10.7}$ y $R_1$ debe fijarse con la carga realmente medida.
 \item Los circuitos con amplificador operacional ($G_{NI}=4$, $G_{INV}=-2$, $v_o=-(v_{in1}+v_{in2})$) dieron en simulación las amplitudes de diseño sin recorte, y con \qV{9} el recorte ocurre \qV{3} (LM348) y \qV{1.5} (LF353) por debajo del riel, como se supuso. Con el LM348 las ganancias medidas ($-2.07$ y $+4.21$) superan las ideales en \pct{3.5} y \pct{5.3}, compatible con resistores de $\pm$\pct{5}, y su $SR$ medido (\SI{0.51}{\volt\per\micro\second}) coincide con la hoja de datos y confirma la distorsión de flancos simulada, ausente con el LF353 (\SI{13}{\volt\per\micro\second}).
-\item El ancho de banda simulado del LF353 ($\approx\SI{1.32}{\mega\hertz}$) coincide con el estimado con $GBW$ (\pct{-1.2}), mientras que el del LM348 ($\approx\SI{0.57}{\mega\hertz}$) lo supera en $\approx$\pct{71}; esa diferencia queda abierta porque la respuesta en frecuencia no se midió en el laboratorio.
+\item Los anchos de banda simulados del inversor ($|G|=2$) concuerdan con el estimado con $GBW$: $\approx\SI{302}{\kilo\hertz}$ para el LM348 (\pct{-9.3}, $GBW$ implícito $\approx\SI{0.91}{\mega\hertz}$) y $\approx\SI{1.32}{\mega\hertz}$ para el LF353 (\pct{-1.2}). Ambos quedan algo por debajo del valor de la hoja de datos.
 \end{itemize}
 
 %% =====================================================================
