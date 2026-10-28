@@ -211,6 +211,7 @@ $R_L$ & $C_1=C_2=C_S$ & $\hat v_{in}$ & $f$ & $R_{sig}$ \\
 V_G=V_{DD}\frac{R_{G2}}{R_{G1}+R_{G2}}=\SI{3.571}{V},\\
 R_G=R_{G1}\parallel R_{G2}=\SI{64.29}{k\ohm},
 \end{gathered}
+\label{eq:thev}
 \end{equation}
 que fija la tensión de compuerta. Con la \eqref{eq:thev}, la malla compuerta--fuente da $V_G=\Vtp+\Vov+I_DR_S$ y, al sustituir $I_D=\tfrac{\knp}{2}\Vov^2$ de la \eqref{eq:sat}, resulta una cuadrática en $\Vov$ cuya raíz positiva es
 \begin{equation}
@@ -270,17 +271,43 @@ Teniendo en cuenta que se desea una ganancia $A_v$ de 3, que la impedancia de sa
 y que el símbolo menos en la ecuación simboliza la inversión de la fase, la ecuación queda parametrizada de la siguiente forma:
 \\
 $$ 3 = \frac{(R_d|| R_L)}{\frac{1}{g_m} + R_s}$$
-Para que esta ecuación relacione R_d y R_s se requiere condicionar el diseño mediante la transconductancia,
+Para que esta ecuación relacione $R_d$ y $R_s$ se requiere condicionar el diseño mediante la transconductancia,
 la cual según la guía se puede obtener mediante la expresión:
-$$g_m = \sqrt{2k_n*I_d}
-Con este proposito se elige $k_n= 0.0932 A/V^2$ ya que este es el valor que se toma en el modelo SPICE descargado desde la página de \textit{onsemi}. 
+$$g_m = \sqrt{2k_n*I_d}$$
+Con este proposito se elige $k_n= 0.0438 A/V^2$ ya que este es fue el valor experimental obtenido mediante regresión lineal
+en la primera sesión de la práctica. 
 A su vez entonces se determina $I_d = 10 mA$ de manera arbitraria para obtener condiciones de saturación alcanzables en laboratorio
 sin superar las condiciones de trabajo del MOSFET.
 \\
 Por lo anterior $g_m = \sqrt{0.0932 \frac{A}{V^2} * 0.01 A} = 0.043 A/V$.
 \\
 Considerando todos estos parametros, la ecuación se puede expresar de la siguiente manera.
-$$(69.486 + 3R_s)*(10^4 + R_d)= 10^4*R_d$$
+$$3*(\frac{1}{g_m}+ R_s)*(10^4 + R_d)= 10^4*R_d $$
+Para la cual, tenemos como parámetro conocido $g_m =0.0296 A/V$ dados el $k_n$ experimental y la $I_d$ de diseño.
+Por lo que se procede con un análisis DC sencillo del lazo compuesto por $R_d$, $R_s$, y el MOSFET a través de sus terminales \textit{Drain} y \textit{Source}.
+Dado que ya se definió la corriente $I_d$, se elige un $V_{DS}$ arbitrario de 5V (ya que este se espera que satisfaga en
+ todo momento la condición de saturación $V_{DS} \geq V_{GS}-V_T$). Por lo que esta ecuación queda:
+ \begin{equation}
+ \SI{15}{V}-\SI{10}{mA}R_d-\SI{5}{V}-\SI{10}{mA}R_s=0,
+ \label{eq:kvl_amplificador}
+ \end{equation}
+ o, equivalentemente al despejar, $R_d+R_s=\SI{1}{k\ohm}$.
+Con estas dos ecuaciones es posible obtener $R_d$ al reemplazar esta última en la ecuación correspondiente a la ganancia:
+$$3*(\frac{1}{g_m}+ (1000-R_d))*(10^4 + R_d)= 10^4*R_d $$.
+
+Al ser esta ecuación una ecuación cuadrática, se optá por resolverla mediante el uso del software \textit{Matlab} y seleccionar la $R_d$ de valor 
+positivo. Posteriormente se usa el mismo software para despejar $R_s$ en y $V_{GS}$. Por lo que:
+$$R_d = 789 \Omega \Longrightarrow R_d = 820 \Omega$$
+$$R_s = 210 \Omega \Longrightarrow R_d = 200 \Omega$$
+$$V_{GS} = 2.126 V $$
+Dado que al asumir  10$mA$ como $I_d$ la tensión $V_S = 2V$, así que $V_G = 4.126 V$.
+\\
+En consecuencia de este último resultado se debe elegir una relación de resistencias tal que:
+$$15V*\frac{R_{G2}}{R_{G2}+R_{G1}}\approx 4.126 V$$
+$$R_{G2} + R_{G1} \approx 3.65*R_{G2}$$
+Por lo que tras revisar un catálogo de resistencias y al tanteo se escogen:
+$$R_{G2} = 820 k \Omega$$
+$$R_{G1} = 2.2 M \Omega$$
 %==================================================================
 \section{Simulación}
 %==================================================================
