@@ -311,7 +311,22 @@ $$R_{G1} = 2.2 M \Omega$$
 Finalmente, el amplificador cuenta con las siguientes impedancias de entrada y salida:
 $$Z_{in} = R_{G1}||R_{G2} = 597 k \Omega$$
 $$Z_{in} = R_D = 820 \Omega$$
-\subsection{Diseño de la fuente de corriente de 35 $mA$}
+\subsection{Diseño de la fuente de corriente de 35 $mA$ (determinada por el número de grupo)}
+
+Dada la topología del circuito, lo primero es determinar $V_G$ el cual es igual a $V_{GS}$ para el MOSFET
+de la derecha. Por lo que se emplea la ecuación de la corriente en el MOSFET:
+$$I_d = 0.035A =\frac{0.0438 A/V}{2} *(V_{GS}-V_t)^2$$
+Al resolver $V_{GS}$ usando \textit{MATLAB}:
+$$V_{GS} = 2.714 V $$
+Por lo que posteriormente se deduce una resistencia que permita llegar a una corriente similar gracias a una tensión de Alimentación
+adecuada, para la cual inicialmente se selecciona $VDD = 15V$:
+$$15V - 0.035A * R - V_{GS} = 0$$
+$$R = \frac{15 V - 2.714 V}{0.035 A}$$
+$$ R= 351 \Omega$$
+Dado que la resistencia comercial más cercana es $ 330 \Omega$, se elige esta para posteriormente
+elegir un nuevo VDD que permita el paso de la corriente deseada:
+$$VDD = 0.035A*330\Omega + 2.714V$$
+$$VDD = 14.264 V$$
 
 %==================================================================
 \section{Simulación}
