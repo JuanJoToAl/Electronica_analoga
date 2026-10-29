@@ -308,9 +308,52 @@ $$R_{G2} + R_{G1} \approx 3.65*R_{G2}$$
 Por lo que tras revisar un catálogo de resistencias y al tanteo se escogen:
 $$R_{G2} = 820 k \Omega$$
 $$R_{G1} = 2.2 M \Omega$$
-Finalmente, el amplificador cuenta con las siguientes impedancias de entrada y salida:
+En consecuencia, el amplificador cuenta con las siguientes impedancias de entrada y salida:
 $$Z_{in} = R_{G1}||R_{G2} = 597 k \Omega$$
 $$Z_{out} = R_D = 820 \Omega$$
+Finalmente, se verifica que el amplificador no distorsione la señal de salida mediante la expresión:
+$$k_n * (V_{GS}-V_t) \gg Vp_{in}$$
+$$2* (V_{GS}-V_t) \gg Vp_{in}$$
+$$2* (2.126V-1.45V) \gg 0.05V$$
+$$1.352V \gg 0.05V$$
+Lo cual es cierto. Además también se debe verificar que la señal amplificada no saque al amplificador de la zona de saturación, entonces:
+$$V_{DS} - Vp_{out} > V_{GS}-V_t$$
+$$5V-0.15V > 0.676V$$
+$$4.85V > 0.676V$$
+En conclusión: El amplificador de Source degenerada se encuentra en una zona de operación óptima.
+\subsection{Diseño del amplificador de drenador común}
+Dado que ya se conocen la topología del circuito y su ecuación de ganancia. Se empiezan con condiciones de diseño inciales:
+$A_v = 0.95$ y $R_s = 1k \Omega$ (a la vez que se asume $Z_{in} \gg R_{Sig}$), puesto que esto permite que en la ecuación de ganancia solo quede una única variable, tal que esta sea la 
+transconductancia del MOSFET en el punto de operación. De manera que se lleva el siguiente desarrollo:
+$$A_v = \frac{R_l || R_s}{R_l || R_s + \frac{1}{gm}} \longrightarrow \frac{\frac{100 \times R_s}{100 + R_s}}{\frac{100 \times R_s}{100 + R_s} + \frac{1}{gm}}$$
+Al resolver esta ecuación en \textit{MATLAB} se obtiene un valor para la transconductancia de $0.209 A/V$, el cual luego se usa para obtener la corriente de operación del MOSFET:
+$$I_d = \frac{gm^2}{2*k_n} \longrightarrow I_d = 0.499 A$$
+Lo cual es una corriente que supera ampliamente la corriente máxima de $200mA$ que puede soportar el MOSFET 2n7000, además;
+esta corriente evidentemente produce una caída de potencial muy alta en la resistencia ($\approx 499 V$), por lo que se empieza a iterar 
+bajando el valor de la resistencia, con el objetivo de evitar un consumo de potencia tan alto en $R_s$. Tras volver a calcular con $R_s = 150 \Omega$:
+$$I_d = 1.145 A$$
+$$V_s = 171.709 V$$
+Dado que esto sigue siendo una potencia excesiva sobre la resistencia, se opta por mantener la resistencia, alterando la ganancia a $A =0.8$ dado que no hay otro parámetro que pueda aliviar el circuito y este se encuentra altamente
+relacionado con la transconductancia. Recalculando con $R_s = 150\Omega$ y $A = 0.8$:
+$$I_d = 0.051 A$$
+$$V_s = 7.610 V$$
+$$P_{R_s}= 0.386 W $$
+Adicionalmente, dado que la corriente ya está determinada. Se calcula también $V_{GS}$ usando \textit{MATLAB} mediante la expresión:
+$$0.051A = 0.0438 \frac{A}{V^2} * (V_{GS}- 1.45 V)^2$$
+$$V_{GS} = 2.972 V$$
+Gracias a que ya se tienen estos cálculos, es posible conocer que $V_G = 10.582$, Por lo que es posible elegir un $VDD = 16 V$. Por lo que:
+\begin{equation}
+V_{DS}=\SI{16}{V}-\SI{7.610}{V}
+=\SI{8.39}{V}
+\geq \SI{2.972}{V}-\SI{1.45}{V}
+=V_{GS}-V_t
+\label{eq:saturacion_drenador_comun}
+\end{equation}
+Lo cual garantiza la condición de saturación, así que finalmente y de manera similar a los circuitos de Source común y Source degenerada. Se eligen las resistencias de Gate siguiendo
+la relación del divisor de tensión. Entonces:
+$$R_{G1}=510k\Omega$$
+$$R_{G2}=250k\Omega$$
+$$Z_{in}= 167.76k\Omega $$
 \subsection{Diseño de la fuente de corriente de 35 $mA$ (determinada por el número de grupo)}
 
 Dada la topología del circuito, lo primero es determinar $V_G$ el cual es igual a $V_{GS}$ para el MOSFET
