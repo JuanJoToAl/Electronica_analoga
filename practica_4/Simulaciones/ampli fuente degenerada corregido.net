@@ -8,10 +8,17 @@ Rd vcc N001 820
 Rs N005 0 200
 C2 N001 N002 10µ
 R5 N002 0 10k
-V2 N003 0 SINE(0 50m 10k)
+V2 N003 0 AC 1
 X§U1 N001 N004 N005 2N7000 ;§pnba 3)1)2
-.tran 1m
+* .tran 2m
 .inc 2N7000_mod.LIB
+.param Vamp=50m
+.step param Vamp list 10m 20m 50m 60m 79m 100m 150m 200m 300m 400m
+.four 10k 5 V(n002)
+.meas TRAN Voutpp PP V(n002) FROM 1.9m TO 2m
+.meas TRAN Vinpp PP V(n003) FROM 1.9m TO 2m
+.meas TRAN Av PARAM Voutpp/Vinpp
+.ac dec 100 1 100Meg
 .lib Contrib/Toshiba/LVMOS/T2N7002BK_G0_00_enc.lib
 .backanno
 .end
