@@ -317,6 +317,12 @@ Dado que ya se conocen la topología del circuito y su ecuación de ganancia. Se
 $A_v = 0.95$ y $R_s = 1k \Omega$ (a la vez que se asume $Z_{in}$ >> $R_{Sig}$), puesto que esto permite que en la ecuación de ganancia solo quede una única variable, tal que esta sea la 
 transconductancia del MOSFET en el punto de operación. De manera que se lleva el siguiente desarrollo:
 $$A_v = \frac{R_l || R_s}{R_l || R_s + \frac{1}{gm}} \longrightarrow \frac{\frac{100 \times R_s}{100 + R_s}}{\frac{100 \times R_s}{100 + R_s} + \frac{1}{gm}}$$
+Al resolver esta ecuación en \textit{MATLAB} se obtiene un valor para la transconductancia de $0.209 A/V$, el cual luego se usa para obtener la corriente de operación del MOSFET:
+$$I_d = \frac{gm^2}{2*k_n} \longrightarrow I_d = 0.499 A$$
+Lo cual es una corriente que supera ampliamente la corriente máxima de $200mA$ que puede soportar el MOSFET 2n7000, además;
+esta corriente evidentemente produce una caída de potencial muy alta en la resistencia ($\approx 499 V$), por lo que se empieza a iterar 
+bajando el valor de la resistencia, con el objetivo de evitar un consumo de potencia tan alto en $R_s$. Tras volver a calcular con $R_s = 150 \Omega$:
+$$I_d =$$
 
 \subsection{Diseño de la fuente de corriente de 35 $mA$ (determinada por el número de grupo)}
 
