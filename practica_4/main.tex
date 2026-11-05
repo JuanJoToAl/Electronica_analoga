@@ -8,8 +8,10 @@
 \usepackage{booktabs,array}
 \usepackage{siunitx}
 \usepackage{circuitikz}
+\usepackage{pgfplots}
 \usepackage{url}
-\usetikzlibrary{calc}
+\usetikzlibrary{calc,babel}
+\pgfplotsset{compat=1.16}
 
 \graphicspath{
     {./}{./Figuras/}
@@ -25,6 +27,7 @@
 \newcommand{\Vov}{V_{OV}}
 \newcommand{\Vtp}{V_t'}
 \newcommand{\knp}{k_n'}
+\newcommand{\Rsig}{R_{sig}}
 % Parametros del modelo de simulacion (s) y del ejemplar 1 medido (m)
 \newcommand{\Vts}{V_{t,s}}
 \newcommand{\kns}{k_{n,s}}
@@ -33,7 +36,7 @@
 
 \begin{document}
 
-\title{Caracterización de un MOSFET 2N7000 y diseño de amplificadores de fuente común y fuente degenerada: informe de la Práctica 4}
+\title{Caracterización de un MOSFET 2N7000 y diseño de amplificadores con MOSFET y de un espejo de corriente: informe de la Práctica 4}
 
 \author{
 \IEEEauthorblockN{Juan José Tobar Álvarez\IEEEauthorrefmark{1},
@@ -52,7 +55,7 @@ jutobara@unal.edu.co, correo2@unal.edu.co, correo3@unal.edu.co}
 \subsection{Introducción}
 En un MOSFET de canal n de enriquecimiento, como el 2N7000, el canal solo se forma cuando la tensión compuerta--fuente $V_{GS}$ supera la tensión umbral $V_t$; según $V_{GS}$ y la tensión drenador--fuente $V_{DS}$, el dispositivo opera en corte, triodo o saturación \cite{sedra}. La saturación es la región de amplificación, pues allí la corriente de drenador $I_D$ queda controlada por $V_{GS}$ casi sin depender de $V_{DS}$. El análisis DC se realiza con la ley de Ohm y las leyes de Kirchhoff, y el análisis AC con el modelo de pequeña señal, caracterizado por la transconductancia $\gm$ \cite{sedra}.
 
-\textbf{Objetivo general.} Caracterizar el MOSFET 2N7000 y diseñar amplificadores de fuente común y de fuente degenerada, verificándolos mediante simulación y medición.
+\textbf{Objetivo general.} Caracterizar el MOSFET 2N7000 y diseñar amplificadores de fuente común, fuente degenerada y drenador común, y un espejo de corriente, verificándolos mediante simulación y medición.
 
 \textbf{Objetivos específicos.} (i) Determinar $V_t$ y $\kn$ mediante simulación y mediante medición de ejemplares reales, y obtener las curvas $I_D$--$V_{DS}$; (ii) calcular el punto de polarización, $A_v$, $Z_{in}$, $Z_{out}$ y los límites de pequeña señal con los parámetros medidos; (iii) comparar teoría, simulación y medición mediante el error relativo porcentual.
 
@@ -78,7 +81,7 @@ Parámetro (símbolo) & Valor & Condición \\
 \midrule
 Ruptura drenador--fuente ($BV_{DSS}$) & 60 V (mín.) & $V_{GS}=\SI{0}{V}$, $I_D=\SI{10}{\micro A}$ \\
 Tensión compuerta--fuente ($V_{GS,max}$, $V_{GS,min}$) & $+30$ V, $-30$ V & límite absoluto \\
-Alimentación usada ($V_{DD}$, $V_{SS}$) & 10 V, 0 V & $V_{DD}<BV_{DSS}$ \\
+Alimentación usada ($V_{DD}$, $V_{SS}$) & 10 V (16 V en el drenador común), 0 V & $V_{DD}<BV_{DSS}$ \\
 Tensión umbral ($V_{GS(th)}$) & 0.8 a 3 V & $V_{GS}=V_{DS}$, $I_D=\SI{1}{mA}$ \\
 Corriente de drenador ($I_{D,max}$) & 200 mA & $T_C=\SI{25}{\celsius}$ \\
 Potencia disipada ($P_D$) & 1 W & $T_C=\SI{25}{\celsius}$ \\
@@ -170,7 +173,7 @@ La recta de la \eqref{eq:recta} se obtuvo con $V_{GS}$ entre \SI{1.59}{V} y \SI{
 que sirven para evaluar cuánto cambian $V_t$ y $\kn$ al alejarse del umbral (se cuantifica en la Sec.~\ref{sec:an_curvas}).
 
 \subsection{Diseño del amplificador de fuente común}
-Se diseña el amplificador de la Fig.~\ref{fig:cs} con los parámetros de la Tabla~\ref{tab:param_cs}, con generador ideal ($R_{sig}=\SI{0}{\ohm}$), $r_o\rightarrow\infty$ y los parámetros medidos del ejemplar 1, $\Vtm=\SI{1.405}{V}$ y $\knm=\SI{49.41}{mA/V^2}$ (Sec.~\ref{sec:mont_car}). Los requisitos son saturación y $|v_{out}|\approx 5\,|v_{in}|$: $R_{G1}$, $R_{G2}$ y $R_S$ fijan $I_D\approx\SI{10.2}{mA}$, con lo que $\gm\approx\SI{31.7}{mS}$ (\eqref{eq:gm}) y $R_D$ se elige para que $|A_v|=\gm(R_D\parallel R_L)\approx 5$ (\eqref{eq:Av}). Despejando de la \eqref{eq:Av} con $|A_v|=5$,
+Se diseña el amplificador de la Fig.~\ref{fig:cs} con los parámetros de la Tabla~\ref{tab:param_cs}, con generador ideal ($\Rsig=\SI{0}{\ohm}$), $r_o\rightarrow\infty$ y los parámetros medidos del ejemplar 1, $\Vtm=\SI{1.405}{V}$ y $\knm=\SI{49.41}{mA/V^2}$ (Sec.~\ref{sec:mont_car}). Los requisitos son saturación y $|v_{out}|\approx 5\,|v_{in}|$: $R_{G1}$, $R_{G2}$ y $R_S$ fijan $I_D\approx\SI{10.2}{mA}$, con lo que $\gm\approx\SI{31.7}{mS}$ según la \eqref{eq:gm}, y $R_D$ se elige para que $|A_v|=\gm(R_D\parallel R_L)\approx 5$ según la \eqref{eq:Av}. Despejando de la \eqref{eq:Av} con $|A_v|=5$,
 \begin{equation}
 R_D\parallel R_L=\frac{|A_v|}{\gm}=\SI{157.8}{\ohm}\;\Rightarrow\;R_D=\frac{R_L\,(|A_v|/\gm)}{R_L-|A_v|/\gm}=\SI{160.3}{\ohm},
 \label{eq:rd_cs}
@@ -189,7 +192,7 @@ $V_{DD}$ & $R_{G1}$ & $R_{G2}$ & $R_D$ & $R_S$ \\
 \midrule
 10 V & 180 k$\Omega$ & 100 k$\Omega$ & 160 $\Omega$ & 150 $\Omega$ \\
 \midrule
-$R_L$ & $C_1=C_2=C_S$ & $\hat v_{in}$ & $f$ & $R_{sig}$ \\
+$R_L$ & $C_1=C_2=C_S$ & $\hat v_{in}$ & $f$ & $\Rsig$ \\
 \midrule
 10 k$\Omega$ & 10 $\mu$F & 50 mV (100 mV$_{pp}$) & 10 kHz & 0 $\Omega$ \\
 \bottomrule
@@ -262,7 +265,12 @@ donde $R_{eq}=Z_{in}$ para $C_1$ ($f_c=\SI{0.25}{Hz}$), $R_{eq}=R_D+R_L$ para $C
 \end{equation}
 con $f_z=\SI{106}{Hz}$, un adelanto de $2.9^\circ$ sobre la inversión ideal.
 
-\noindent\textit{Límites de pequeña señal.} El modelo lineal es válido si $v_{gs}\ll 2\Vov$ \cite{sedra}. Como la distorsión de segundo armónico es $HD_2=\hat v_{gs}/(4\Vov)$, exigir $HD_2\le \SI{5}{\percent}$ conduce a
+\noindent\textit{Límites de pequeña señal.} El modelo lineal es válido si $v_{gs}\ll 2\Vov$ \cite{sedra}. La distorsión de segundo armónico de la corriente de drenador es
+\begin{equation}
+HD_2=\frac{\hat v_{gs}}{4\Vov},
+\label{eq:hd2}
+\end{equation}
+y exigir $HD_2\le \SI{5}{\percent}$ conduce a
 \begin{equation}
 \hat v_{gs,max}=0.2\,\Vov=\SI{128}{mV}.
 \label{eq:limite}
@@ -270,124 +278,74 @@ con $f_z=\SI{106}{Hz}$, un adelanto de $2.9^\circ$ sobre la inversión ideal.
 Como $v_{gs}=v_{in}$, la amplitud máxima de entrada es \SI{128}{mV} y la de salida de unos \SI{640}{mV}; la señal de 50 mV produce $HD_2=\SI{1.95}{\percent}$.
 
 \subsection{Diseño del amplificador de fuente degenerada}
-Para el diseño del amplificador de fuente degenerada se tienen las siguientes ecuaciones disponibles:
-la ganancia está dada por: 
-$$ A_v = -\frac{Z_{in}}{Z_{in} + R_sig}*\frac{(Z_{out} || R_L)}{\frac{1}{g_m} + R_s}$$
-Dado que $R_sig$ corresponde a la impedancia de salida del generador de señales, cuyo valor es
-$50 \Omega$, se espera que esta sea muy pequeña comparada con la impedancia de entrada,
-por lo que esta primera parte de la ecuación se considera equivalente a $1$. 
-\\
-Teniendo en cuenta que se desea una ganancia $A_v$ de 3, que la impedancia de salida de este amplificador es $Z_{out}= R_d$
-y que el símbolo menos en la ecuación simboliza la inversión de la fase, la ecuación queda parametrizada de la siguiente forma:
-\\
-$$ 3 = \frac{(R_d|| R_L)}{\frac{1}{g_m} + R_s}$$
-Para que esta ecuación relacione $R_d$ y $R_s$ se requiere condicionar el diseño mediante la transconductancia,
-la cual según la guía se puede obtener mediante la expresión:
-$$g_m = \sqrt{2k_n*I_d}$$
-Con este proposito se elige $k_n= 0.0438 A/V^2$ ya que este es fue el valor experimental obtenido mediante regresión lineal
-en la primera sesión de la práctica. 
-A su vez entonces se determina $I_d = 10 mA$ de manera arbitraria para obtener condiciones de saturación alcanzables en laboratorio
-sin superar las condiciones de trabajo del MOSFET.
-\\
-Por lo anterior $g_m = \sqrt{0.0932 \frac{A}{V^2} * 0.01 A} = 0.043 A/V$.
-\\
-Considerando todos estos parametros, la ecuación se puede expresar de la siguiente manera.
-$$3*(\frac{1}{g_m}+ R_s)*(10^4 + R_d)= 10^4*R_d $$
-Para la cual, tenemos como parámetro conocido $g_m =0.0296 A/V$ dados el $k_n$ experimental y la $I_d$ de diseño.
-Por lo que se procede con un análisis DC sencillo del lazo compuesto por $R_d$, $R_s$, y el MOSFET a través de sus terminales \textit{Drain} y \textit{Source}.
-Dado que ya se definió la corriente $I_d$, se elige un $V_{DS}$ arbitrario de 5V (ya que este se espera que satisfaga en
- todo momento la condición de saturación $V_{DS} \geq V_{GS}-V_T$). Por lo que esta ecuación queda:
- \begin{equation}
- \SI{15}{V}-\SI{10}{mA}R_d-\SI{5}{V}-\SI{10}{mA}R_s=0,
- \label{eq:kvl_amplificador}
- \end{equation}
- o, equivalentemente al despejar, $R_d+R_s=\SI{1}{k\ohm}$.
-Con estas dos ecuaciones es posible obtener $R_d$ al reemplazar esta última en la ecuación correspondiente a la ganancia:
-$$3*(\frac{1}{g_m}+ (1000-R_d))*(10^4 + R_d)= 10^4*R_d $$.
-
-Al ser esta ecuación una ecuación cuadrática, se optá por resolverla mediante el uso del software \textit{Matlab} y seleccionar la $R_d$ de valor 
-positivo. Posteriormente se usa el mismo software para despejar $R_s$ en y $V_{GS}$. Por lo que:
-$$R_d = 789 \Omega \Longrightarrow R_d = 820 \Omega$$
-$$R_s = 210 \Omega \Longrightarrow R_s = 200 \Omega$$
-$$V_{GS} = 2.126 V $$
-Dado que al asumir  10$mA$ como $I_d$ la tensión $V_S = 2V$, así que $V_G = 4.126 V$.
-\\
-En consecuencia de este último resultado se debe elegir una relación de resistencias tal que:
-$$15V*\frac{R_{G2}}{R_{G2}+R_{G1}}\approx 4.126 V$$
-$$R_{G2} + R_{G1} \approx 3.65*R_{G2}$$
-Por lo que tras revisar un catálogo de resistencias y al tanteo se escogen:
-$$R_{G2} = 820 k \Omega$$
-$$R_{G1} = 2.2 M \Omega$$
-En consecuencia, el amplificador cuenta con las siguientes impedancias de entrada y salida:
-$$Z_{in} = R_{G1}||R_{G2} = 597 k \Omega$$
-$$Z_{out} = R_D = 820 \Omega$$
-Finalmente, se verifica que el amplificador no distorsione la señal de salida mediante la expresión:
-$$2 * (V_{GS}-V_t) \gg Vp_{in}$$
-$$2* (V_{GS}-V_t) \gg Vp_{in}$$
-$$2* (2.126V-1.45V) \gg 0.05V$$
-$$1.352V \gg 0.05V$$
-Lo cual es cierto. Por esto se espera que la señal no distorsione significativamente. Siguiendo el criterio de la distorsión del segundo armónico. Se determina la amplitud
-máxima que puede tener la señal de entrada sin producir una distorsión igual o superior al $5\%$:
-$$HD_2 = 0.05 =  Vp_{in}/(4(V_{GS}-V_t))$$
-$$0.05 =  Vp_{in}/2.704 V$$
-$$Vp_{in_{max}}= 0.135 V = 135mV$$
-
-
-Además también se debe verificar que la señal amplificada no saque al amplificador de la zona de saturación, entonces:
-$$V_{DS} - Vp_{out} > V_{GS}-V_t$$
-$$5V-0.15V > 0.676V$$
-$$4.85V > 0.676V$$
-En conclusión: El amplificador de Source degenerada se encuentra en una zona de operación óptima.
-\subsection{Diseño del amplificador de drenador común}
-Dado que ya se conocen la topología del circuito y su ecuación de ganancia. Se empiezan con condiciones de diseño inciales:
-$A_v = 0.95$ y $R_s = 1k \Omega$ (a la vez que se asume $Z_{in} \gg R_{Sig}$), puesto que esto permite que en la ecuación de ganancia solo quede una única variable, tal que esta sea la 
-transconductancia del MOSFET en el punto de operación. De manera que se lleva el siguiente desarrollo:
-$$A_v = \frac{R_l || R_s}{R_l || R_s + \frac{1}{gm}} \longrightarrow \frac{\frac{100 \times R_s}{100 + R_s}}{\frac{100 \times R_s}{100 + R_s} + \frac{1}{gm}}$$
-Al resolver esta ecuación en \textit{MATLAB} se obtiene un valor para la transconductancia de $0.209 A/V$, el cual luego se usa para obtener la corriente de operación del MOSFET:
-$$I_d = \frac{gm^2}{2*k_n} \longrightarrow I_d = 0.499 A$$
-Lo cual es una corriente que supera ampliamente la corriente máxima de $200mA$ que puede soportar el MOSFET 2n7000, además;
-esta corriente evidentemente produce una caída de potencial muy alta en la resistencia ($\approx 499 V$), por lo que se empieza a iterar 
-bajando el valor de la resistencia, con el objetivo de evitar un consumo de potencia tan alto en $R_s$. Tras volver a calcular con $R_s = 150 \Omega$:
-$$I_d = 1.145 A$$
-$$V_s = 171.709 V$$
-Dado que esto sigue siendo una potencia excesiva sobre la resistencia, se opta por mantener la resistencia, alterando la ganancia a $A =0.8$ dado que no hay otro parámetro que pueda aliviar el circuito y este se encuentra altamente
-relacionado con la transconductancia. Recalculando con $R_s = 150\Omega$ y $A = 0.8$:
-$$I_d = 0.051 A$$
-$$V_s = 7.610 V$$
-$$P_{R_s}= 0.386 W $$
-Adicionalmente, dado que la corriente ya está determinada. Se calcula también $V_{GS}$ usando \textit{MATLAB} mediante la expresión:
-$$0.051A = 0.0438 \frac{A}{V^2} * (V_{GS}- 1.45 V)^2$$
-$$V_{GS} = 2.972 V$$
-Gracias a que ya se tienen estos cálculos, es posible conocer que $V_G = 10.582$, Por lo que es posible elegir un $VDD = 16 V$. Por lo que:
+El amplificador es el de la Fig.~\ref{fig:cs} sin $C_S$, de modo que $R_S$ queda sin puentear y la señal de entrada ve $1/\gm+R_S$ entre compuerta y tierra. Con $\Rsig=\SI{50}{\ohm}$ (impedancia de salida del generador) y los parámetros de la Tabla~\ref{tab:param_deg}, la ganancia es
 \begin{equation}
-V_{DS}=\SI{16}{V}-\SI{7.610}{V}
-=\SI{8.39}{V}
-\geq \SI{2.972}{V}-\SI{1.45}{V}
-=V_{GS}-V_t
-\label{eq:saturacion_drenador_comun}
+A_v=-\frac{Z_{in}}{Z_{in}+\Rsig}\,\frac{R_D\parallel R_L}{1/\gm+R_S}\approx-\frac{R_D\parallel R_L}{1/\gm+R_S},
+\label{eq:Av_deg}
 \end{equation}
-Lo cual garantiza la condición de saturación, así que finalmente y de manera similar a los circuitos de Source común y Source degenerada. Se eligen las resistencias de Gate siguiendo
-la relación del divisor de tensión. Entonces:
-$$R_{G1}=680k\Omega$$
-$$R_{G2}=330k\Omega$$
-$$Z_{in}= 222.18k\Omega $$
-$$Z_{out} = \frac{1}{0.067 A/V} = 14.92 \Omega$$
-\subsection{Diseño de la fuente de corriente de 35 $mA$ (determinada por el número de grupo)}
+donde el primer factor vale 0.9993 porque $Z_{in}\gg\Rsig$. La guía exige $|v_{out}|\ge\SI{300}{mV_{pp}}$ con 100 mV$_{pp}$ de entrada, es decir $|A_v|\ge 3$. Con los parámetros del ejemplar 1 y $I_D\approx\SI{10}{mA}$, la \eqref{eq:gm} da $\gm=\SI{31.44}{mS}$; con $R_S=\SI{100}{\ohm}$ y $|A_v|=3$, el despeje análogo al de la \eqref{eq:rd_cs} es
+\begin{equation}
+R_D=\frac{R_L\,\bigl[|A_v|(1/\gm+R_S)\bigr]}{R_L-|A_v|(1/\gm+R_S)}=\SI{411.7}{\ohm}.
+\label{eq:rd_deg}
+\end{equation}
+Se adopta $R_D=\SI{430}{\ohm}$ porque el valor comercial inferior, \SI{390}{\ohm}, daría $|A_v|=2.87<3$ y no cumpliría el mínimo. Para $V_G=V_t+\Vov+I_DR_S=\SI{3.04}{V}$ con $V_{DD}=\SI{10}{V}$, el divisor comercial más cercano es $R_{G1}=\SI{220}{k\ohm}$ y $R_{G2}=\SI{100}{k\ohm}$, que fija $V_G=\SI{3.125}{V}$ y $Z_{in}=\SI{68.75}{k\ohm}$.
 
-Dada la topología del circuito, lo primero es determinar $V_G$ el cual es igual a $V_{GS}$ para el MOSFET
-de la derecha. Por lo que se emplea la ecuación de la corriente en el MOSFET:
-$$I_d = 0.035A =\frac{0.0438 A/V}{2} *(V_{GS}-V_t)^2$$
-Al resolver $V_{GS}$ usando \textit{MATLAB}:
-$$V_{GS} = 2.714 V $$
-Por lo que posteriormente se deduce una resistencia que permita llegar a una corriente similar gracias a una tensión de Alimentación
-adecuada, para la cual inicialmente se selecciona $VDD = 15V$:
-$$15V - 0.035A * R - V_{GS} = 0$$
-$$R = \frac{15 V - 2.714 V}{0.035 A}$$
-$$ R= 351 \Omega$$
-Dado que la resistencia comercial más cercana es $ 330 \Omega$, se elige esta para posteriormente
-elegir un nuevo VDD que permita el paso de la corriente deseada:
-$$VDD = 0.035A*330\Omega + 2.714V$$
-$$VDD = 14.264 V$$
+\begin{table}[htbp]
+\centering
+\caption{Parámetros asumidos para el amplificador de fuente degenerada.}
+\label{tab:param_deg}
+\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+$V_{DD}$ & $R_{G1}$ & $R_{G2}$ & $R_D$ & $R_S$ \\
+\midrule
+10 V & 220 k$\Omega$ & 100 k$\Omega$ & 430 $\Omega$ & 100 $\Omega$ \\
+\midrule
+$R_L$ & $C_1=C_2$ & $\hat v_{in}$ & $f$ & $\Rsig$ \\
+\midrule
+10 k$\Omega$ & 10 $\mu$F & 50 mV (100 mV$_{pp}$) & 10 kHz & 50 $\Omega$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textit{Análisis DC y AC.} La \eqref{eq:vov} con $V_G=\SI{3.125}{V}$, $R_S=\SI{100}{\ohm}$, $\Vtm$ y $\knm$ da $\Vov=\SI{0.656}{V}$, $I_D=\SI{10.64}{mA}$, $V_{GS}=\SI{2.061}{V}$ y, con la \eqref{eq:vds}, $V_S=\SI{1.064}{V}$, $V_D=\SI{5.426}{V}$ y $V_{DS}=\SI{4.362}{V}\ge\Vov$, por lo que opera en saturación con $P=\SI{46.4}{mW}$. La \eqref{eq:gm} da $\gm=\SI{32.42}{mS}$ y la \eqref{eq:Av_deg} da $A_v=-3.15$, con $Z_{in}=R_{G1}\parallel R_{G2}$ y $Z_{out}=R_D=\SI{430}{\ohm}$ (como en la \eqref{eq:zin_zout}). Como $R_S$ no está puenteada, $v_{gs}=v_{in}/(1+\gm R_S)$ y el límite de la \eqref{eq:limite} se traslada a la entrada:
+\begin{equation}
+\hat v_{in,max}=0.2\,\Vov\,(1+\gm R_S)=\SI{557}{mV}.
+\label{eq:limite_deg}
+\end{equation}
+La realimentación de $R_S$ también reduce la distorsión de la corriente: al sustituir $v_{gs}=v_{in}-i_dR_S$ en $i_d=\gm v_{gs}+\tfrac{\kn}{2}v_{gs}^2$ y resolver hasta segundo orden, el cociente entre el segundo armónico y la fundamental es
+\begin{equation}
+HD_2=\frac{\hat v_{in}}{4\Vov\,(1+\gm R_S)^2},
+\label{eq:hd2_deg}
+\end{equation}
+que coincide con la \eqref{eq:hd2} cuando $R_S$ se puentea ($R_S\rightarrow0$ en AC). Con 50 mV de entrada la \eqref{eq:hd2_deg} da $HD_2=\SI{0.11}{\percent}$, y no \SI{0.45}{\percent} como resultaría de aplicar la \eqref{eq:hd2} a $\hat v_{gs}=\hat v_{in}/(1+\gm R_S)$, pues esto ignora que $v_{gs}$ ya llega linealizada por la realimentación.
+
+\subsection{Diseño del amplificador de drenador común}
+En el seguidor de la guía el drenador va a $V_{DD}$, la salida se toma en la fuente con $R_L=\SI{100}{\ohm}$ y no hay $R_D$ ni $C_S$. Su ganancia, con $R'=R_L\parallel R_S$, es
+\begin{equation}
+A_v=\frac{R'}{R'+1/\gm}\quad\Rightarrow\quad \gm=\frac{A_v}{(1-A_v)\,R'}.
+\label{eq:Av_cd}
+\end{equation}
+Con $R_S=\SI{1}{k\ohm}$ y $A_v=0.95$ se requiere $\gm=\SI{209}{mS}$, que con $I_D=\gm^2/(2\knm)$ exige \SI{442}{mA}, más del doble de $I_{D,max}$. Con $R_S=\SI{150}{\ohm}$ y $A_v=0.95$ la corriente sería de \SI{1.01}{A}. Como $\gm\propto\sqrt{I_D}$ limita la ganancia alcanzable, se relaja el objetivo a $A_v=0.8$ con $R_S=\SI{150}{\ohm}$ ($R'=\SI{60}{\ohm}$), lo que según la \eqref{eq:Av_cd} requiere $\gm=\SI{66.7}{mS}$ e $I_D\approx\SI{45}{mA}$ (\SI{6.7}{V} en $R_S$). Con $V_{DD}=\SI{16}{V}$ hace falta $V_G\approx\SI{9.5}{V}$, que se obtiene con $R_{G1}=\SI{470}{k\ohm}$ (a $V_{DD}$) y $R_{G2}=\SI{680}{k\ohm}$ (a tierra), pues $V_G=\SI{9.461}{V}$. La \eqref{eq:vov} da entonces $\Vov=\SI{1.346}{V}$, $I_D=\SI{44.73}{mA}$, $V_{GS}=\SI{2.751}{V}$, $V_S=\SI{6.710}{V}$ y $V_{DS}=\SI{9.290}{V}\ge\Vov$ (saturación), con $P=\SI{415.6}{mW}<\SI{1}{W}$; la potencia en $R_S$ es \SI{0.30}{W}, por lo que exige una resistencia de $\SI{0.5}{W}$. La \eqref{eq:gm} da $\gm=\SI{66.49}{mS}$, y con la \eqref{eq:Av_cd} $A_v=0.800$, $Z_{in}=R_{G1}\parallel R_{G2}=\SI{277.9}{k\ohm}$ y
+\begin{equation}
+Z_{out}=R_S\parallel\frac{1}{\gm}=\SI{13.67}{\ohm}.
+\label{eq:zout_cd}
+\end{equation}
+Aquí $v_{gs}=v_{in}/(1+\gm R')=0.2\,v_{in}$, por lo que la \eqref{eq:hd2_deg}, con $R'$ en lugar de $R_S$, da $HD_2=\SI{0.07}{\percent}$ para la entrada de 200 mV$_{pp}$ y el límite equivalente a la \eqref{eq:limite_deg} es $\hat v_{in,max}=\SI{1.34}{V}$. Las frecuencias de corte de la \eqref{eq:fc} son \SI{0.06}{Hz} ($C_1$) y \SI{140}{Hz} ($C_2$), muy por debajo de 10 kHz.
+
+\subsection{Diseño de la fuente de corriente espejo de 35 mA}
+Para el grupo 3 la guía da $(20+5\cdot3)=\SI{35}{mA}$. En el espejo, $M_1$ tiene la compuerta unida al drenador y $R$ conecta $V_{DD}$ con su drenador, de modo que $V_{GS}$ de ambos transistores es el mismo y, despejando $V_{GS}$ de la \eqref{eq:sat},
+\begin{equation}
+V_{GS}=V_t+\sqrt{\frac{2I_D}{\kn}}=\SI{2.595}{V},
+\label{eq:vgs_esp}
+\end{equation}
+con $I_D=\SI{35}{mA}$, $\Vtm$ y $\knm$. Con $V_{DD}=\SI{15}{V}$ la ley de Kirchhoff da $R=(V_{DD}-V_{GS})/I_D=\SI{354}{\ohm}$; como se adopta el valor comercial $R=R_L=\SI{330}{\ohm}$, la alimentación necesaria es
+\begin{equation}
+V_{DD}=I_DR+V_{GS}=\SI{14.15}{V}.
+\label{eq:vdd_esp}
+\end{equation}
+$M_2$ queda en saturación porque $V_{DS2}=V_{DD}-I_DR_L=V_{GS}=\SI{2.595}{V}\ge\Vov=\SI{1.190}{V}$. La potencia en $M_1$ es \SI{90.8}{mW} y en $R$ \SI{0.40}{W} (resistencia de $\SI{0.5}{W}$). Si $M_1$ fuese el ejemplar 1 y $M_2$ el ejemplar 2 ($V_t=\SI{1.441}{V}$, $\kn=\SI{44.18}{mA/V^2}$), la \eqref{eq:sat} daría $I_{D2}=\SI{29.4}{mA}$, \SI{15.9}{\percent} menos que el objetivo; por ello el par debe elegirse entre más ejemplares medidos.
 
 %==================================================================
 \section{Simulación}
@@ -435,11 +393,138 @@ Con el circuito de la Fig.~\ref{fig:circ_car}(b) se hizo un barrido DC de $V_2$ 
 \label{fig:curvas}
 \end{figure}
 
-% --- Simulación de los amplificadores (pendiente: repetir en LTspice con los valores rediseñados) ---
-% \subsection{Amplificadores de fuente común y degenerada}
-% Fuente común (Tabla~\ref{tab:param_cs}): senoide 50 mV, 10 kHz, transitorio 500 us.
-% Fuente degenerada (Tabla~\ref{tab:param_deg}): senoide 50 mV, 10 kHz, Rsig = 50 ohm.
-% Reportar amplitudes, A_v, desfase y HD_2, y comparar con la Tabla~\ref{tab:diseno}.
+\subsection{Amplificador de fuente común}
+\label{sec:sim_cs}
+Se simuló el circuito de la Fig.~\ref{fig:cs} con los valores de la Tabla~\ref{tab:param_cs} y el mismo modelo de la Sec.~\ref{sec:sim_car}. La fuente senoidal de 10 kHz se barrió con la directiva \texttt{.step} en diez amplitudes $\hat v_{in}$ de 10 a 400 mV, con análisis transitorio hasta 2 ms; las amplitudes pico a pico se midieron con \texttt{.meas} en el último periodo (1.9 a 2.0 ms) y el armónico $HD_2$ con el análisis de Fourier de $v_{out}$. La Tabla~\ref{tab:sim_cs} resume los resultados y la Fig.~\ref{fig:transf} muestra la característica de transferencia $v_{out,pp}$ contra $v_{in,pp}$.
+
+\begin{table}[htbp]
+\centering
+\caption{Simulación del amplificador de fuente común al variar la amplitud de entrada. $HD_2$ teórico con la \eqref{eq:hd2} y $\Vov=\SI{0.395}{V}$ (Sec.~\ref{sec:an_cs}); error respecto a la simulación.}
+\label{tab:sim_cs}
+\scriptsize
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}ccccccc@{}}
+\toprule
+$\hat v_{in}$ & $v_{in,pp}$ & $v_{out,pp}$ & $|A_v|$ & $HD_2$ sim. & $HD_2$ teór. & Error \\
+(mV) & (mV) & (mV) & (V/V) & (\%) & (\%) & (\%) \\
+\midrule
+10 & 20.0 & 176.2 & 8.81 & 0.687 & 0.633 & 7.8 \\
+20 & 40.0 & 352.1 & 8.81 & 1.37 & 1.27 & 7.8 \\
+50 & 100.0 & 876.7 & 8.77 & 3.45 & 3.16 & 8.2 \\
+60 & 120.0 & 1 049.9 & 8.75 & 4.15 & 3.80 & 8.4 \\
+79 & 157.9 & 1 375.3 & 8.71 & 5.49 & 5.00 & 8.9 \\
+100 & 199.9 & 1 728.2 & 8.64 & 7.00 & 6.33 & 9.6 \\
+150 & 299.9 & 2 528.9 & 8.43 & 10.77 & 9.49 & 11.9 \\
+200 & 399.8 & 3 254.9 & 8.14 & 14.86 & 12.66 & 14.8 \\
+300 & 599.8 & 4 423.7 & 7.38 & 24.09 & 18.98 & 21.2 \\
+400 & 799.7 & 5 280.3 & 6.60 & 33.66 & 25.31 & 24.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.95\columnwidth, height=5.2cm,
+  xlabel={$v_{in,pp}$ (V)}, ylabel={$v_{out,pp}$ (V)},
+  xmin=0, xmax=0.8, ymin=0, ymax=6,
+  grid=both, grid style={gray!25},
+  tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  legend style={font=\scriptsize, at={(0.03,0.97)}, anchor=north west},
+  legend cell align=left]
+\addplot[only marks, mark=*, mark size=1.4pt, blue]
+  table[x=vin, y=vout, row sep=\\] {
+  vin vout \\
+  0.0199918 0.176151 \\
+  0.0399836 0.352103 \\
+  0.0999591 0.876737 \\
+  0.1199509 1.049865 \\
+  0.1579353 1.375296 \\
+  0.1999181 1.728195 \\
+  0.2998772 2.528937 \\
+  0.3998362 3.254889 \\
+  0.5997544 4.423734 \\
+  0.7997222 5.280252 \\
+  };
+\addlegendentry{Simulación}
+\addplot[dashed, red, thick, domain=0:0.8] {4.991*x};
+\addlegendentry{Diseño ($A_v=-4.99$)}
+\addplot[dotted, black, thick, domain=0:0.8] {8.589*x};
+\addlegendentry{Teoría con $\Vtp$, $\knp$ ($A_v=-8.59$)}
+\end{axis}
+\end{tikzpicture}
+\caption{Característica de transferencia $v_{out,pp}$ contra $v_{in,pp}$ del amplificador de fuente común simulado, comparada con las rectas de ganancia calculadas.}
+\label{fig:transf}
+\end{figure}
+
+\subsection{Amplificador de fuente degenerada}
+\label{sec:sim_deg}
+Se simuló el circuito de la Fig.~\ref{fig:cs} sin $C_S$ con los valores de la Tabla~\ref{tab:param_deg} y el modelo \texttt{2N7000\_mod.LIB} de LTspice. Se repitió el procedimiento de la Sec.~\ref{sec:sim_cs}: la fuente senoidal de 10 kHz se barrió con la directiva \texttt{.step} en diez amplitudes $\hat v_{in}$ de 10 a 400 mV, con análisis transitorio hasta 2 ms, amplitudes pico a pico medidas con \texttt{.meas} entre 1.9 y 2.0 ms y armónico $HD_2$ tomado del análisis de Fourier de $v_{out}$ (componente normalizada del segundo armónico). La Tabla~\ref{tab:sim_deg} resume los resultados y la Fig.~\ref{fig:transf_deg} muestra la característica de transferencia $v_{out,pp}$ contra $v_{in,pp}$.
+
+\begin{table}[htbp]
+\centering
+\caption{Simulación del amplificador de fuente degenerada al variar la amplitud de entrada. $HD_2$ teórico con la \eqref{eq:hd2_deg}, $\Vov=\SI{0.656}{V}$ y $1+\gm R_S=4.242$; error respecto a la simulación.}
+\label{tab:sim_deg}
+\scriptsize
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}ccccccc@{}}
+\toprule
+$\hat v_{in}$ & $v_{in,pp}$ & $v_{out,pp}$ & $|A_v|$ & $HD_2$ sim. & $HD_2$ teór. & Error \\
+(mV) & (mV) & (mV) & (V/V) & (\%) & (\%) & (\%) \\
+\midrule
+10 & 20.0 & 61.0 & 3.054 & 0.0244 & 0.0212 & 13.1 \\
+20 & 40.0 & 122.1 & 3.054 & 0.0477 & 0.0423 & 11.2 \\
+50 & 100.0 & 305.2 & 3.054 & 0.118 & 0.106 & 10.1 \\
+60 & 120.0 & 366.3 & 3.054 & 0.141 & 0.127 & 9.9 \\
+79 & 157.9 & 482.3 & 3.053 & 0.185 & 0.167 & 9.8 \\
+100 & 199.8 & 610.1 & 3.053 & 0.234 & 0.212 & 9.5 \\
+150 & 299.9 & 915.5 & 3.053 & 0.352 & 0.318 & 9.7 \\
+200 & 399.8 & 1 220.3 & 3.052 & 0.470 & 0.423 & 9.8 \\
+300 & 599.8 & 1 829.3 & 3.050 & 0.708 & 0.635 & 10.2 \\
+400 & 799.3 & 2 435.7 & 3.047 & 0.950 & 0.847 & 10.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.95\columnwidth, height=5.2cm,
+  xlabel={$v_{in,pp}$ (V)}, ylabel={$v_{out,pp}$ (V)},
+  xmin=0, xmax=0.8, ymin=0, ymax=2.6,
+  grid=both, grid style={gray!25},
+  tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  legend style={font=\scriptsize, at={(0.03,0.97)}, anchor=north west},
+  legend cell align=left]
+\addplot[only marks, mark=*, mark size=1.4pt, blue]
+  table[x=vin, y=vout, row sep=\\] {
+  vin vout \\
+  0.0199918 0.0610491 \\
+  0.0399836 0.1220978 \\
+  0.0999591 0.3052364 \\
+  0.1199509 0.3662785 \\
+  0.1579352 0.4822500 \\
+  0.1998331 0.6101437 \\
+  0.2998772 0.9154717 \\
+  0.3998362 1.2203492 \\
+  0.5997544 1.8293121 \\
+  0.7993323 2.4357294 \\
+  };
+\addlegendentry{Simulación ($A_v=-3.05$)}
+\addplot[dashed, red, thick, domain=0:0.8] {3.149*x};
+\addlegendentry{Diseño ($A_v=-3.15$)}
+\end{axis}
+\end{tikzpicture}
+\caption{Característica de transferencia $v_{out,pp}$ contra $v_{in,pp}$ del amplificador de fuente degenerada simulado, comparada con la recta de ganancia del diseño.}
+\label{fig:transf_deg}
+\end{figure}
+
+% --- Pendiente: simulación del punto de operación (.op) del fuente común y degenerado (ID, VGS, VDS), Zin, Zout y diagrama de Bode (5 frecuencias o más, p. ej. 100 Hz a 1 MHz) ---
+% --- Pendiente: simulación del amplificador de drenador común y del espejo de corriente ---
 
 %==================================================================
 \section{Montaje}
@@ -447,7 +532,7 @@ Con el circuito de la Fig.~\ref{fig:circ_car}(b) se hizo un barrido DC de $V_2$ 
 
 \subsection{Caracterización de dos ejemplares del 2N7000}
 \label{sec:mont_car}
-Con la misma topología de la Fig.~\ref{fig:circ_car}(a) se midieron $V_{GS}$ e $I_D$ de dos ejemplares del 2N7000 variando $R_1$ de 1 a 10 k$\Omega$ en pasos de 1 k$\Omega$. La Tabla~\ref{tab:med} presenta los resultados. El ajuste por mínimos cuadrados de $\sqrt{I_D}$ contra $V_{GS}$ (\eqref{eq:raiz}) da, con la \eqref{eq:vt_kn},
+Con la misma topología de la Fig.~\ref{fig:circ_car}(a) se midieron $V_{GS}$ e $I_D$ de dos ejemplares del 2N7000 variando $R_1$ de 1 a 10 k$\Omega$ en pasos de 1 k$\Omega$. La Tabla~\ref{tab:med} presenta los resultados. El ajuste por mínimos cuadrados de $\sqrt{I_D}$ contra $V_{GS}$ según la \eqref{eq:raiz} da, con la \eqref{eq:vt_kn},
 \begin{equation}
 \begin{aligned}
 \text{Ejemplar 1: }&\sqrt{I_D}=0.1572\,V_{GS}-0.2208,\ R^2=0.9896,\\
@@ -481,14 +566,14 @@ $R_1$ & $V_{GS}$ & $I_D$ & $V_{GS}$ & $I_D$ & $R_1$ & $V_{GS}$ & $I_D$ & $V_{GS}
 \end{table}
 
 % --- Montaje de los amplificadores (completar tras la práctica de laboratorio) ---
-% \subsection{Amplificadores de fuente común y degenerada}
+% \subsection{Amplificadores de fuente común, fuente degenerada y drenador común}
 
 %==================================================================
 \section{Análisis de resultados}
 %==================================================================
 
 \subsection{Caracterización del MOSFET}
-En la Fig.~\ref{fig:sqrtid} se observa que $\sqrt{I_D}$ crece de forma aproximadamente lineal con $V_{GS}$, como predice la \eqref{eq:raiz}, con $R^2=0.9932$; el intercepto $\Vts=\SI{1.496}{V}$ está dentro del rango de la hoja de datos y el $\kn$ puntual difiere \SI{4.59}{\percent} del de la pendiente. Las mediciones de la Tabla~\ref{tab:med} siguen la misma tendencia lineal (\eqref{eq:recta_m}, $R^2$ de 0.9896 y 0.9738) y sus interceptos, $\Vtm=\SI{1.405}{V}$ y \SI{1.441}{V}, también están dentro del rango de 0.8 a 3 V de la hoja de datos. El transistor permanece en saturación para cualquier $R_1$ porque $V_{DS}=V_{GS}>V_{GS}-V_t$; $R_1$ solo desplaza el punto sobre la curva según la \eqref{eq:kvl_car}. La relación es lineal porque en saturación $\sqrt{I_D}\propto V_{GS}-V_t$, y el intercepto es $V_t$ porque allí $\sqrt{I_D}=0$ y el canal deja de existir.
+En la Fig.~\ref{fig:sqrtid} se observa que $\sqrt{I_D}$ crece de forma aproximadamente lineal con $V_{GS}$, como predice la \eqref{eq:raiz}, con $R^2=0.9932$; el intercepto $\Vts=\SI{1.496}{V}$ está dentro del rango de la hoja de datos y el $\kn$ puntual difiere \SI{4.59}{\percent} del de la pendiente. Las mediciones de la Tabla~\ref{tab:med} siguen la misma tendencia lineal (ajustes de la \eqref{eq:recta_m}, $R^2$ de 0.9896 y 0.9738) y sus interceptos, $\Vtm=\SI{1.405}{V}$ y \SI{1.441}{V}, también están dentro del rango de 0.8 a 3 V de la hoja de datos. El transistor permanece en saturación para cualquier $R_1$ porque $V_{DS}=V_{GS}>V_{GS}-V_t$; $R_1$ solo desplaza el punto sobre la curva según la \eqref{eq:kvl_car}. La relación es lineal porque en saturación $\sqrt{I_D}\propto V_{GS}-V_t$, y el intercepto es $V_t$ porque allí $\sqrt{I_D}=0$ y el canal deja de existir.
 
 La Tabla~\ref{tab:comp_car} compara las mediciones del ejemplar 1 con la simulación de la Tabla~\ref{tab:car}. Las corrientes difieren en promedio \SI{2.08}{\percent} (máximo \SI{4.54}{\percent}) y las tensiones $V_{GS}$ \SI{3.75}{\percent} (máximo \SI{4.82}{\percent}), pero la simulación da una tensión umbral \SI{6.48}{\percent} mayor ($\Vts=\SI{1.496}{V}$ frente a $\Vtm=\SI{1.405}{V}$) y un $\kn$ \SI{44.76}{\percent} mayor ($\kns=\SI{71.52}{mA/V^2}$ frente a $\knm=\SI{49.41}{mA/V^2}$). Esto indica que el modelo de LTspice es solo un equivalente del dispositivo real: reproduce $I_D$ y $V_{GS}$ en el punto de medida, pero no sus parámetros. Entre los dos ejemplares medidos, $V_t$ difiere \SI{2.60}{\percent} y $\kn$ \SI{10.57}{\percent} (respecto al ejemplar 1), lo que confirma que los parámetros deben medirse en cada ejemplar y que, al elegir los dos transistores del espejo de corriente de la guía, conviene comparar estas curvas.
 
@@ -541,40 +626,91 @@ $V_{GS}$ (V) & $I_D$ simulada (mA) & $I_D$ modelo (mA) & Error (\%) \\
 \end{tabular}
 \end{table}
 
-Con $\Vtp$ y $\knp$ el error es menor que \SI{2}{\percent} entre 2 y 3 V y llega a \SI{8.04}{\percent} en 4 V. Con los parámetros de la \eqref{eq:recta}, obtenidos cerca del umbral, la \eqref{eq:sat} subestima la corriente entre \SI{30.5}{\percent} y \SI{43.1}{\percent} en ese intervalo, porque la pendiente de $\sqrt{I_D}$ aumenta con $V_{GS}$ (de \SI{0.19}{A^{1/2}/V} cerca del umbral a \SI{0.26}{A^{1/2}/V} entre 2 y 3 V). Por eso $V_t$ y $\kn$ deben extraerse cerca de la zona de operación. Esto es relevante para los parámetros medidos, obtenidos con $V_{GS}$ entre \SI{1.515}{V} y \SI{1.752}{V} (ejemplar 1) mientras los amplificadores operan con $V_{GS}\approx\SI{2.05}{V}$: la corriente medida en el montaje podría resultar mayor que la calculada, lo que deberá verificarse en el laboratorio. Además, para $V_{GS}\ge\SI{3.5}{V}$ la corriente supera los \SI{200}{mA} de la hoja de datos y en $V_{GS}=\SI{4}{V}$ la potencia llega a \SI{3.80}{W}, frente a $P_D=\SI{1}{W}$, por lo que el barrido de laboratorio debe restringirse.
+Con $\Vtp$ y $\knp$ el error es menor que \SI{2}{\percent} entre 2 y 3 V y llega a \SI{8.04}{\percent} en 4 V. Con los parámetros de la \eqref{eq:recta}, obtenidos cerca del umbral, la \eqref{eq:sat} subestima la corriente entre \SI{30.5}{\percent} y \SI{43.1}{\percent} en ese intervalo, porque la pendiente de $\sqrt{I_D}$ aumenta con $V_{GS}$ (de \SI{0.19}{A^{1/2}/V} cerca del umbral a \SI{0.26}{A^{1/2}/V} entre 2 y 3 V). Por eso $V_t$ y $\kn$ deben extraerse cerca de la zona de operación. Esto es relevante para los parámetros medidos, obtenidos con $V_{GS}$ entre \SI{1.515}{V} y \SI{1.752}{V} (ejemplar 1) mientras los amplificadores operan con $V_{GS}\approx\SI{2.05}{V}$; su efecto sobre el amplificador de fuente común se cuantifica en la Sec.~\ref{sec:an_cs}. Además, para $V_{GS}\ge\SI{3.5}{V}$ la corriente supera los \SI{200}{mA} de la hoja de datos y en $V_{GS}=\SI{4}{V}$ la potencia llega a \SI{3.80}{W}, frente a $P_D=\SI{1}{W}$, por lo que el barrido de laboratorio debe restringirse.
 
 \subsection{Diseño de los amplificadores}
 \label{sec:an_dis}
-La Tabla~\ref{tab:diseno} resume los resultados teóricos de las Tablas~\ref{tab:param_cs} y~\ref{tab:param_deg} con $\Vtm$ y $\knm$. Ambos amplificadores quedan en saturación ($V_{DS}\ge\Vov$, con $\Vov$ de \SI{0.642}{V} y \SI{0.656}{V}) y con potencias muy inferiores al límite de \SI{1}{W}.
+La Tabla~\ref{tab:diseno} resume los resultados teóricos de las Tablas~\ref{tab:param_cs} y~\ref{tab:param_deg} y del diseño del drenador común con $\Vtm$ y $\knm$. Los tres amplificadores quedan en saturación ($V_{DS}\ge\Vov$, con $\Vov$ de \SI{0.642}{V}, \SI{0.656}{V} y \SI{1.346}{V}) y con potencias inferiores al límite de \SI{1}{W}.
 
 \begin{table}[htbp]
 \centering
-\caption{Resultados teóricos del diseño de los amplificadores con $\Vtm$ y $\knm$.}
+\caption{Resultados teóricos del diseño de los amplificadores con $\Vtm$ y $\knm$. Entradas de la guía: 100, 100 y 200 mV$_{pp}$.}
 \label{tab:diseno}
 \scriptsize
 \renewcommand{\arraystretch}{1.05}
-\begin{tabular}{@{}lcc@{}}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccc@{}}
 \toprule
-Magnitud & Fuente común & Fuente degenerada \\
+Magnitud & Fuente común & F. degenerada & D. común \\
 \midrule
-$I_D$ (mA) & 10.17 & 10.64 \\
-$V_{GS}$ (V) & 2.046 & 2.061 \\
-$V_{DS}$ (V) & 6.848 & 4.362 \\
-$P=V_{DS}I_D$ (mW) & 69.6 & 46.4 \\
-$\gm$ (mS) & 31.69 & 32.42 \\
-$A_v$ (V/V) & $-4.99$ & $-3.15$ \\
-Salida para 100 mV$_{pp}$ de entrada (mV$_{pp}$) & 499 & 315 \\
-$Z_{in}$ (k$\Omega$) & 64.29 & 68.75 \\
-$Z_{out}$ ($\Omega$) & 160 & 430 \\
-$\hat v_{in,max}$ para $HD_2\le\SI{5}{\percent}$ (mV) & 128 & 557 \\
-$HD_2$ con 50 mV de entrada (\%) & 1.95 & 0.45 \\
+$I_D$ (mA) & 10.17 & 10.64 & 44.73 \\
+$V_{GS}$ (V) & 2.046 & 2.061 & 2.751 \\
+$V_{DS}$ (V) & 6.848 & 4.362 & 9.290 \\
+$P=V_{DS}I_D$ (mW) & 69.6 & 46.4 & 415.6 \\
+$\gm$ (mS) & 31.69 & 32.42 & 66.49 \\
+$A_v$ (V/V) & $-4.99$ & $-3.15$ & $+0.80$ \\
+Salida con la entrada de la guía (mV$_{pp}$) & 499 & 315 & 160 \\
+$Z_{in}$ (k$\Omega$) & 64.29 & 68.75 & 277.9 \\
+$Z_{out}$ ($\Omega$) & 160 & 430 & 13.67 \\
+$\hat v_{in,max}$ para $\hat v_{gs}\le0.2\Vov$ (mV) & 128 & 557 & 1 343 \\
+$HD_2$ con $\hat v_{in}$ de 50, 50 y 100 mV (\%) & 1.95 & 0.11 & 0.07 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-En la fuente común, $|A_v|=4.99$ se desvía \SI{0.17}{\percent} de 5, de modo que el requisito $|v_{out}|\approx 5\,|v_{in}|$ se cumple. En la fuente degenerada, $|A_v|=3.15$ supera en \SI{4.95}{\percent} el valor de 3 y la salida de \SI{314.9}{mV_{pp}} cumple el mínimo de 300 mV$_{pp}$. La degeneración con $R_S$ no puenteado reduce la ganancia a $1/(1/\gm+R_S)$ veces la resistencia de carga, pero reduce también $v_{gs}$ y por ello el límite de pequeña señal pasa de \SI{128}{mV} a \SI{557}{mV} y el $HD_2$ de 1.95\% a 0.45\%, en concordancia con la \eqref{eq:limite_deg}. En ambos casos la entrada de 50 mV queda por debajo del límite lineal, y las frecuencias de corte de $C_1$, $C_2$ y $C_S$ (\eqref{eq:fc}) son menores que 10 kHz, por lo que los capacitores se comportan como cortocircuitos a esa frecuencia.
+En la fuente común, $|A_v|=4.99$ se desvía \SI{0.17}{\percent} de 5, de modo que el requisito $|v_{out}|\approx 5\,|v_{in}|$ se cumple en el cálculo. En la fuente degenerada, $|A_v|=3.15$ supera en \SI{4.95}{\percent} el valor de 3 y la salida de \SI{314.9}{mV_{pp}} cumple el mínimo de 300 mV$_{pp}$. La degeneración con $R_S$ no puenteado reduce la ganancia a $1/(1/\gm+R_S)$ veces la resistencia de carga, pero reduce también $v_{gs}$ y por ello el límite de pequeña señal pasa de \SI{128}{mV} a \SI{557}{mV} (\eqref{eq:limite_deg}) y el $HD_2$ de 1.95\% a 0.11\% (\eqref{eq:hd2_deg}). El drenador común tiene ganancia menor que 1 y la menor impedancia de salida (\SI{13.67}{\ohm}), lo que lo hace adecuado como etapa separadora de una carga de \SI{100}{\ohm}, a costa de una corriente cuatro veces mayor. En todos los casos la entrada de la guía queda por debajo del límite lineal, y las frecuencias de corte de los capacitores, dadas por la \eqref{eq:fc}, son menores que 10 kHz, por lo que se comportan como cortocircuitos a esa frecuencia. Como el drenador común (\SI{44.73}{mA}, $V_{GS}=\SI{2.751}{V}$) y el espejo (\SI{35}{mA}, $V_{GS}=\SI{2.595}{V}$) se calcularon con parámetros extraídos con $I_D\le\SI{3.2}{mA}$, la Sec.~\ref{sec:an_curvas} indica que la corriente real puede ser mayor que la calculada, por lo que conviene verificarla en el laboratorio.
 
-% --- Comparación de simulación y medición de los amplificadores (completar tras simular y medir) ---
+\subsection{Amplificador de fuente común: teoría frente a simulación}
+\label{sec:an_cs}
+En la Fig.~\ref{fig:transf} se observa que la simulación es lineal para entradas pequeñas y se comprime al crecer la amplitud: según la Tabla~\ref{tab:sim_cs}, $|A_v|$ cae \SI{0.46}{\percent} respecto a su valor de pequeña señal con $\hat v_{in}=\SI{50}{mV}$ y \SI{7.61}{\percent} con \SI{200}{mV}. El $HD_2$ simulado se duplica al duplicar la amplitud de 10 a 20 mV (de 0.687\% a 1.37\%), como predice la \eqref{eq:hd2}, y cruza el 5\% en $\hat v_{in}\approx\SI{72}{mV}$ por interpolación entre 60 y 79 mV. Con la entrada nominal de 50 mV el $HD_2$ es \SI{3.45}{\percent}, aún bajo el 5\% exigido.
+
+La Tabla~\ref{tab:cmp_cs} compara la simulación con la teoría de la Sec.~\ref{sec:mont_car} para $\hat v_{in}=\SI{50}{mV}$. Con $\Vtm$ y $\knm$ la ganancia calculada queda \SI{43.1}{\percent} por debajo de la simulada: $|A_v|=4.99$ en lugar de 8.77, y la salida simulada de \SI{876.7}{mV_{pp}} es 1.76 veces la calculada, por lo que en simulación no se cumple $|v_{out}|\approx 5\,|v_{in}|$. El $\gm$ equivalente de la simulación, $|A_v|/(R_D\parallel R_L)=\SI{55.7}{mS}$, supera en 1.76 veces los \SI{31.69}{mS} calculados (el calculado queda \SI{43.1}{\percent} por debajo), mientras que la corriente apenas cambia, como se muestra a continuación. La causa es la extrapolación advertida en la Sec.~\ref{sec:an_curvas}: la \eqref{eq:vov} con $\Vtp$ y $\knp$ de la \eqref{eq:param_op} da $\Vov=\SI{0.395}{V}$, $I_D=\SI{10.77}{mA}$ y $\gm=\SI{54.54}{mS}$; frente a la teoría con parámetros medidos, $I_D$ aumenta solo \SI{5.9}{\percent} (porque la autopolarización con $R_S$ lo fija casi sin importar $\kn$), pero $\gm=\sqrt{2\kn I_D}$ aumenta \SI{72}{\percent}. Con estos valores la \eqref{eq:Av} da $A_v=-8.59$ y las desviaciones frente a la simulación son de solo \SI{2.1}{\percent} en $A_v$, \SI{8.2}{\percent} en $HD_2$ y \SI{9.6}{\percent} en el límite de pequeña señal (Tabla~\ref{tab:cmp_cs}). Las ecuaciones de la Sec.~\ref{sec:mont_car} describen entonces bien la simulación; lo que falla es usar parámetros extraídos cerca del umbral. Como el ejemplar medido y el modelo simulado difieren (Sec.~\ref{sec:an_curvas}), la ganancia del montaje no tiene por qué ser 8.77, pero por el mismo efecto cabe esperar $|A_v|>4.99$ y un límite de pequeña señal menor que \SI{128}{mV}, lo que debe verificarse en el laboratorio. Si el ejemplar se comportara como el modelo, la \eqref{eq:rd_cs} con $\gm=\SI{54.54}{mS}$ daría $R_D=\SI{92.5}{\ohm}$ para $|A_v|=5$, de modo que conviene medir $V_t$ y $\kn$ cerca de $V_{GS}\approx\SI{2}{V}$ antes de fijar $R_D$.
+
+\begin{table}[htbp]
+\centering
+\caption{Fuente común con $\hat v_{in}=\SI{50}{mV}$: simulación frente a teoría con parámetros medidos ($\Vtm$, $\knm$) y con los del modelo en la zona de operación ($\Vtp$, $\knp$). Errores respecto a la simulación.}
+\label{tab:cmp_cs}
+\scriptsize
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Magnitud & Sim. & $\Vtm,\knm$ & Error (\%) & $\Vtp,\knp$ & Error (\%) \\
+\midrule
+$|A_v|$ (V/V) & 8.77 & 4.99 & 43.1 & 8.59 & 2.1 \\
+$v_{out,pp}$ (mV$_{pp}$) & 876.7 & 499 & 43.1 & 859 & 2.1 \\
+$HD_2$ (\%) & 3.45 & 1.95 & 43.4 & 3.17 & 8.2 \\
+$\hat v_{in,max}$, $HD_2\le\SI{5}{\percent}$ (mV) & 72 & 128 & 77.9 & 79 & 9.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Amplificador de fuente degenerada: teoría frente a simulación}
+\label{sec:an_deg}
+En la Fig.~\ref{fig:transf_deg} se observa que la característica es prácticamente lineal en todo el barrido: según la Tabla~\ref{tab:sim_deg}, $|A_v|$ solo cae \SI{0.21}{\percent} entre 10 y 400 mV (de 3.054 a 3.047), frente a \SI{7.61}{\percent} que cae la fuente común ya con 200 mV. Con la entrada de 100 mV$_{pp}$ de la guía ($\hat v_{in}=\SI{50}{mV}$) la salida simulada es \SI{305.2}{mV_{pp}}, que cumple el mínimo de 300 mV$_{pp}$ con un margen de \SI{1.7}{\percent}. El $HD_2$ simulado crece casi linealmente con la amplitud (de 0.0244\% a 0.950\% entre 10 y 400 mV), como predice la \eqref{eq:hd2_deg}, y con 50 mV es \SI{0.118}{\percent}, unas 30 veces menor que el \SI{3.45}{\percent} de la fuente común. En el intervalo barrido no se alcanza el 5\%: con 400 mV, $\hat v_{gs}=400/4.242=\SI{94}{mV}$ queda por debajo de $0.2\,\Vov=\SI{131}{mV}$ y el modelo lineal sigue siendo válido, de acuerdo con el límite de \SI{557}{mV} de la \eqref{eq:limite_deg}.
+
+La Tabla~\ref{tab:cmp_deg} compara la simulación con la teoría con $\Vtm$ y $\knm$ para $\hat v_{in}=\SI{50}{mV}$. La ganancia calculada, $A_v=-3.149$, difiere \SI{3.1}{\percent} de la simulada y la salida calculada, \SI{314.9}{mV_{pp}}, \SI{3.2}{\percent}. El $\gm$ equivalente de la simulación, obtenido al despejar la \eqref{eq:Av_deg} con $|A_v|=3.054$, es \SI{28.65}{mS}, \SI{13.2}{\percent} menor que los \SI{32.42}{mS} calculados; sin embargo, este error se traslada a la ganancia muy atenuado, porque con $R_S=\SI{100}{\ohm}$ el término $1/\gm\approx\SI{31}{\ohm}$ pesa menos que $R_S$ en el denominador de la \eqref{eq:Av_deg}. Así, la degeneración hace al diseño poco sensible a la incertidumbre de $\gm$, mientras que en la fuente común, con $R_S$ puenteada, el error de $\gm$ pasa íntegro a $A_v$ (\SI{43.1}{\percent}, Tabla~\ref{tab:cmp_cs}). Para el $HD_2$, la \eqref{eq:hd2_deg} da \SI{0.106}{\percent} frente a \SI{0.118}{\percent} simulado (\SI{10.1}{\percent} de error, entre 9.5\% y 13.1\% en todo el barrido, Tabla~\ref{tab:sim_deg}), mientras que aplicar la \eqref{eq:hd2} a $\hat v_{gs}=\hat v_{in}/(1+\gm R_S)$ daría \SI{0.449}{\percent}, \SI{281}{\percent} por encima de la simulación; esto confirma que la realimentación de $R_S$ reduce la distorsión más allá de lo que reduce $v_{gs}$.
+
+\begin{table}[htbp]
+\centering
+\caption{Fuente degenerada con $\hat v_{in}=\SI{50}{mV}$: simulación frente a teoría con parámetros medidos ($\Vtm$, $\knm$). Errores respecto a la simulación; $\gm$ equivalente de la simulación despejado de la \eqref{eq:Av_deg}.}
+\label{tab:cmp_deg}
+\scriptsize
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Magnitud & Sim. & $\Vtm,\knm$ & Error (\%) \\
+\midrule
+$|A_v|$ (V/V) & 3.054 & 3.149 & 3.1 \\
+$v_{out,pp}$ (mV$_{pp}$) & 305.2 & 314.9 & 3.2 \\
+$\gm$ equivalente (mS) & 28.65 & 32.42 & 13.2 \\
+$HD_2$ (\%) & 0.118 & 0.106 & 10.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% --- Comparación con las simulaciones del drenador común y el espejo, y con las mediciones de los amplificadores (completar tras simular y medir) ---
 % \subsection{Comparación con simulación y mediciones}
 
 %==================================================================
@@ -583,12 +719,15 @@ En la fuente común, $|A_v|=4.99$ se desvía \SI{0.17}{\percent} de 5, de modo q
 \begin{enumerate}
 \item Las mediciones del ejemplar 1 dieron $\Vtm=\SI{1.405}{V}$ y $\knm=\SI{49.41}{mA/V^2}$, y las del ejemplar 2 $V_t=\SI{1.441}{V}$ y $\kn=\SI{44.18}{mA/V^2}$; ambos $V_t$ están dentro del intervalo de la hoja de datos (0.8 a 3 V) y los $\kn$ puntuales difieren \SI{5.68}{\percent} y \SI{9.62}{\percent} de los del ajuste.
 \item El modelo de LTspice reproduce $I_D$ y $V_{GS}$ medidos con errores promedio de \SI{2.08}{\percent} y \SI{3.75}{\percent}, pero sus parámetros difieren de los reales: $\Vts$ es \SI{6.48}{\percent} mayor que $\Vtm$ y $\kns$ es \SI{44.76}{\percent} mayor que $\knm$. Por tanto, los cálculos deben hacerse con parámetros medidos y no con los del modelo.
-\item Los dos ejemplares difieren \SI{2.60}{\percent} en $V_t$ y \SI{10.57}{\percent} en $\kn$, lo que muestra la dispersión entre dispositivos del mismo tipo y justifica medir cada transistor, en particular al emparejar los del espejo de corriente.
+\item Los dos ejemplares difieren \SI{2.60}{\percent} en $V_t$ y \SI{10.57}{\percent} en $\kn$; con ellos como $M_1$ y $M_2$ el espejo de \SI{35}{mA} daría \SI{29.4}{mA} (\SI{15.9}{\percent} de error), lo que justifica medir cada transistor y elegir el par más parecido.
 \item Con la compuerta unida al drenador el transistor permanece en saturación para cualquier $R_1$, lo que explica la linealidad de $\sqrt{I_D}$ y que $V_t$ sea el intercepto.
-\item Los parámetros extraídos cerca del umbral subestiman $I_D$ entre \SI{30.5}{\percent} y \SI{43.1}{\percent} en $V_{GS}$ de 2 a 4 V en el modelo simulado; con $\Vtp=\SI{1.561}{V}$ y $\knp=\SI{138.1}{mA/V^2}$ el error es menor que \SI{2}{\percent} entre 2 y 3 V y de \SI{8.04}{\percent} en 4 V. Como los parámetros medidos también provienen de la zona cercana al umbral, el punto de operación medido de los amplificadores podría desviarse del calculado.
-\item El amplificador de fuente común rediseñado ($R_D=\SI{160}{\ohm}$) queda en saturación ($I_D=\SI{10.17}{mA}$, $V_{DS}=\SI{6.85}{V}$) con $A_v=-4.99$ (\SI{0.17}{\percent} de desviación del objetivo de 5), $Z_{in}=\SI{64.29}{k\ohm}$ y $Z_{out}=\SI{160}{\ohm}$.
-\item El amplificador de fuente degenerada ($R_S=\SI{100}{\ohm}$, $R_D=\SI{430}{\ohm}$) cumple los 300 mV$_{pp}$ de salida ($A_v=-3.15$) y admite hasta \SI{557}{mV} de entrada con $HD_2\le\SI{5}{\percent}$, frente a \SI{128}{mV} de la fuente común: cambia ganancia por linealidad.
-% \item (Conclusión comparativa teoría--simulación--medición de los amplificadores: completar tras simular y montar.)
+\item Los parámetros extraídos cerca del umbral subestiman $I_D$ entre \SI{30.5}{\percent} y \SI{43.1}{\percent} en $V_{GS}$ de 2 a 4 V en el modelo simulado; con $\Vtp=\SI{1.561}{V}$ y $\knp=\SI{138.1}{mA/V^2}$ el error es menor que \SI{2}{\percent} entre 2 y 3 V y de \SI{8.04}{\percent} en 4 V.
+\item En el amplificador de fuente común, la simulación dio $|A_v|=8.77$ y $HD_2=\SI{3.45}{\percent}$ con 50 mV de entrada, frente a $4.99$ y \SI{1.95}{\percent} del diseño con $\Vtm$ y $\knm$ (errores de \SI{43.1}{\percent} y \SI{43.4}{\percent}); con $\Vtp$ y $\knp$ la teoría da $8.59$ y \SI{3.17}{\percent} (errores de \SI{2.1}{\percent} y \SI{8.2}{\percent}). La extrapolación desde el umbral altera poco $I_D$ (\SI{5.9}{\percent}) pero mucho $\gm$ (\SI{72}{\percent}), de modo que $R_D$ debe fijarse con parámetros medidos cerca de $V_{GS}\approx\SI{2}{V}$.
+\item El límite de pequeña señal simulado del fuente común ($HD_2\le\SI{5}{\percent}$) es de unos \SI{72}{mV}, frente a \SI{128}{mV} del diseño y \SI{79}{mV} de la teoría con $\Vtp$ y $\knp$ (errores de \SI{77.9}{\percent} y \SI{9.6}{\percent}); la entrada nominal de 50 mV queda por debajo de él.
+\item El amplificador de fuente degenerada ($R_S=\SI{100}{\ohm}$, $R_D=\SI{430}{\ohm}$) cumple los 300 mV$_{pp}$ de salida en simulación: $|A_v|=3.054$ y \SI{305.2}{mV_{pp}}, frente a $3.149$ y \SI{314.9}{mV_{pp}} del diseño (errores de \SI{3.1}{\percent} y \SI{3.2}{\percent}). Con 50 mV de entrada su $HD_2$ es \SI{0.118}{\percent}, frente a \SI{3.45}{\percent} de la fuente común, y con 400 mV sigue en \SI{0.950}{\percent}: cambia ganancia por linealidad.
+\item La degeneración vuelve al diseño robusto frente a la incertidumbre de los parámetros: un $\gm$ equivalente \SI{13.2}{\percent} menor que el calculado produce solo \SI{3.1}{\percent} de error en $A_v$, mientras que en la fuente común el error de $\gm$ pasa íntegro a la ganancia (\SI{43.1}{\percent}). Además, el $HD_2$ de la fuente degenerada sigue la \eqref{eq:hd2_deg}, con $(1+\gm R_S)^2$ en el denominador, con \SI{10.1}{\percent} de error; sin ese factor el error sería de \SI{281}{\percent}.
+\item El drenador común diseñado ($R_S=\SI{150}{\ohm}$, $V_{DD}=\SI{16}{V}$) logra $A_v=0.80$ y $Z_{out}=\SI{13.67}{\ohm}$ con $I_D=\SI{44.73}{mA}$; la ganancia de 0.95 no era alcanzable sin superar los \SI{200}{mA} del transistor.
+% \item (Conclusión comparativa teoría--simulación--medición del drenador común, el espejo y los montajes: completar tras simular y montar.)
 \end{enumerate}
 
 %==================================================================
@@ -601,7 +740,7 @@ En la fuente común, $|A_v|=4.99$ se desvía \SI{0.17}{\percent} de 5, de modo q
 
 \bibitem{lauenstein} J.-M. Lauenstein, ``Challenges for radiation hardness assurance (RHA) on power MOSFETs,'' presented at the NEPP Electronic Technology Workshop, NASA Goddard Space Flight Center, Greenbelt, MD, USA, 2012. [Online]. Available: \url{https://ntrs.nasa.gov/api/citations/20120014270/downloads/20120014270.pdf}
 
-\bibitem{kao} S.-T. Kao and C.-C. Su, ``A 0.8-V low power analog front-end IC for biomedical signal recording,'' thesis, Inst. Elect. Control Eng., Nat. Chiao Tung Univ., Hsinchu, Taiwan, 2008. [Online]. Available: \url{http://hdl.handle.net/11536/41083}
+\bibitem{kao} S.-T. Kao and C.-C. Su, ``A 0.8-V low power analog front-end IC for biomedical signal recording,'' thesis, Inst. Elect. Control Eng., Nat. Chiao Tung Univ., Hsinchu, Taiwan, 2008. [Online]. Available: \url{https://ir.lib.nycu.edu.tw/handle/11536/41083}
 
 \bibitem{litwin} A. Litwin, Q. Chen, J. Johansson, G. Ma, L.-A. Olofsson, and P. Perugupalli, ``High power LDMOS technology for wireless infrastructure,'' in \emph{Proc. GaAs Applications Symp. (GAAS 2001)}, London, U.K., Sep. 2001. [Online]. Available: \url{https://amsacta.unibo.it/id/eprint/65/}
 \end{thebibliography}
