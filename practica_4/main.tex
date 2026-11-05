@@ -25,10 +25,15 @@
 \newcommand{\Vov}{V_{OV}}
 \newcommand{\Vtp}{V_t'}
 \newcommand{\knp}{k_n'}
+% Parametros del modelo de simulacion (s) y del ejemplar 1 medido (m)
+\newcommand{\Vts}{V_{t,s}}
+\newcommand{\kns}{k_{n,s}}
+\newcommand{\Vtm}{V_{t,m}}
+\newcommand{\knm}{k_{n,m}}
 
 \begin{document}
 
-\title{Caracterización de un MOSFET 2N7000 y diseño de un amplificador de fuente común: pre-informe de la Práctica 4}
+\title{Caracterización de un MOSFET 2N7000 y diseño de amplificadores de fuente común y fuente degenerada: informe de la Práctica 4}
 
 \author{
 \IEEEauthorblockN{Juan José Tobar Álvarez\IEEEauthorrefmark{1},
@@ -47,9 +52,9 @@ jutobara@unal.edu.co, correo2@unal.edu.co, correo3@unal.edu.co}
 \subsection{Introducción}
 En un MOSFET de canal n de enriquecimiento, como el 2N7000, el canal solo se forma cuando la tensión compuerta--fuente $V_{GS}$ supera la tensión umbral $V_t$; según $V_{GS}$ y la tensión drenador--fuente $V_{DS}$, el dispositivo opera en corte, triodo o saturación \cite{sedra}. La saturación es la región de amplificación, pues allí la corriente de drenador $I_D$ queda controlada por $V_{GS}$ casi sin depender de $V_{DS}$. El análisis DC se realiza con la ley de Ohm y las leyes de Kirchhoff, y el análisis AC con el modelo de pequeña señal, caracterizado por la transconductancia $\gm$ \cite{sedra}.
 
-\textbf{Objetivo general.} Caracterizar el MOSFET 2N7000 y diseñar un amplificador de fuente común, verificándolo mediante simulación.
+\textbf{Objetivo general.} Caracterizar el MOSFET 2N7000 y diseñar amplificadores de fuente común y de fuente degenerada, verificándolos mediante simulación y medición.
 
-\textbf{Objetivos específicos.} (i) Determinar $V_t$ y $\kn$ y obtener las curvas $I_D$--$V_{DS}$; (ii) calcular el punto de polarización, $A_v$, $Z_{in}$, $Z_{out}$ y los límites de pequeña señal; (iii) comparar teoría y simulación mediante el error relativo porcentual.
+\textbf{Objetivos específicos.} (i) Determinar $V_t$ y $\kn$ mediante simulación y mediante medición de ejemplares reales, y obtener las curvas $I_D$--$V_{DS}$; (ii) calcular el punto de polarización, $A_v$, $Z_{in}$, $Z_{out}$ y los límites de pequeña señal con los parámetros medidos; (iii) comparar teoría, simulación y medición mediante el error relativo porcentual.
 
 \subsection{Justificación}
 El 2N7000 es un MOSFET DMOS vertical de canal n (60 V, 200 mA, encapsulado TO-92) pensado para amplificación, conmutación y control de motores \cite{datasheet}. Su estructura y los principios de polarización que se practican aparecen en aplicaciones de alta exigencia. En el sector aeroespacial, los MOSFET DMOS verticales han sido el dispositivo de conmutación más utilizado en los sistemas de potencia espaciales de la NASA \cite{shea}, y el Centro de Vuelo Espacial Goddard mantiene actividades de aseguramiento de dureza a la radiación para estos transistores \cite{lauenstein}. En la industria médica, los amplificadores CMOS forman el extremo frontal analógico de los sistemas portátiles de adquisición de señales biomédicas \cite{kao}. En telecomunicaciones, los MOSFET LDMOS se emplean en los amplificadores de potencia de las estaciones base celulares \cite{litwin}. La práctica enseña a extraer $V_t$ y $\kn$ de un dispositivo real y muestra cómo la polarización fija la ganancia y las impedancias.
@@ -106,17 +111,17 @@ una recta $\sqrt{I_D}=m\,V_{GS}+b$ con pendiente $m=\sqrt{\kn/2}$. Su intercepto
 V_t=-\frac{b}{m},\qquad \kn=2m^2.
 \label{eq:vt_kn}
 \end{equation}
-Con los 91 pares ($V_{GS}$, $I_D$) de la Sec.~\ref{sec:sim_car} ($R_1$ de 1 a \SI{10}{k\ohm} en pasos de \SI{100}{\ohm}), el ajuste por mínimos cuadrados de $\sqrt{I_D}$ (A$^{1/2}$) contra $V_{GS}$ (V) es
+Con los 91 pares ($V_{GS}$, $I_D$) de la Sec.~\ref{sec:sim_car} (modelo de simulación, $R_1$ de 1 a \SI{10}{k\ohm} en pasos de \SI{100}{\ohm}), el ajuste por mínimos cuadrados de $\sqrt{I_D}$ (A$^{1/2}$) contra $V_{GS}$ (V) es
 \begin{equation}
 \sqrt{I_D}=0.1891\,V_{GS}-0.2829,\qquad R^2=0.9932,
 \label{eq:recta}
 \end{equation}
-de donde $V_t=\SI{1.496}{V}$ y $\kn=\SI{71.52}{mA/V^2}$ mediante la \eqref{eq:vt_kn}. La guía propone verificar $\kn$ con un solo par de puntos:
+de donde $\Vts=\SI{1.496}{V}$ y $\kns=\SI{71.52}{mA/V^2}$ mediante la \eqref{eq:vt_kn}. La guía propone verificar $\kn$ con un solo par de puntos:
 \begin{equation}
 \kn=\frac{2I_D}{(V_{GS}-V_t)^2}.
 \label{eq:kn_punto}
 \end{equation}
-Para $R_1=\SI{5}{k\ohm}$ ($V_{GS}=\SI{1.6366}{V}$, $I_D=\SI{0.6727}{mA}$) la \eqref{eq:kn_punto} da $\kn=\SI{68.23}{mA/V^2}$, que difiere \SI{4.59}{\percent} del valor del ajuste.
+Para $R_1=\SI{5}{k\ohm}$ ($V_{GS}=\SI{1.6366}{V}$, $I_D=\SI{0.6727}{mA}$) la \eqref{eq:kn_punto} da $\kn=\SI{68.23}{mA/V^2}$, que difiere \SI{4.59}{\percent} del valor del ajuste. El mismo procedimiento se aplica a las mediciones de dos ejemplares reales en la Sec.~\ref{sec:mont_car}, cuyos parámetros ($\Vtm$, $\knm$) se emplean en el diseño de los amplificadores.
 
 \subsection{Circuito para las curvas características}
 Para obtener en una sola simulación la familia de curvas $I_D$--$V_{DS}$ se emplea el circuito de la Fig.~\ref{fig:circ_car}(b), con $V_1=V_{GS}$ en la compuerta y $V_2=V_{DS}$ en el drenador. Se barre $V_2$ de 0 a 10 V y, de forma anidada, $V_1$ de 2 a 4 V en pasos de 0.5 V, todos mayores que $V_t$. La frontera entre triodo y saturación es
@@ -124,7 +129,7 @@ Para obtener en una sola simulación la familia de curvas $I_D$--$V_{DS}$ se emp
 V_{DS}=V_{GS}-V_t,
 \label{eq:frontera}
 \end{equation}
-es decir, $V_{DS}=\SI{0.504}{V}$ para $V_{GS}=\SI{2}{V}$ y \SI{2.504}{V} para $V_{GS}=\SI{4}{V}$.
+es decir, $V_{DS}=\SI{0.504}{V}$ para $V_{GS}=\SI{2}{V}$ y \SI{2.504}{V} para $V_{GS}=\SI{4}{V}$ con $\Vts$.
 
 \begin{figure}[htbp]
 \centering
@@ -156,16 +161,21 @@ es decir, $V_{DS}=\SI{0.504}{V}$ para $V_{GS}=\SI{2}{V}$ y \SI{2.504}{V} para $V
 \label{fig:circ_car}
 \end{figure}
 
-\subsection{Parámetros en la zona de operación}
-La recta de la \eqref{eq:recta} se obtuvo con $V_{GS}$ entre \SI{1.59}{V} y \SI{1.78}{V}, cerca del umbral, pero el amplificador opera con $V_{GS}\approx\SI{2}{V}$ e $I_D\approx\SI{10}{mA}$. Por ello se repite el ajuste de la \eqref{eq:raiz} con las corrientes de saturación de la Fig.~\ref{fig:curvas} para $V_{GS}$ de 2, 2.5 y 3 V (Tabla~\ref{tab:isat}), lo que con la \eqref{eq:vt_kn} y $m'=\SI{0.2627}{A^{1/2}/V}$ da los parámetros de operación
+\subsection{Parámetros del modelo de simulación en la zona de operación}
+La recta de la \eqref{eq:recta} se obtuvo con $V_{GS}$ entre \SI{1.59}{V} y \SI{1.78}{V}, cerca del umbral, pero los amplificadores operan con $V_{GS}\approx\SI{2}{V}$ e $I_D\approx\SI{10}{mA}$. Por ello se repite el ajuste de la \eqref{eq:raiz} con las corrientes de saturación de la Fig.~\ref{fig:curvas} para $V_{GS}$ de 2, 2.5 y 3 V (Tabla~\ref{tab:isat}), lo que con la \eqref{eq:vt_kn} y $m'=\SI{0.2627}{A^{1/2}/V}$ da los parámetros del modelo de simulación en la zona de operación
 \begin{equation}
 \Vtp=\SI{1.561}{V},\qquad \knp=2m'^2=\SI{138.1}{mA/V^2},
 \label{eq:param_op}
 \end{equation}
-que se usan en el diseño del amplificador (su ventaja se cuantifica en la Sec.~\ref{sec:an_curvas}).
+que sirven para evaluar cuánto cambian $V_t$ y $\kn$ al alejarse del umbral (se cuantifica en la Sec.~\ref{sec:an_curvas}).
 
 \subsection{Diseño del amplificador de fuente común}
-Se diseña el amplificador de la Fig.~\ref{fig:cs} con los parámetros de la Tabla~\ref{tab:param_cs}, con generador ideal ($R_{sig}=\SI{0}{\ohm}$), $r_o\rightarrow\infty$ y los parámetros de operación de la \eqref{eq:param_op}. Los requisitos son saturación y $|v_{out}|\approx 5\,|v_{in}|$: $R_{G1}$ y $R_{G2}$ fijan $I_D\approx\SI{10.8}{mA}$, con lo que $\gm\approx\SI{54.5}{mS}$ (\eqref{eq:gm}) y $|A_v|=\gm(R_D\parallel R_L)\approx 5$ (\eqref{eq:Av}).
+Se diseña el amplificador de la Fig.~\ref{fig:cs} con los parámetros de la Tabla~\ref{tab:param_cs}, con generador ideal ($R_{sig}=\SI{0}{\ohm}$), $r_o\rightarrow\infty$ y los parámetros medidos del ejemplar 1, $\Vtm=\SI{1.405}{V}$ y $\knm=\SI{49.41}{mA/V^2}$ (Sec.~\ref{sec:mont_car}). Los requisitos son saturación y $|v_{out}|\approx 5\,|v_{in}|$: $R_{G1}$, $R_{G2}$ y $R_S$ fijan $I_D\approx\SI{10.2}{mA}$, con lo que $\gm\approx\SI{31.7}{mS}$ (\eqref{eq:gm}) y $R_D$ se elige para que $|A_v|=\gm(R_D\parallel R_L)\approx 5$ (\eqref{eq:Av}). Despejando de la \eqref{eq:Av} con $|A_v|=5$,
+\begin{equation}
+R_D\parallel R_L=\frac{|A_v|}{\gm}=\SI{157.8}{\ohm}\;\Rightarrow\;R_D=\frac{R_L\,(|A_v|/\gm)}{R_L-|A_v|/\gm}=\SI{160.3}{\ohm},
+\label{eq:rd_cs}
+\end{equation}
+y se adopta el valor comercial $R_D=\SI{160}{\ohm}$.
 
 \begin{table}[htbp]
 \centering
@@ -177,7 +187,7 @@ Se diseña el amplificador de la Fig.~\ref{fig:cs} con los parámetros de la Tab
 \toprule
 $V_{DD}$ & $R_{G1}$ & $R_{G2}$ & $R_D$ & $R_S$ \\
 \midrule
-10 V & 180 k$\Omega$ & 100 k$\Omega$ & 90 $\Omega$ & 150 $\Omega$ \\
+10 V & 180 k$\Omega$ & 100 k$\Omega$ & 160 $\Omega$ & 150 $\Omega$ \\
 \midrule
 $R_L$ & $C_1=C_2=C_S$ & $\hat v_{in}$ & $f$ & $R_{sig}$ \\
 \midrule
@@ -205,38 +215,39 @@ $R_L$ & $C_1=C_2=C_S$ & $\hat v_{in}$ & $f$ & $R_{sig}$ \\
 \label{fig:cs}
 \end{figure}
 
-\paragraph{Análisis DC.} Con $I_G=0$, el divisor de la compuerta equivale a una fuente de Thévenin
+\noindent\textit{Análisis DC.} Con $I_G=0$, el divisor de la compuerta equivale a una fuente de Thévenin
 \begin{equation}
 \begin{gathered}
 V_G=V_{DD}\frac{R_{G2}}{R_{G1}+R_{G2}}=\SI{3.571}{V},\\
 R_G=R_{G1}\parallel R_{G2}=\SI{64.29}{k\ohm},
 \end{gathered}
+\label{eq:thev}
 \end{equation}
-que fija la tensión de compuerta. Con la \eqref{eq:thev}, la malla compuerta--fuente da $V_G=\Vtp+\Vov+I_DR_S$ y, al sustituir $I_D=\tfrac{\knp}{2}\Vov^2$ de la \eqref{eq:sat}, resulta una cuadrática en $\Vov$ cuya raíz positiva es
+que fija la tensión de compuerta. Con la \eqref{eq:thev}, la malla compuerta--fuente da $V_G=V_t+\Vov+I_DR_S$ y, al sustituir $I_D=\tfrac{\kn}{2}\Vov^2$ de la \eqref{eq:sat}, resulta una cuadrática en $\Vov$ cuya raíz positiva es
 \begin{equation}
-\Vov=\frac{-1+\sqrt{1+2\knp R_S\,(V_G-\Vtp)}}{\knp R_S}.
+\Vov=\frac{-1+\sqrt{1+2\kn R_S\,(V_G-V_t)}}{\kn R_S}.
 \label{eq:vov}
 \end{equation}
-Con la \eqref{eq:vov} y los valores de la \eqref{eq:param_op} se obtiene $\Vov=\SI{0.395}{V}$, $I_D=\tfrac{\knp}{2}\Vov^2=\SI{10.77}{mA}$ y $V_{GS}=\SI{1.956}{V}$. Las demás tensiones se calculan con
+Con la \eqref{eq:vov}, $\Vtm$ y $\knm$ se obtiene $\Vov=\SI{0.642}{V}$, $I_D=\tfrac{\knm}{2}\Vov^2=\SI{10.17}{mA}$ y $V_{GS}=\SI{2.046}{V}$. Las demás tensiones se calculan con
 \begin{equation}
 V_S=I_DR_S,\quad V_D=V_{DD}-I_DR_D,\quad V_{DS}=V_D-V_S,
 \label{eq:vds}
 \end{equation}
-que dan $V_S=\SI{1.616}{V}$, $V_D=\SI{9.031}{V}$ y $V_{DS}=\SI{7.415}{V}$. Como $V_{DS}$ de la \eqref{eq:vds} cumple $V_{DS}\ge\Vov$, el transistor opera en saturación, y $I_D<I_{D,max}$ y $P=V_{DS}I_D=\SI{79.9}{mW}<\SI{1}{W}$ respetan la Tabla~\ref{tab:datasheet}.
+que dan $V_S=\SI{1.525}{V}$, $V_D=\SI{8.373}{V}$ y $V_{DS}=\SI{6.848}{V}$. Como $V_{DS}$ de la \eqref{eq:vds} cumple $V_{DS}\ge\Vov$, el transistor opera en saturación, y $I_D<I_{D,max}$ y $P=V_{DS}I_D=\SI{69.6}{mW}<\SI{1}{W}$ respetan la Tabla~\ref{tab:datasheet}.
 
-\paragraph{Análisis AC.} A 10 kHz los capacitores son cortocircuitos y las fuentes DC son tierra de señal. En el modelo de pequeña señal, la transconductancia es
+\noindent\textit{Análisis AC.} A 10 kHz los capacitores son cortocircuitos y las fuentes DC son tierra de señal. En el modelo de pequeña señal, la transconductancia es
 \begin{equation}
-\gm=\knp\Vov=\sqrt{2\knp I_D}=\SI{54.54}{mS},
+\gm=\knm\Vov=\sqrt{2\knm I_D}=\SI{31.69}{mS},
 \label{eq:gm}
 \end{equation}
-y la ganancia de voltaje, con $R_D\parallel R_L=\SI{89.20}{\ohm}$, es
+y la ganancia de voltaje, con $R_D\parallel R_L=\SI{157.5}{\ohm}$, es
 \begin{equation}
-A_v=\frac{v_{out}}{v_{in}}=-\gm\,(R_D\parallel R_L)=-4.86\ \text{V/V}.
+A_v=\frac{v_{out}}{v_{in}}=-\gm\,(R_D\parallel R_L)=-4.99\ \text{V/V}.
 \label{eq:Av}
 \end{equation}
-El signo negativo indica inversión de fase y la amplitud de salida esperada es $4.86\times\SI{50}{mV}=\SI{243}{mV}$. Las impedancias de entrada y de salida son
+El signo negativo indica inversión de fase y la amplitud de salida esperada es $4.99\times\SI{50}{mV}=\SI{249.6}{mV}$. Las impedancias de entrada y de salida son
 \begin{equation}
-Z_{in}=R_{G1}\parallel R_{G2}=\SI{64.29}{k\ohm},\qquad Z_{out}=R_D\parallel r_o=\SI{90}{\ohm},
+Z_{in}=R_{G1}\parallel R_{G2}=\SI{64.29}{k\ohm},\qquad Z_{out}=R_D\parallel r_o=\SI{160}{\ohm},
 \label{eq:zin_zout}
 \end{equation}
 pues la compuerta no consume corriente y $r_o\rightarrow\infty$. Que los capacitores sean cortocircuitos se verifica con la frecuencia de corte de cada uno,
@@ -244,43 +255,66 @@ pues la compuerta no consume corriente y $r_o\rightarrow\infty$. Que los capacit
 f_c=\frac{1}{2\pi R_{eq}C},
 \label{eq:fc}
 \end{equation}
-donde $R_{eq}=Z_{in}$ para $C_1$ ($f_c=\SI{0.25}{Hz}$), $R_{eq}=R_D+R_L$ para $C_2$ ($f_c=\SI{1.58}{Hz}$) y $R_{eq}=R_S\parallel(1/\gm)=\SI{16.34}{\ohm}$ para $C_S$ ($f_p=\SI{974}{Hz}$), unas 10 veces menor que los 10 kHz de trabajo. Como $C_S$ introduce además un cero en $f_z=1/(2\pi R_SC_S)$, la fase de la ganancia a 10 kHz es
+donde $R_{eq}=Z_{in}$ para $C_1$ ($f_c=\SI{0.25}{Hz}$), $R_{eq}=R_D+R_L$ para $C_2$ ($f_c=\SI{1.57}{Hz}$) y $R_{eq}=R_S\parallel(1/\gm)=\SI{26.07}{\ohm}$ para $C_S$ ($f_p=\SI{611}{Hz}$), unas 16 veces menor que los 10 kHz de trabajo. Como $C_S$ introduce además un cero en $f_z=1/(2\pi R_SC_S)$, la fase de la ganancia a 10 kHz es
 \begin{equation}
-\angle A_v=-180^\circ+\arctan\frac{f}{f_z}-\arctan\frac{f}{f_p}=-175.0^\circ,
+\angle A_v=-180^\circ+\arctan\frac{f}{f_z}-\arctan\frac{f}{f_p}=-177.1^\circ,
 \label{eq:fase}
 \end{equation}
-con $f_z=\SI{106}{Hz}$, un adelanto de $5.0^\circ$ sobre la inversión ideal.
+con $f_z=\SI{106}{Hz}$, un adelanto de $2.9^\circ$ sobre la inversión ideal.
 
-\paragraph{Límites de pequeña señal.} El modelo lineal es válido si $v_{gs}\ll 2\Vov$ \cite{sedra}. Como la distorsión de segundo armónico es $HD_2=\hat v_{gs}/(4\Vov)$, exigir $HD_2\le \SI{5}{\percent}$ conduce a
+\noindent\textit{Límites de pequeña señal.} El modelo lineal es válido si $v_{gs}\ll 2\Vov$ \cite{sedra}. Como la distorsión de segundo armónico es $HD_2=\hat v_{gs}/(4\Vov)$, exigir $HD_2\le \SI{5}{\percent}$ conduce a
 \begin{equation}
-\hat v_{gs,max}=0.2\,\Vov=\SI{79}{mV}.
+\hat v_{gs,max}=0.2\,\Vov=\SI{128}{mV}.
 \label{eq:limite}
 \end{equation}
-Como $v_{gs}=v_{in}$, la amplitud máxima de entrada es \SI{79}{mV} y la de salida de unos \SI{384}{mV}; la señal de 50 mV produce $HD_2=\SI{3.17}{\percent}$.
+Como $v_{gs}=v_{in}$, la amplitud máxima de entrada es \SI{128}{mV} y la de salida de unos \SI{640}{mV}; la señal de 50 mV produce $HD_2=\SI{1.95}{\percent}$.
 
 \subsection{Diseño del amplificador de fuente degenerada}
-Para el diseño del amplificador de fuente degenerada se tienen las siguientes ecuaciones disponibles:
-la ganancia está dada por: 
-$$ A_v = -\frac{Z_{in}}{Z_{in} + R_sig}*\frac{(Z_{out} || R_L)}{\frac{1}{g_m} + R_s}$$
-Dado que $R_sig$ corresponde a la impedancia de salida del generador de señales, cuyo valor es
-$50 \Omega$, se espera que esta sea muy pequeña comparada con la impedancia de entrada,
-por lo que esta primera parte de la ecuación se considera equivalente a $1$. 
-\\
-Teniendo en cuenta que se desea una ganancia $A_v$ de 3, que la impedancia de salida de este amplificador es $Z_{out}= R_d$
-y que el símbolo menos en la ecuación simboliza la inversión de la fase, la ecuación queda parametrizada de la siguiente forma:
-\\
-$$ 3 = \frac{(R_d|| R_L)}{\frac{1}{g_m} + R_s}$$
-Para que esta ecuación relacione R_d y R_s se requiere condicionar el diseño mediante la transconductancia,
-la cual según la guía se puede obtener mediante la expresión:
-$$g_m = \sqrt{2k_n*I_d}
-Con este proposito se elige $k_n= 0.0932 A/V^2$ ya que este es el valor que se toma en el modelo SPICE descargado desde la página de \textit{onsemi}. 
-A su vez entonces se determina $I_d = 10 mA$ de manera arbitraria para obtener condiciones de saturación alcanzables en laboratorio
-sin superar las condiciones de trabajo del MOSFET.
-\\
-Por lo anterior $g_m = \sqrt{0.0932 \frac{A}{V^2} * 0.01 A} = 0.043 A/V$.
-\\
-Considerando todos estos parametros, la ecuación se puede expresar de la siguiente manera.
-$$(69.486 + 3R_s)*(10^4 + R_d)= 10^4*R_d$$
+Se diseña el amplificador de la Fig.~\ref{fig:cs} sin el capacitor $C_S$, de modo que $R_S$ queda en el camino de la señal, con los parámetros de la Tabla~\ref{tab:param_deg} y los parámetros medidos $\Vtm$ y $\knm$. Los requisitos de la guía son saturación, $R_L=\SI{10}{k\ohm}$, entrada de 100 mV$_{pp}$ y salida de al menos 300 mV$_{pp}$, es decir, $|A_v|\ge 3$. La ganancia con el generador de impedancia $R_{sig}=\SI{50}{\ohm}$ es
+\begin{equation}
+A_v=-\frac{Z_{in}}{Z_{in}+R_{sig}}\cdot\frac{R_D\parallel R_L}{1/\gm+R_S},
+\label{eq:Av_deg}
+\end{equation}
+y como $Z_{in}\gg R_{sig}$ el primer factor es prácticamente 1. Para $|A_v|=3$ la \eqref{eq:Av_deg} exige $R_D\parallel R_L=3\,(1/\gm+R_S)$, de donde
+\begin{equation}
+R_D=\frac{R_L\,X}{R_L-X},\qquad X=3\left(\frac{1}{\gm}+R_S\right).
+\label{eq:rd_deg}
+\end{equation}
+Se fija de forma arbitraria $I_D=\SI{10}{mA}$, que mantiene el transistor en saturación sin superar los límites de la Tabla~\ref{tab:datasheet}, con lo que $\gm=\sqrt{2\knm I_D}=\SI{31.43}{mS}$ ($1/\gm=\SI{31.81}{\ohm}$) y $\Vov=\sqrt{2I_D/\knm}=\SI{0.636}{V}$. Con $R_S=\SI{100}{\ohm}$, $V_S=\SI{1.0}{V}$ y la compuerta debe estar en $V_G=\Vtm+\Vov+I_DR_S=\SI{3.041}{V}$, valor que se aproxima con $R_{G1}=\SI{220}{k\ohm}$ y $R_{G2}=\SI{100}{k\ohm}$. La \eqref{eq:rd_deg} da $X=\SI{395.4}{\ohm}$ y $R_D=\SI{411.7}{\ohm}$; se adopta el valor comercial $R_D=\SI{430}{\ohm}$, que deja un margen sobre el requisito de 300 mV$_{pp}$.
+
+\begin{table}[htbp]
+\centering
+\caption{Parámetros asumidos para el amplificador de fuente degenerada.}
+\label{tab:param_deg}
+\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+$V_{DD}$ & $R_{G1}$ & $R_{G2}$ & $R_D$ & $R_S$ \\
+\midrule
+10 V & 220 k$\Omega$ & 100 k$\Omega$ & 430 $\Omega$ & 100 $\Omega$ \\
+\midrule
+$R_L$ & $C_1=C_2$ & $\hat v_{in}$ & $f$ & $R_{sig}$ \\
+\midrule
+10 k$\Omega$ & 10 $\mu$F & 50 mV (100 mV$_{pp}$) & 10 kHz & 50 $\Omega$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textit{Análisis DC.} El divisor da $V_G=\SI{3.125}{V}$ y $R_G=\SI{68.75}{k\ohm}$ con la \eqref{eq:thev}. La \eqref{eq:vov} con $R_S=\SI{100}{\ohm}$ resulta en $\Vov=\SI{0.656}{V}$, $I_D=\SI{10.64}{mA}$ y $V_{GS}=\SI{2.061}{V}$, y la \eqref{eq:vds} da $V_S=\SI{1.064}{V}$, $V_D=\SI{5.426}{V}$ y $V_{DS}=\SI{4.362}{V}\ge\Vov$, por lo que el transistor está en saturación con $P=\SI{46.4}{mW}<\SI{1}{W}$.
+
+\noindent\textit{Análisis AC.} Con este punto de operación, la \eqref{eq:gm} da $\gm=\SI{32.42}{mS}$ ($1/\gm=\SI{30.84}{\ohm}$) y $R_D\parallel R_L=\SI{412.3}{\ohm}$, por lo que la \eqref{eq:Av_deg} con $Z_{in}=R_G=\SI{68.75}{k\ohm}$ resulta
+\begin{equation}
+A_v=-0.9993\cdot\frac{412.3}{30.84+100}=-3.15\ \text{V/V},
+\label{eq:Av_deg_val}
+\end{equation}
+es decir, una salida de $\SI{314.9}{mV_{pp}}$ para 100 mV$_{pp}$ de entrada. Las impedancias son $Z_{in}=R_{G1}\parallel R_{G2}=\SI{68.75}{k\ohm}$ y $Z_{out}=R_D=\SI{430}{\ohm}$, y las frecuencias de corte de la \eqref{eq:fc} son $f_c=\SI{0.23}{Hz}$ para $C_1$ ($R_{eq}=Z_{in}+R_{sig}$) y $f_c=\SI{1.53}{Hz}$ para $C_2$ ($R_{eq}=R_D+R_L$), muy inferiores a 10 kHz. Al no haber $C_S$, la señal en la compuerta--fuente se reduce a $v_{gs}=v_{in}/(1+\gm R_S)$ (aquí $1+\gm R_S=4.24$), por lo que el límite de la \eqref{eq:limite}, $\hat v_{gs,max}=0.2\Vov=\SI{131}{mV}$, corresponde a una amplitud de entrada de
+\begin{equation}
+\hat v_{in,max}=\hat v_{gs,max}\,(1+\gm R_S)=\SI{557}{mV},
+\label{eq:limite_deg}
+\end{equation}
+y la señal de 50 mV produce $HD_2=\SI{0.45}{\percent}$. La degeneración reduce la ganancia respecto a la fuente común, pero amplía el rango lineal de entrada.
+
 %==================================================================
 \section{Simulación}
 %==================================================================
@@ -313,7 +347,7 @@ $R_1$ & $V_{GS}$ & $I_D$ & $\sqrt{I_D}$ & $R_1$ & $V_{GS}$ & $I_D$ & $\sqrt{I_D}
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.68\columnwidth]{fig_sqrtid.pdf}
-\caption{$\sqrt{I_D}$ en función de $V_{GS}$ obtenida variando $R_1$, con su ajuste lineal y el intercepto $V_t$.}
+\caption{$\sqrt{I_D}$ en función de $V_{GS}$ obtenida variando $R_1$ en simulación, con su ajuste lineal y el intercepto $\Vts$.}
 \label{fig:sqrtid}
 \end{figure}
 
@@ -327,27 +361,88 @@ Con el circuito de la Fig.~\ref{fig:circ_car}(b) se hizo un barrido DC de $V_2$ 
 \label{fig:curvas}
 \end{figure}
 
-\subsection{Amplificador de fuente común}
-Se simuló el circuito de la Fig.~\ref{fig:cs} con los valores de la Tabla~\ref{tab:param_cs}, una fuente senoidal de 50 mV de amplitud a 10 kHz y un análisis transitorio de 500 $\mu$s. La Fig.~\ref{fig:trans} muestra las tensiones entre 300 y 500 $\mu$s. Ajustando senoides de 10 kHz entre 200 y 500 $\mu$s se obtienen amplitudes de \SI{50.00}{mV} (entrada) y \SI{247.7}{mV} (salida), un desfase de salida de $-174.9^\circ$, $A_v=-4.95$ V/V y, con un ajuste de armónicos, $HD_2=\SI{3.45}{\percent}$.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.92\columnwidth]{fig_transitoria.pdf}
-\caption{Tensiones de entrada y de salida simuladas del amplificador de fuente común a 10 kHz.}
-\label{fig:trans}
-\end{figure}
+% --- Simulación de los amplificadores (pendiente: repetir en LTspice con los valores rediseñados) ---
+% \subsection{Amplificadores de fuente común y degenerada}
+% Fuente común (Tabla~\ref{tab:param_cs}): senoide 50 mV, 10 kHz, transitorio 500 us.
+% Fuente degenerada (Tabla~\ref{tab:param_deg}): senoide 50 mV, 10 kHz, Rsig = 50 ohm.
+% Reportar amplitudes, A_v, desfase y HD_2, y comparar con la Tabla~\ref{tab:diseno}.
 
 %==================================================================
 \section{Montaje}
 %==================================================================
-% (Sección pendiente hasta realizar el montaje en el laboratorio.)
+
+\subsection{Caracterización de dos ejemplares del 2N7000}
+\label{sec:mont_car}
+Con la misma topología de la Fig.~\ref{fig:circ_car}(a) se midieron $V_{GS}$ e $I_D$ de dos ejemplares del 2N7000 variando $R_1$ de 1 a 10 k$\Omega$ en pasos de 1 k$\Omega$. La Tabla~\ref{tab:med} presenta los resultados. El ajuste por mínimos cuadrados de $\sqrt{I_D}$ contra $V_{GS}$ (\eqref{eq:raiz}) da, con la \eqref{eq:vt_kn},
+\begin{equation}
+\begin{aligned}
+\text{Ejemplar 1: }&\sqrt{I_D}=0.1572\,V_{GS}-0.2208,\ R^2=0.9896,\\
+\text{Ejemplar 2: }&\sqrt{I_D}=0.1486\,V_{GS}-0.2142,\ R^2=0.9738,
+\end{aligned}
+\label{eq:recta_m}
+\end{equation}
+de donde $\Vtm=\SI{1.405}{V}$ y $\knm=\SI{49.41}{mA/V^2}$ para el ejemplar 1, y $V_t=\SI{1.441}{V}$ y $\kn=\SI{44.18}{mA/V^2}$ para el ejemplar 2. Con el par de puntos $R_1=\SI{5}{k\ohm}$ la \eqref{eq:kn_punto} da $\kn=\SI{46.60}{mA/V^2}$ (ejemplar 1) y \SI{39.93}{mA/V^2} (ejemplar 2), que difieren \SI{5.68}{\percent} y \SI{9.62}{\percent} de los del ajuste. Los parámetros del ejemplar 1 se emplean en el diseño de la Sec.~\ref{sec:an_dis}.
+
+\begin{table}[htbp]
+\centering
+\caption{Mediciones de $V_{GS}$ e $I_D$ de dos ejemplares del 2N7000 al variar $R_1$.}
+\label{tab:med}
+\scriptsize
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ccccc@{\hspace{10pt}}ccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{Ejemplar 1} & \multicolumn{2}{c}{Ejemplar 2} & & \multicolumn{2}{c}{Ejemplar 1} & \multicolumn{2}{c}{Ejemplar 2} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){7-8}\cmidrule(lr){9-10}
+$R_1$ & $V_{GS}$ & $I_D$ & $V_{GS}$ & $I_D$ & $R_1$ & $V_{GS}$ & $I_D$ & $V_{GS}$ & $I_D$ \\
+(k$\Omega$) & (V) & (mA) & (V) & (mA) & (k$\Omega$) & (V) & (mA) & (V) & (mA) \\
+\midrule
+1 & 1.752 & 3.200 & 1.799 & 3.140 & 6 & 1.559 & 0.569 & 1.609 & 0.572 \\
+2 & 1.669 & 1.636 & 1.720 & 1.641 & 7 & 1.542 & 0.463 & 1.595 & 0.491 \\
+3 & 1.627 & 1.117 & 1.676 & 1.110 & 8 & 1.534 & 0.434 & 1.582 & 0.429 \\
+4 & 1.594 & 0.808 & 1.647 & 0.840 & 9 & 1.523 & 0.385 & 1.570 & 0.383 \\
+5 & 1.578 & 0.698 & 1.626 & 0.680 & 10 & 1.515 & 0.349 & 1.541 & 0.347 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% --- Montaje de los amplificadores (completar tras la práctica de laboratorio) ---
+% \subsection{Amplificadores de fuente común y degenerada}
 
 %==================================================================
 \section{Análisis de resultados}
 %==================================================================
 
 \subsection{Caracterización del MOSFET}
-En la Fig.~\ref{fig:sqrtid} se observa que $\sqrt{I_D}$ crece de forma aproximadamente lineal con $V_{GS}$, como predice la \eqref{eq:raiz}, con $R^2=0.9932$; el intercepto $V_t=\SI{1.496}{V}$ está dentro del rango de la hoja de datos y el $\kn$ puntual difiere \SI{4.59}{\percent} del de la pendiente. El transistor permanece en saturación para cualquier $R_1$ porque $V_{DS}=V_{GS}>V_{GS}-V_t$; $R_1$ solo desplaza el punto sobre la curva según la \eqref{eq:kvl_car}. La relación es lineal porque en saturación $\sqrt{I_D}\propto V_{GS}-V_t$, y el intercepto es $V_t$ porque allí $\sqrt{I_D}=0$ y el canal deja de existir.
+En la Fig.~\ref{fig:sqrtid} se observa que $\sqrt{I_D}$ crece de forma aproximadamente lineal con $V_{GS}$, como predice la \eqref{eq:raiz}, con $R^2=0.9932$; el intercepto $\Vts=\SI{1.496}{V}$ está dentro del rango de la hoja de datos y el $\kn$ puntual difiere \SI{4.59}{\percent} del de la pendiente. Las mediciones de la Tabla~\ref{tab:med} siguen la misma tendencia lineal (\eqref{eq:recta_m}, $R^2$ de 0.9896 y 0.9738) y sus interceptos, $\Vtm=\SI{1.405}{V}$ y \SI{1.441}{V}, también están dentro del rango de 0.8 a 3 V de la hoja de datos. El transistor permanece en saturación para cualquier $R_1$ porque $V_{DS}=V_{GS}>V_{GS}-V_t$; $R_1$ solo desplaza el punto sobre la curva según la \eqref{eq:kvl_car}. La relación es lineal porque en saturación $\sqrt{I_D}\propto V_{GS}-V_t$, y el intercepto es $V_t$ porque allí $\sqrt{I_D}=0$ y el canal deja de existir.
+
+La Tabla~\ref{tab:comp_car} compara las mediciones del ejemplar 1 con la simulación de la Tabla~\ref{tab:car}. Las corrientes difieren en promedio \SI{2.08}{\percent} (máximo \SI{4.54}{\percent}) y las tensiones $V_{GS}$ \SI{3.75}{\percent} (máximo \SI{4.82}{\percent}), pero la simulación da una tensión umbral \SI{6.48}{\percent} mayor ($\Vts=\SI{1.496}{V}$ frente a $\Vtm=\SI{1.405}{V}$) y un $\kn$ \SI{44.76}{\percent} mayor ($\kns=\SI{71.52}{mA/V^2}$ frente a $\knm=\SI{49.41}{mA/V^2}$). Esto indica que el modelo de LTspice es solo un equivalente del dispositivo real: reproduce $I_D$ y $V_{GS}$ en el punto de medida, pero no sus parámetros. Entre los dos ejemplares medidos, $V_t$ difiere \SI{2.60}{\percent} y $\kn$ \SI{10.57}{\percent} (respecto al ejemplar 1), lo que confirma que los parámetros deben medirse en cada ejemplar y que, al elegir los dos transistores del espejo de corriente de la guía, conviene comparar estas curvas.
+
+\begin{table}[htbp]
+\centering
+\caption{Ejemplar 1 medido frente a simulación y error relativo respecto a la medición.}
+\label{tab:comp_car}
+\scriptsize
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}ccccccc@{}}
+\toprule
+$R_1$ & $V_{GS}$ med. & $V_{GS}$ sim. & Error & $I_D$ med. & $I_D$ sim. & Error \\
+(k$\Omega$) & (V) & (V) & (\%) & (mA) & (mA) & (\%) \\
+\midrule
+1 & 1.752 & 1.7816 & 1.69 & 3.200 & 3.2184 & 0.57 \\
+2 & 1.669 & 1.7117 & 2.56 & 1.636 & 1.6442 & 0.50 \\
+3 & 1.627 & 1.6765 & 3.04 & 1.117 & 1.1078 & 0.82 \\
+4 & 1.594 & 1.6535 & 3.73 & 0.808 & 0.8366 & 3.54 \\
+5 & 1.578 & 1.6366 & 3.71 & 0.698 & 0.6727 & 3.62 \\
+6 & 1.559 & 1.6232 & 4.12 & 0.569 & 0.5628 & 1.09 \\
+7 & 1.542 & 1.6123 & 4.56 & 0.463 & 0.4840 & 4.54 \\
+8 & 1.534 & 1.6030 & 4.50 & 0.434 & 0.4246 & 2.17 \\
+9 & 1.523 & 1.5950 & 4.73 & 0.385 & 0.3783 & 1.74 \\
+10 & 1.515 & 1.5880 & 4.82 & 0.349 & 0.3412 & 2.23 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Curvas características y parámetros de operación}
 \label{sec:an_curvas}
@@ -372,44 +467,54 @@ $V_{GS}$ (V) & $I_D$ simulada (mA) & $I_D$ modelo (mA) & Error (\%) \\
 \end{tabular}
 \end{table}
 
-Con $\Vtp$ y $\knp$ el error es menor que \SI{2}{\percent} entre 2 y 3 V y llega a \SI{8.04}{\percent} en 4 V. Con los parámetros de la \eqref{eq:recta}, obtenidos cerca del umbral, la \eqref{eq:sat} subestima la corriente entre \SI{30.5}{\percent} y \SI{43.1}{\percent} en ese intervalo, porque la pendiente de $\sqrt{I_D}$ aumenta con $V_{GS}$ (de \SI{0.19}{A^{1/2}/V} cerca del umbral a \SI{0.26}{A^{1/2}/V} entre 2 y 3 V). Por eso $V_t$ y $\kn$ deben extraerse cerca de la zona de operación y el amplificador se diseña con $\Vtp$ y $\knp$. Además, para $V_{GS}\ge\SI{3.5}{V}$ la corriente supera los \SI{200}{mA} de la hoja de datos y en $V_{GS}=\SI{4}{V}$ la potencia llega a \SI{3.80}{W}, frente a $P_D=\SI{1}{W}$, por lo que el barrido de laboratorio debe restringirse.
+Con $\Vtp$ y $\knp$ el error es menor que \SI{2}{\percent} entre 2 y 3 V y llega a \SI{8.04}{\percent} en 4 V. Con los parámetros de la \eqref{eq:recta}, obtenidos cerca del umbral, la \eqref{eq:sat} subestima la corriente entre \SI{30.5}{\percent} y \SI{43.1}{\percent} en ese intervalo, porque la pendiente de $\sqrt{I_D}$ aumenta con $V_{GS}$ (de \SI{0.19}{A^{1/2}/V} cerca del umbral a \SI{0.26}{A^{1/2}/V} entre 2 y 3 V). Por eso $V_t$ y $\kn$ deben extraerse cerca de la zona de operación. Esto es relevante para los parámetros medidos, obtenidos con $V_{GS}$ entre \SI{1.515}{V} y \SI{1.752}{V} (ejemplar 1) mientras los amplificadores operan con $V_{GS}\approx\SI{2.05}{V}$: la corriente medida en el montaje podría resultar mayor que la calculada, lo que deberá verificarse en el laboratorio. Además, para $V_{GS}\ge\SI{3.5}{V}$ la corriente supera los \SI{200}{mA} de la hoja de datos y en $V_{GS}=\SI{4}{V}$ la potencia llega a \SI{3.80}{W}, frente a $P_D=\SI{1}{W}$, por lo que el barrido de laboratorio debe restringirse.
 
-\subsection{Amplificador de fuente común}
-En la Fig.~\ref{fig:trans} es posible observar que la salida está invertida y que su amplitud es casi cinco veces la de la entrada; los picos son $+\SI{240.0}{mV}$ y $-\SI{256.6}{mV}$, asimetría debida al segundo armónico. La Tabla~\ref{tab:av} compara teoría y simulación.
+\subsection{Diseño de los amplificadores}
+\label{sec:an_dis}
+La Tabla~\ref{tab:diseno} resume los resultados teóricos de las Tablas~\ref{tab:param_cs} y~\ref{tab:param_deg} con $\Vtm$ y $\knm$. Ambos amplificadores quedan en saturación ($V_{DS}\ge\Vov$, con $\Vov$ de \SI{0.642}{V} y \SI{0.656}{V}) y con potencias muy inferiores al límite de \SI{1}{W}.
 
 \begin{table}[htbp]
 \centering
-\caption{Amplificador de fuente común: teoría frente a simulación.}
-\label{tab:av}
+\caption{Resultados teóricos del diseño de los amplificadores con $\Vtm$ y $\knm$.}
+\label{tab:diseno}
 \scriptsize
 \renewcommand{\arraystretch}{1.05}
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lcc@{}}
 \toprule
-Magnitud & Teoría & Simulación & Error (\%) \\
+Magnitud & Fuente común & Fuente degenerada \\
 \midrule
-$A_v$ (V/V) & $-4.86$ & $-4.95$ & 1.82 \\
-Amplitud de $v_{out}$ (mV) & 243 & 247.7 & 1.90 \\
-$\angle A_v$ ($^\circ$) & $-175.0$ & $-174.9$ & 0.06 \\
-$HD_2$ (\%) & 3.17 & 3.45 & 8.12 \\
+$I_D$ (mA) & 10.17 & 10.64 \\
+$V_{GS}$ (V) & 2.046 & 2.061 \\
+$V_{DS}$ (V) & 6.848 & 4.362 \\
+$P=V_{DS}I_D$ (mW) & 69.6 & 46.4 \\
+$\gm$ (mS) & 31.69 & 32.42 \\
+$A_v$ (V/V) & $-4.99$ & $-3.15$ \\
+Salida para 100 mV$_{pp}$ de entrada (mV$_{pp}$) & 499 & 315 \\
+$Z_{in}$ (k$\Omega$) & 64.29 & 68.75 \\
+$Z_{out}$ ($\Omega$) & 160 & 430 \\
+$\hat v_{in,max}$ para $HD_2\le\SI{5}{\percent}$ (mV) & 128 & 557 \\
+$HD_2$ con 50 mV de entrada (\%) & 1.95 & 0.45 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-El requisito $|v_{out}|\approx 5\,|v_{in}|$ se cumple en teoría y en simulación: $|A_v|=4.86$ se desvía \SI{2.8}{\percent} de 5 y $|A_v|=4.95$ se desvía \SI{0.9}{\percent}. La ganancia teórica y la simulada difieren \SI{1.82}{\percent}, lo que valida el uso de los parámetros de operación, y el desfase simulado coincide con el de la \eqref{eq:fase} (inversión con $5^\circ$ de adelanto por $C_S$, cuyo polo es el de la \eqref{eq:fc}). Las impedancias de la \eqref{eq:zin_zout} no dependen de $\kn$ ni de $V_t$. El $HD_2$ simulado es algo mayor que el teórico porque la \eqref{eq:limite} solo usa el modelo cuadrático, pero ambos son menores que \SI{5}{\percent} y la entrada de 50 mV es menor que el límite de \SI{79}{mV}. Además, el transistor sigue en saturación ($V_{DS}=\SI{7.42}{V}\ge\Vov=\SI{0.40}{V}$) y $|A_v|>1$, condiciones básicas para que haya amplificación.
+En la fuente común, $|A_v|=4.99$ se desvía \SI{0.17}{\percent} de 5, de modo que el requisito $|v_{out}|\approx 5\,|v_{in}|$ se cumple. En la fuente degenerada, $|A_v|=3.15$ supera en \SI{4.95}{\percent} el valor de 3 y la salida de \SI{314.9}{mV_{pp}} cumple el mínimo de 300 mV$_{pp}$. La degeneración con $R_S$ no puenteado reduce la ganancia a $1/(1/\gm+R_S)$ veces la resistencia de carga, pero reduce también $v_{gs}$ y por ello el límite de pequeña señal pasa de \SI{128}{mV} a \SI{557}{mV} y el $HD_2$ de 1.95\% a 0.45\%, en concordancia con la \eqref{eq:limite_deg}. En ambos casos la entrada de 50 mV queda por debajo del límite lineal, y las frecuencias de corte de $C_1$, $C_2$ y $C_S$ (\eqref{eq:fc}) son menores que 10 kHz, por lo que los capacitores se comportan como cortocircuitos a esa frecuencia.
 
-% --- Comparación con mediciones de laboratorio (completar tras el montaje) ---
-% \subsection{Comparación con las mediciones}
+% --- Comparación de simulación y medición de los amplificadores (completar tras simular y medir) ---
+% \subsection{Comparación con simulación y mediciones}
 
 %==================================================================
 \section{Conclusiones}
 %==================================================================
 \begin{enumerate}
-\item El ajuste de $\sqrt{I_D}$ contra $V_{GS}$ dio $V_t=\SI{1.496}{V}$, dentro del intervalo de la hoja de datos (0.8 a 3 V), y $\kn=\SI{71.52}{mA/V^2}$; el cálculo puntual difiere \SI{4.59}{\percent} del ajuste.
+\item Las mediciones del ejemplar 1 dieron $\Vtm=\SI{1.405}{V}$ y $\knm=\SI{49.41}{mA/V^2}$, y las del ejemplar 2 $V_t=\SI{1.441}{V}$ y $\kn=\SI{44.18}{mA/V^2}$; ambos $V_t$ están dentro del intervalo de la hoja de datos (0.8 a 3 V) y los $\kn$ puntuales difieren \SI{5.68}{\percent} y \SI{9.62}{\percent} de los del ajuste.
+\item El modelo de LTspice reproduce $I_D$ y $V_{GS}$ medidos con errores promedio de \SI{2.08}{\percent} y \SI{3.75}{\percent}, pero sus parámetros difieren de los reales: $\Vts$ es \SI{6.48}{\percent} mayor que $\Vtm$ y $\kns$ es \SI{44.76}{\percent} mayor que $\knm$. Por tanto, los cálculos deben hacerse con parámetros medidos y no con los del modelo.
+\item Los dos ejemplares difieren \SI{2.60}{\percent} en $V_t$ y \SI{10.57}{\percent} en $\kn$, lo que muestra la dispersión entre dispositivos del mismo tipo y justifica medir cada transistor, en particular al emparejar los del espejo de corriente.
 \item Con la compuerta unida al drenador el transistor permanece en saturación para cualquier $R_1$, lo que explica la linealidad de $\sqrt{I_D}$ y que $V_t$ sea el intercepto.
-\item Los parámetros extraídos cerca del umbral subestiman $I_D$ entre \SI{30.5}{\percent} y \SI{43.1}{\percent} en $V_{GS}$ de 2 a 4 V; con $\Vtp=\SI{1.561}{V}$ y $\knp=\SI{138.1}{mA/V^2}$ el error es menor que \SI{2}{\percent} entre 2 y 3 V y de \SI{8.04}{\percent} en 4 V, por lo que el modelo cuadrático es válido solo localmente.
-\item El amplificador queda polarizado en saturación ($I_D=\SI{10.77}{mA}$, $V_{DS}=\SI{7.42}{V}$), con $Z_{in}=\SI{64.29}{k\ohm}$ y $Z_{out}=\SI{90}{\ohm}$, y la ganancia teórica ($-4.86$) difiere \SI{1.82}{\percent} de la simulada ($-4.95$): ambas cumplen $\vert{}v_{out}\vert{}\approx 5\,\vert{}v_{in}\vert{}$ (desviaciones de \SI{2.8}{\percent} y \SI{0.9}{\percent}) y su fase coincide ($-175.0^\circ$ frente a $-174.9^\circ$).
-\item La entrada de 50 mV queda por debajo del límite de pequeña señal de \SI{79}{mV}, con $HD_2$ de \SI{3.17}{\percent} teórico y \SI{3.45}{\percent} simulado, ambos menores que \SI{5}{\percent}.
-% \item (Conclusión comparativa teoría--simulación--medición: completar tras el montaje.)
+\item Los parámetros extraídos cerca del umbral subestiman $I_D$ entre \SI{30.5}{\percent} y \SI{43.1}{\percent} en $V_{GS}$ de 2 a 4 V en el modelo simulado; con $\Vtp=\SI{1.561}{V}$ y $\knp=\SI{138.1}{mA/V^2}$ el error es menor que \SI{2}{\percent} entre 2 y 3 V y de \SI{8.04}{\percent} en 4 V. Como los parámetros medidos también provienen de la zona cercana al umbral, el punto de operación medido de los amplificadores podría desviarse del calculado.
+\item El amplificador de fuente común rediseñado ($R_D=\SI{160}{\ohm}$) queda en saturación ($I_D=\SI{10.17}{mA}$, $V_{DS}=\SI{6.85}{V}$) con $A_v=-4.99$ (\SI{0.17}{\percent} de desviación del objetivo de 5), $Z_{in}=\SI{64.29}{k\ohm}$ y $Z_{out}=\SI{160}{\ohm}$.
+\item El amplificador de fuente degenerada ($R_S=\SI{100}{\ohm}$, $R_D=\SI{430}{\ohm}$) cumple los 300 mV$_{pp}$ de salida ($A_v=-3.15$) y admite hasta \SI{557}{mV} de entrada con $HD_2\le\SI{5}{\percent}$, frente a \SI{128}{mV} de la fuente común: cambia ganancia por linealidad.
+% \item (Conclusión comparativa teoría--simulación--medición de los amplificadores: completar tras simular y montar.)
 \end{enumerate}
 
 %==================================================================
