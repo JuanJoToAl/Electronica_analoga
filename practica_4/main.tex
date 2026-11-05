@@ -270,50 +270,124 @@ con $f_z=\SI{106}{Hz}$, un adelanto de $2.9^\circ$ sobre la inversión ideal.
 Como $v_{gs}=v_{in}$, la amplitud máxima de entrada es \SI{128}{mV} y la de salida de unos \SI{640}{mV}; la señal de 50 mV produce $HD_2=\SI{1.95}{\percent}$.
 
 \subsection{Diseño del amplificador de fuente degenerada}
-Se diseña el amplificador de la Fig.~\ref{fig:cs} sin el capacitor $C_S$, de modo que $R_S$ queda en el camino de la señal, con los parámetros de la Tabla~\ref{tab:param_deg} y los parámetros medidos $\Vtm$ y $\knm$. Los requisitos de la guía son saturación, $R_L=\SI{10}{k\ohm}$, entrada de 100 mV$_{pp}$ y salida de al menos 300 mV$_{pp}$, es decir, $|A_v|\ge 3$. La ganancia con el generador de impedancia $R_{sig}=\SI{50}{\ohm}$ es
-\begin{equation}
-A_v=-\frac{Z_{in}}{Z_{in}+R_{sig}}\cdot\frac{R_D\parallel R_L}{1/\gm+R_S},
-\label{eq:Av_deg}
-\end{equation}
-y como $Z_{in}\gg R_{sig}$ el primer factor es prácticamente 1. Para $|A_v|=3$ la \eqref{eq:Av_deg} exige $R_D\parallel R_L=3\,(1/\gm+R_S)$, de donde
-\begin{equation}
-R_D=\frac{R_L\,X}{R_L-X},\qquad X=3\left(\frac{1}{\gm}+R_S\right).
-\label{eq:rd_deg}
-\end{equation}
-Se fija de forma arbitraria $I_D=\SI{10}{mA}$, que mantiene el transistor en saturación sin superar los límites de la Tabla~\ref{tab:datasheet}, con lo que $\gm=\sqrt{2\knm I_D}=\SI{31.43}{mS}$ ($1/\gm=\SI{31.81}{\ohm}$) y $\Vov=\sqrt{2I_D/\knm}=\SI{0.636}{V}$. Con $R_S=\SI{100}{\ohm}$, $V_S=\SI{1.0}{V}$ y la compuerta debe estar en $V_G=\Vtm+\Vov+I_DR_S=\SI{3.041}{V}$, valor que se aproxima con $R_{G1}=\SI{220}{k\ohm}$ y $R_{G2}=\SI{100}{k\ohm}$. La \eqref{eq:rd_deg} da $X=\SI{395.4}{\ohm}$ y $R_D=\SI{411.7}{\ohm}$; se adopta el valor comercial $R_D=\SI{430}{\ohm}$, que deja un margen sobre el requisito de 300 mV$_{pp}$.
+Para el diseño del amplificador de fuente degenerada se tienen las siguientes ecuaciones disponibles:
+la ganancia está dada por: 
+$$ A_v = -\frac{Z_{in}}{Z_{in} + R_sig}*\frac{(Z_{out} || R_L)}{\frac{1}{g_m} + R_s}$$
+Dado que $R_sig$ corresponde a la impedancia de salida del generador de señales, cuyo valor es
+$50 \Omega$, se espera que esta sea muy pequeña comparada con la impedancia de entrada,
+por lo que esta primera parte de la ecuación se considera equivalente a $1$. 
+\\
+Teniendo en cuenta que se desea una ganancia $A_v$ de 3, que la impedancia de salida de este amplificador es $Z_{out}= R_d$
+y que el símbolo menos en la ecuación simboliza la inversión de la fase, la ecuación queda parametrizada de la siguiente forma:
+\\
+$$ 3 = \frac{(R_d|| R_L)}{\frac{1}{g_m} + R_s}$$
+Para que esta ecuación relacione $R_d$ y $R_s$ se requiere condicionar el diseño mediante la transconductancia,
+la cual según la guía se puede obtener mediante la expresión:
+$$g_m = \sqrt{2k_n*I_d}$$
+Con este proposito se elige $k_n= 0.0438 A/V^2$ ya que este es fue el valor experimental obtenido mediante regresión lineal
+en la primera sesión de la práctica. 
+A su vez entonces se determina $I_d = 10 mA$ de manera arbitraria para obtener condiciones de saturación alcanzables en laboratorio
+sin superar las condiciones de trabajo del MOSFET.
+\\
+Por lo anterior $g_m = \sqrt{0.0932 \frac{A}{V^2} * 0.01 A} = 0.043 A/V$.
+\\
+Considerando todos estos parametros, la ecuación se puede expresar de la siguiente manera.
+$$3*(\frac{1}{g_m}+ R_s)*(10^4 + R_d)= 10^4*R_d $$
+Para la cual, tenemos como parámetro conocido $g_m =0.0296 A/V$ dados el $k_n$ experimental y la $I_d$ de diseño.
+Por lo que se procede con un análisis DC sencillo del lazo compuesto por $R_d$, $R_s$, y el MOSFET a través de sus terminales \textit{Drain} y \textit{Source}.
+Dado que ya se definió la corriente $I_d$, se elige un $V_{DS}$ arbitrario de 5V (ya que este se espera que satisfaga en
+ todo momento la condición de saturación $V_{DS} \geq V_{GS}-V_T$). Por lo que esta ecuación queda:
+ \begin{equation}
+ \SI{15}{V}-\SI{10}{mA}R_d-\SI{5}{V}-\SI{10}{mA}R_s=0,
+ \label{eq:kvl_amplificador}
+ \end{equation}
+ o, equivalentemente al despejar, $R_d+R_s=\SI{1}{k\ohm}$.
+Con estas dos ecuaciones es posible obtener $R_d$ al reemplazar esta última en la ecuación correspondiente a la ganancia:
+$$3*(\frac{1}{g_m}+ (1000-R_d))*(10^4 + R_d)= 10^4*R_d $$.
 
-\begin{table}[htbp]
-\centering
-\caption{Parámetros asumidos para el amplificador de fuente degenerada.}
-\label{tab:param_deg}
-\scriptsize
-\renewcommand{\arraystretch}{1.1}
-\begin{tabular}{@{}lllll@{}}
-\toprule
-$V_{DD}$ & $R_{G1}$ & $R_{G2}$ & $R_D$ & $R_S$ \\
-\midrule
-10 V & 220 k$\Omega$ & 100 k$\Omega$ & 430 $\Omega$ & 100 $\Omega$ \\
-\midrule
-$R_L$ & $C_1=C_2$ & $\hat v_{in}$ & $f$ & $R_{sig}$ \\
-\midrule
-10 k$\Omega$ & 10 $\mu$F & 50 mV (100 mV$_{pp}$) & 10 kHz & 50 $\Omega$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+Al ser esta ecuación una ecuación cuadrática, se optá por resolverla mediante el uso del software \textit{Matlab} y seleccionar la $R_d$ de valor 
+positivo. Posteriormente se usa el mismo software para despejar $R_s$ en y $V_{GS}$. Por lo que:
+$$R_d = 789 \Omega \Longrightarrow R_d = 820 \Omega$$
+$$R_s = 210 \Omega \Longrightarrow R_s = 200 \Omega$$
+$$V_{GS} = 2.126 V $$
+Dado que al asumir  10$mA$ como $I_d$ la tensión $V_S = 2V$, así que $V_G = 4.126 V$.
+\\
+En consecuencia de este último resultado se debe elegir una relación de resistencias tal que:
+$$15V*\frac{R_{G2}}{R_{G2}+R_{G1}}\approx 4.126 V$$
+$$R_{G2} + R_{G1} \approx 3.65*R_{G2}$$
+Por lo que tras revisar un catálogo de resistencias y al tanteo se escogen:
+$$R_{G2} = 820 k \Omega$$
+$$R_{G1} = 2.2 M \Omega$$
+En consecuencia, el amplificador cuenta con las siguientes impedancias de entrada y salida:
+$$Z_{in} = R_{G1}||R_{G2} = 597 k \Omega$$
+$$Z_{out} = R_D = 820 \Omega$$
+Finalmente, se verifica que el amplificador no distorsione la señal de salida mediante la expresión:
+$$2 * (V_{GS}-V_t) \gg Vp_{in}$$
+$$2* (V_{GS}-V_t) \gg Vp_{in}$$
+$$2* (2.126V-1.45V) \gg 0.05V$$
+$$1.352V \gg 0.05V$$
+Lo cual es cierto. Por esto se espera que la señal no distorsione significativamente. Siguiendo el criterio de la distorsión del segundo armónico. Se determina la amplitud
+máxima que puede tener la señal de entrada sin producir una distorsión igual o superior al $5\%$:
+$$HD_2 = 0.05 =  Vp_{in}/(4(V_{GS}-V_t))$$
+$$0.05 =  Vp_{in}/2.704 V$$
+$$Vp_{in_{max}}= 0.135 V = 135mV$$
 
-\noindent\textit{Análisis DC.} El divisor da $V_G=\SI{3.125}{V}$ y $R_G=\SI{68.75}{k\ohm}$ con la \eqref{eq:thev}. La \eqref{eq:vov} con $R_S=\SI{100}{\ohm}$ resulta en $\Vov=\SI{0.656}{V}$, $I_D=\SI{10.64}{mA}$ y $V_{GS}=\SI{2.061}{V}$, y la \eqref{eq:vds} da $V_S=\SI{1.064}{V}$, $V_D=\SI{5.426}{V}$ y $V_{DS}=\SI{4.362}{V}\ge\Vov$, por lo que el transistor está en saturación con $P=\SI{46.4}{mW}<\SI{1}{W}$.
 
-\noindent\textit{Análisis AC.} Con este punto de operación, la \eqref{eq:gm} da $\gm=\SI{32.42}{mS}$ ($1/\gm=\SI{30.84}{\ohm}$) y $R_D\parallel R_L=\SI{412.3}{\ohm}$, por lo que la \eqref{eq:Av_deg} con $Z_{in}=R_G=\SI{68.75}{k\ohm}$ resulta
+Además también se debe verificar que la señal amplificada no saque al amplificador de la zona de saturación, entonces:
+$$V_{DS} - Vp_{out} > V_{GS}-V_t$$
+$$5V-0.15V > 0.676V$$
+$$4.85V > 0.676V$$
+En conclusión: El amplificador de Source degenerada se encuentra en una zona de operación óptima.
+\subsection{Diseño del amplificador de drenador común}
+Dado que ya se conocen la topología del circuito y su ecuación de ganancia. Se empiezan con condiciones de diseño inciales:
+$A_v = 0.95$ y $R_s = 1k \Omega$ (a la vez que se asume $Z_{in} \gg R_{Sig}$), puesto que esto permite que en la ecuación de ganancia solo quede una única variable, tal que esta sea la 
+transconductancia del MOSFET en el punto de operación. De manera que se lleva el siguiente desarrollo:
+$$A_v = \frac{R_l || R_s}{R_l || R_s + \frac{1}{gm}} \longrightarrow \frac{\frac{100 \times R_s}{100 + R_s}}{\frac{100 \times R_s}{100 + R_s} + \frac{1}{gm}}$$
+Al resolver esta ecuación en \textit{MATLAB} se obtiene un valor para la transconductancia de $0.209 A/V$, el cual luego se usa para obtener la corriente de operación del MOSFET:
+$$I_d = \frac{gm^2}{2*k_n} \longrightarrow I_d = 0.499 A$$
+Lo cual es una corriente que supera ampliamente la corriente máxima de $200mA$ que puede soportar el MOSFET 2n7000, además;
+esta corriente evidentemente produce una caída de potencial muy alta en la resistencia ($\approx 499 V$), por lo que se empieza a iterar 
+bajando el valor de la resistencia, con el objetivo de evitar un consumo de potencia tan alto en $R_s$. Tras volver a calcular con $R_s = 150 \Omega$:
+$$I_d = 1.145 A$$
+$$V_s = 171.709 V$$
+Dado que esto sigue siendo una potencia excesiva sobre la resistencia, se opta por mantener la resistencia, alterando la ganancia a $A =0.8$ dado que no hay otro parámetro que pueda aliviar el circuito y este se encuentra altamente
+relacionado con la transconductancia. Recalculando con $R_s = 150\Omega$ y $A = 0.8$:
+$$I_d = 0.051 A$$
+$$V_s = 7.610 V$$
+$$P_{R_s}= 0.386 W $$
+Adicionalmente, dado que la corriente ya está determinada. Se calcula también $V_{GS}$ usando \textit{MATLAB} mediante la expresión:
+$$0.051A = 0.0438 \frac{A}{V^2} * (V_{GS}- 1.45 V)^2$$
+$$V_{GS} = 2.972 V$$
+Gracias a que ya se tienen estos cálculos, es posible conocer que $V_G = 10.582$, Por lo que es posible elegir un $VDD = 16 V$. Por lo que:
 \begin{equation}
-A_v=-0.9993\cdot\frac{412.3}{30.84+100}=-3.15\ \text{V/V},
-\label{eq:Av_deg_val}
+V_{DS}=\SI{16}{V}-\SI{7.610}{V}
+=\SI{8.39}{V}
+\geq \SI{2.972}{V}-\SI{1.45}{V}
+=V_{GS}-V_t
+\label{eq:saturacion_drenador_comun}
 \end{equation}
-es decir, una salida de $\SI{314.9}{mV_{pp}}$ para 100 mV$_{pp}$ de entrada. Las impedancias son $Z_{in}=R_{G1}\parallel R_{G2}=\SI{68.75}{k\ohm}$ y $Z_{out}=R_D=\SI{430}{\ohm}$, y las frecuencias de corte de la \eqref{eq:fc} son $f_c=\SI{0.23}{Hz}$ para $C_1$ ($R_{eq}=Z_{in}+R_{sig}$) y $f_c=\SI{1.53}{Hz}$ para $C_2$ ($R_{eq}=R_D+R_L$), muy inferiores a 10 kHz. Al no haber $C_S$, la señal en la compuerta--fuente se reduce a $v_{gs}=v_{in}/(1+\gm R_S)$ (aquí $1+\gm R_S=4.24$), por lo que el límite de la \eqref{eq:limite}, $\hat v_{gs,max}=0.2\Vov=\SI{131}{mV}$, corresponde a una amplitud de entrada de
-\begin{equation}
-\hat v_{in,max}=\hat v_{gs,max}\,(1+\gm R_S)=\SI{557}{mV},
-\label{eq:limite_deg}
-\end{equation}
-y la señal de 50 mV produce $HD_2=\SI{0.45}{\percent}$. La degeneración reduce la ganancia respecto a la fuente común, pero amplía el rango lineal de entrada.
+Lo cual garantiza la condición de saturación, así que finalmente y de manera similar a los circuitos de Source común y Source degenerada. Se eligen las resistencias de Gate siguiendo
+la relación del divisor de tensión. Entonces:
+$$R_{G1}=680k\Omega$$
+$$R_{G2}=330k\Omega$$
+$$Z_{in}= 222.18k\Omega $$
+$$Z_{out} = \frac{1}{0.067 A/V} = 14.92 \Omega$$
+\subsection{Diseño de la fuente de corriente de 35 $mA$ (determinada por el número de grupo)}
+
+Dada la topología del circuito, lo primero es determinar $V_G$ el cual es igual a $V_{GS}$ para el MOSFET
+de la derecha. Por lo que se emplea la ecuación de la corriente en el MOSFET:
+$$I_d = 0.035A =\frac{0.0438 A/V}{2} *(V_{GS}-V_t)^2$$
+Al resolver $V_{GS}$ usando \textit{MATLAB}:
+$$V_{GS} = 2.714 V $$
+Por lo que posteriormente se deduce una resistencia que permita llegar a una corriente similar gracias a una tensión de Alimentación
+adecuada, para la cual inicialmente se selecciona $VDD = 15V$:
+$$15V - 0.035A * R - V_{GS} = 0$$
+$$R = \frac{15 V - 2.714 V}{0.035 A}$$
+$$ R= 351 \Omega$$
+Dado que la resistencia comercial más cercana es $ 330 \Omega$, se elige esta para posteriormente
+elegir un nuevo VDD que permita el paso de la corriente deseada:
+$$VDD = 0.035A*330\Omega + 2.714V$$
+$$VDD = 14.264 V$$
 
 %==================================================================
 \section{Simulación}
