@@ -304,6 +304,95 @@ V_{DD}=I_DR+V_{GS}=\SI{14.15}{V}.
 \end{equation}
 $M_2$ queda en saturación porque $V_{DS2}=V_{DD}-I_DR_L=V_{GS}=\SI{2.595}{V}\ge\Vov=\SI{1.190}{V}$; la potencia en $M_1$ es \SI{90.8}{mW} y en $R$ \SI{0.40}{W} (resistencia de \SI{0.5}{W}). Si $M_1$ fuese el ejemplar 1 y $M_2$ el ejemplar 2 ($V_t=\SI{1.441}{V}$, $\kn=\SI{44.18}{mA/V^2}$), la \eqref{eq:sat} daría $I_{D2}=\SI{29.4}{mA}$, \SI{15.9}{\percent} menos que el objetivo; por ello el par debe elegirse entre más ejemplares medidos.
 
+
+\subsection{Amplificador en cascada (fuente común y drenador común)}
+
+
+Se realizó el análisis de polarización de las dos etapas del amplificador en
+cascada, correspondientes a las configuraciones de fuente común y drenador
+común, utilizando una alimentación de \SI{12}{V} y los parámetros propios de
+cada MOSFET. Se calcularon los voltajes de compuerta, fuente y drenador, las
+tensiones $V_{GS}$ y $V_{DS}$, y las corrientes de drenador para verificar que
+ambos transistores operaran en la región de saturación. Posteriormente, se
+determinaron las transconductancias y las ganancias de voltaje individuales y
+total del circuito. Finalmente, se estimó el límite de pequeña señal mediante
+el criterio de distorsión del segundo armónico, estableciendo una distorsión
+máxima del \SI{5}{\percent}. Los cálculos se exponen en la
+Tabla~\ref{tab:calculos}.
+
+\begin{table}[!t]
+\centering
+\caption{Resultados del análisis de polarización y de pequeña señal.}
+\label{tab:calculos}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{lcc}
+\toprule
+Magnitud & Fuente común & Drenador común \\
+\midrule
+$V_G$    & \SI{4.286}{V}   & \SI{8.079}{V}   \\
+$V_S$    & \SI{2.124}{V}   & \SI{5.353}{V}   \\
+$V_D$    & \SI{9.735}{V}   & \SI{12}{V}      \\
+$V_{GS}$ & \SI{2.162}{V}   & \SI{2.727}{V}   \\
+$V_{DS}$ & \SI{7.611}{V}   & \SI{6.647}{V}   \\
+$I_D$    & \SI{14.158}{mA} & \SI{35.685}{mA} \\
+$\gm$    & \SI{37.40}{mS}  & \SI{55.91}{mS}  \\
+$A_v$    & $-5.98$         & $0.770$         \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Para la ganancia general del circuito primero se calculó la ganancia de la
+etapa de fuente común, considerando la resistencia de drenador en paralelo con
+la impedancia de entrada de la segunda etapa. Luego, se calculó la ganancia del
+drenador común considerando la resistencia de fuente en paralelo con la carga.
+Finalmente, el producto de ambas ganancias dio como resultado una ganancia
+total de
+\begin{equation}
+A_v = \SI{-4.61}{\volt\per\volt}.
+\end{equation}
+
+La impedancia de entrada se calculó mediante el paralelo de las resistencias
+del divisor de tensión de la primera etapa, obteniendo
+$Z_{in} = \SI{64.29}{\kilo\ohm}$. La impedancia de salida se determinó mediante
+el paralelo entre la resistencia de fuente de la segunda etapa y el inverso de
+su transconductancia, obteniendo $Z_{out} = \SI{16.0}{\ohm}$.
+
+\subsection{Límite de pequeña señal}
+
+Para determinar el límite de pequeña señal se utiliza el criterio de distorsión
+del segundo armónico:
+\begin{equation}
+\mathrm{HD}_2 \le \SI{5}{\percent}.
+\end{equation}
+
+En la primera etapa, que corresponde al amplificador de fuente común, se
+utiliza
+\begin{equation}
+\mathrm{HD}_2 = \frac{\hat{v}_{gs}}{4\Vov},
+\end{equation}
+donde
+\begin{equation}
+\Vov = V_{GS} - V_T .
+\end{equation}
+
+Para la fuente común:
+\begin{equation}
+V_{OV1} = \SI{2.162}{V} - \SI{1.405}{V} = \SI{0.757}{V}.
+\end{equation}
+
+Imponiendo el límite del \SI{5}{\percent}:
+\begin{equation}
+0.05 = \frac{\hat{v}_{gs}}{4(0.757)}.
+\end{equation}
+
+Despejando:
+\begin{align}
+\hat{v}_{gs} &= 0.2\,(0.757) \\
+\hat{v}_{gs} &= \SI{151.4}{mV}.
+\end{align}
+
+
+
 %==================================================================
 \section{Simulación}
 %==================================================================
@@ -437,6 +526,157 @@ $Z_{out}$ ($\Omega$) & 160 & 160.0 & 0.0 & 820 & 820.0 & 0.0 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Amplificador en cascada (fuente común y drenador común)}
+\subsubsection{Polarización del circuito y posibles variaciones respecto a cálculos
+}
+Según la simulación hecha en LTspice, se obtuvieron los resultados de
+polarización de los MOSFET que se comparan con los valores calculados en las
+Tablas~\ref{tab:pol_fc} y~\ref{tab:pol_dc}.
+
+\begin{table}[!t]
+\centering
+\caption{Polarización de la etapa de fuente común: cálculo vs. LTspice.}
+\label{tab:pol_fc}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{lccc}
+\toprule
+Variable & Cálculo & LTspice & Error \\
+\midrule
+$I_D$    & \SI{14.158}{mA} & \SI{14.163}{mA} & \SI{0.04}{\percent} \\
+$V_D$    & \SI{9.735}{V}   & \SI{9.734}{V}   & \SI{0.01}{\percent} \\
+$V_G$    & \SI{4.286}{V}   & \SI{4.285}{V}   & \SI{0.02}{\percent} \\
+$V_S$    & \SI{2.124}{V}   & \SI{2.124}{V}   & \SI{0.00}{\percent} \\
+$V_{DS}$ & \SI{7.611}{V}   & \SI{7.609}{V}   & \SI{0.03}{\percent} \\
+$V_{GS}$ & \SI{2.162}{V}   & \SI{2.161}{V}   & \SI{0.05}{\percent} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!t]
+\centering
+\caption{Polarización de la etapa de drenador común: cálculo vs. LTspice.}
+\label{tab:pol_dc}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{lccc}
+\toprule
+Variable & Cálculo & LTspice & Error \\
+\midrule
+$I_D$    & \SI{35.685}{mA} & \SI{35.687}{mA} & \SI{0.01}{\percent} \\
+$V_D$    & \SI{12}{V}      & \SI{12}{V}      & \SI{0.00}{\percent} \\
+$V_G$    & \SI{8.079}{V}   & \SI{8.078}{V}   & \SI{0.01}{\percent} \\
+$V_S$    & \SI{5.353}{V}   & \SI{5.352}{V}   & \SI{0.02}{\percent} \\
+$V_{DS}$ & \SI{6.647}{V}   & \SI{6.647}{V}   & \SI{0.00}{\percent} \\
+$V_{GS}$ & \SI{2.727}{V}   & \SI{2.725}{V}   & \SI{0.07}{\percent} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Los resultados muestran una alta concordancia entre los cálculos teóricos y la
+simulación en LTspice, con errores inferiores al \SI{0.1}{\percent} en ambas
+etapas. Esto permite comprobar que el análisis de polarización realizado
+representa adecuadamente el comportamiento del circuito.
+
+\subsubsection{Curva de transferencia y comprobación de $A_v$, $Z_{in}$ y $Z_{out}$}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{curva_transferencia_cascada_ajuste.png}
+\caption{Curva de transferencia del amplificador en cascada
+($f = \SI{10}{kHz}$) y ajuste lineal.}
+\label{fig:transferencia}
+\end{figure}
+
+\textbf{Ganancia.} La curva de transferencia de la cascada
+(Fig.~\ref{fig:transferencia}) es una elipse delgada alrededor de una recta de
+pendiente negativa, con salida en contrafase respecto a la entrada. El ajuste
+lineal da $A_v = \SI{-4.58}{\volt\per\volt}$, frente a
+$\SI{-4.61}{\volt\per\volt}$ calculado, con un error de \SI{0.7}{\percent}. La
+pequeña diferencia se atribuye a que el cálculo desprecia $r_o$ y las
+resistencias parásitas del modelo del transistor.
+
+\textbf{$Z_{in}$.} $Z_{in} = \SI{64.285}{\kilo\ohm}$.
+
+\textbf{$Z_{out}$.} $Z_{out} = \SI{15.98}{\ohm}$.
+
+\subsubsection{Límites de pequeña señal en simulación}
+
+Conviene concentrar valores alrededor de \SI{128}{mV}, ya que es el límite
+teórico, y llegar hasta unos \SI{400}{mV} para ver qué pasa al saturar.
+Tomando la amplitud de entrada como valor pico y la segunda distorsión
+armónica (HD2) del archivo \texttt{.log}, los resultados se muestran en la
+Tabla~\ref{tab:hd2}.
+
+\begin{table}[!t]
+\centering
+\caption{Distorsión armónica de segundo orden simulada y calculada.}
+\label{tab:hd2}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{ccccc}
+\toprule
+Amplitud & $A_v$ & HD2 sim. & HD2 calc. & Error \\
+(\si{mV}) & (\si{\volt\per\volt}) & (\si{\percent}) & (\si{\percent}) & (\si{\percent}) \\
+\midrule
+10    & 4.594 & 0.266  & 0.330  & $-19.5$ \\
+20    & 4.593 & 0.531  & 0.661  & $-19.6$ \\
+50    & 4.588 & 1.328  & 1.651  & $-19.6$ \\
+60    & 4.585 & 1.594  & 1.982  & $-19.6$ \\
+80    & 4.578 & 2.127  & 2.642  & $-19.5$ \\
+100   & 4.569 & 2.661  & 3.303  & $-19.4$ \\
+151.4 & 4.535 & 4.040  & 5.000  & $-19.2$ \\
+200   & 4.490 & 5.358  & 6.605  & $-18.9$ \\
+300   & 4.353 & 8.123  & 9.908  & $-18.0$ \\
+400   & 4.142 & 10.950 & 13.210 & $-17.1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El HD2 simulado en la cascada crece de forma casi lineal con la amplitud de
+entrada y queda entre \SI{17}{\percent} y \SI{20}{\percent} por debajo del
+calculado con $\hat{v}_{gs}/(4V_{OV1})$. En el límite teórico de
+\SI{151.4}{mV} el HD2 simulado es \SI{4.04}{\percent}, por debajo del
+\SI{5}{\percent} exigido, y el \SI{5}{\percent} se alcanza hacia los
+\SI{187}{mV}. El criterio de cálculo resulta, por tanto, conservador.
+
+\subsubsection{Ganancia Av con frecuencia logarítmica, diagrama de Bode y ancho de banda}
+
+Ganancia $A_v$ con frecuencia logarítmica, diagrama de Bode y ancho de banda.
+Los cinco valores de frecuencia y ganancia se encuentran en la
+Tabla~\ref{tab:freq}.
+
+\begin{table}[!t]
+\centering
+\caption{Ganancia $A_v$ para distintas frecuencias.}
+\label{tab:freq}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{cc}
+\toprule
+Frecuencia & Ganancia ($A_v$) \\
+\midrule
+\SI{10}{Hz}  & 0.0508 \\
+\SI{100}{Hz} & 0.0558 \\
+\SI{1}{kHz}  & 3.759  \\
+\SI{10}{kHz} & 4.595  \\
+\SI{1}{MHz}  & 4.607  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Del circuito se obtiene el diagrama de Bode de la Fig.~\ref{fig:bode}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{bode_cascada_v2.png}
+\caption{Respuesta en frecuencia del amplificador en cascada.}
+\label{fig:bode}
+\end{figure}
+
+A partir del diagrama de Bode, la ganancia en banda media es
+\SI{12.92}{\decibel} (\SI{4.42}{\volt\per\volt}). Las frecuencias de corte a
+\SI{-3}{\decibel} son $f_L \approx \SI{694}{Hz}$ y
+$f_H \approx \SI{15.1}{MHz}$, por lo que el ancho de banda es
+$\mathrm{BW} \approx \SI{15.1}{MHz}$. A \SI{10}{kHz}, dentro de la banda
+media, la fase es \SI{-176.0}{\degree}, cercana a la inversión ideal.
 
 %==================================================================
 \section{Montaje}
