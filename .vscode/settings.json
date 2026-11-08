@@ -1,27 +1,25 @@
 {
   "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.recipe.default": "latexmk (pdflatex)",
   "latex-workshop.latex.recipes": [
     {
-      "name": "pdfLaTeX",
+      "name": "latexmk (pdflatex)",
       "tools": [
-        "pdflatex"
+        "latexmk"
       ]
     }
   ],
   "latex-workshop.latex.tools": [
     {
-      "name": "pdflatex",
-      "command": "pdflatex",
+      "name": "latexmk",
+      "command": "latexmk",
       "args": [
-        "-disable-installer",
-        "-synctex=1",
+        "-pdf",
         "-interaction=nonstopmode",
+        "-synctex=1",
         "-file-line-error",
-        "%DOCFILE%"
-      ],
-      "env": {
-        "TEXINPUTS": "C:\\Program Files\\MiKTeX\\tex\\latex\\l3kernel;"
-      }
+        "%DOC%"
+      ]
     }
   ],
   "python-envs.defaultEnvManager": "ms-python.python:system",
