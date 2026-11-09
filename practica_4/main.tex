@@ -603,7 +603,14 @@ Para el barrido logarítmico en frecuencia se obtuvo $A_v=0.0508$, 0.0558, 3.759
 
 \subsection{Caracterización de dos ejemplares del 2N7000}
 \label{sec:mont_car}
-Con la misma topología de la Fig.~\ref{fig:circ_car}(a) se midieron $V_{GS}$ e $I_D$ de dos ejemplares del 2N7000 variando $R_1$ de 1 a 10 k$\Omega$ en pasos de 1 k$\Omega$ (Tabla~\ref{tab:car}). El ajuste por mínimos cuadrados de $\sqrt{I_D}$ contra $V_{GS}$ según la \eqref{eq:raiz} da, con la \eqref{eq:vt_kn},
+Con la misma topología de la Fig.~\ref{fig:circ_car}(a) se midieron $V_{GS}$ e $I_D$ de dos ejemplares del 2N7000, mediante la conexión en paralelo a $V_{GS}$ de un voltimetro y la conexión en serie de un amperimetro.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{caracterización del MOSFET.jpg}
+  \caption{Montaje experimental para la caracterización del MOSFET 2N7000.}
+  \label{fig:mont_car}
+\end{figure}
+Posteriormente variando $R_1$ de 1 a 10 k$\Omega$ en pasos de 1 k$\Omega$ (Tabla~\ref{tab:car}) mediante un potenciometro Trimmer. El ajuste por mínimos cuadrados de $\sqrt{I_D}$ contra $V_{GS}$ según la ecuación  \eqref{eq:raiz} da, junto con la ecuación 4\eqref{eq:vt_kn},
 \begin{equation}
 \begin{aligned}
 \text{Ejemplar 1: }&\sqrt{I_D}=0.1572\,V_{GS}-0.2208,\ R^2=0.9896,\\
@@ -642,7 +649,47 @@ $R_1$ (k$\Omega$) & $V_{GS}$ (V) & $I_D$ (mA) & $V_{GS}$ (V) & $I_D$ (mA) & $V_{
 
 % --- Montaje de los amplificadores (completar tras la práctica de laboratorio) ---
 % \subsection{Amplificadores de fuente común, fuente degenerada, drenador común y cascada}
-
+\subsection{Amplificador de Source común}
+Para la implementación del amplificador de source común se siguió la topología diseñada originalmente en la simulación. Para acercarse
+a la resistencia de 160$\Omega$ se emplearon una resistencia de 100 $\Omega$ y 68 $\Omega$ ya que, si bien esta resistencia existe comercialmente, es relativamente escasa.
+Sin embargo, ya que esta topología es muy sensible a efectos termoeléctricos y las tolerancias del semiconductor, para obtener la ganancia adecuada se retiró posteriormente la resistencia de
+ 68 $\Omega$, dejando $RD = 100 \Omega$. Adicionalmente para los capacitores considerados en el diseño del circuito se emplearon capacitores electrolíticos.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{Source común.jpg}
+  \caption{Montaje experimental del amplificador de Source Común}
+  \label{fig:mont_SC}
+\end{figure}
+\subsection{Amplificador de Source degenerado}
+A diferencia del amplificador de Source común, para esta implementación se empleó un capacitor menos, el cuál sería el que se encuentra paralelo a $R_s$ en la configuración
+de Source común. Gracias a la estabilidad característica de esta topología, esta implementación no discrepa respecto del diseño.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{source degenerada.jpg}
+  \caption{Montaje experimental del amplificador de Source Degenerada}
+  \label{fig:mont_SC}
+\end{figure} 
+\subsection{Amplificador de Drain común}
+Este amplificador de tipo seguidor se montó empleando el mismo MOSFET que se usó para el amplificador de Source degenerada.
+Su principal peculiaridad dentro del montaje físico es que requirió emplear resistencias de mayor potencia para poder manejar las corrientes necesarias.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{drain común.jpg}
+  \caption{Montaje experimental del amplificador de Drain Común}
+  \label{fig:mont_DC}
+\end{figure}
+\subsection{Amplificador en cascada} 
+En esta configuración se realizaron varios cambios respecto al diseño original de ambas etapas. En primer lugar se encuentran los cambios
+anteriormente mencionados respecto a la construcción del amplificador de Source Común. El cambio central es respecto a la alimentación de los circuitos, en dónde para esta configuración
+se decidió alimentar ambos circuitos con una fuente lineal de 12V, frente a la fuente conmutada disponible en el laboratorio. Adicionalmente, dado que no fue posible presentar este circuito en funcionamiento
+durante las horas de clase dadas, este se presentó en un horario dónde no estaba disponible el prestamo de equipos, por lo que se emplearon otros instrumentos
+para generar la onda de entrada, y analizar las ondas de entrada y salida.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{cascada.jpg}
+  \caption{Montaje experimental del amplificador en cascada}
+  \label{fig:mont_Casc}
+\end{figure}
 %==================================================================
 \section{Análisis de resultados}
 %==================================================================
