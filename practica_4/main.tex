@@ -597,6 +597,82 @@ Para el barrido logarítmico en frecuencia se obtuvo $A_v=0.0508$, 0.0558, 3.759
 \label{fig:casc}
 \end{figure}
 
+
+\subsection{Circuito espejo de corriente continua}
+
+\subsubsection{Polarización del circuito y posibles variaciones respecto a cálculos}
+
+Según la simulación hecha en LTspice, se obtuvieron los siguientes resultados de polarización de los MOSFET M1 y M2:
+
+\begin{table}[htbp]
+    \centering
+    \caption{Resultados de polarización de los MOSFET M1 y M2}
+    \begin{tabular}{cccccc}
+        \toprule
+        ID (mA) & VD (V) & VG (V) & VS (V) & VDS (V) & VGS (V) \\
+        \midrule
+        34.603 & 2.730 & 2.730 & 0 & 2.730 & 2.730 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Al comparar con los cálculos se obtiene la siguiente tabla:
+
+\begin{table}[htbp]
+    \centering
+    \caption{Comparación con cálculos teóricos}
+    \begin{tabular}{lccc}
+        \toprule
+        Variable & Cálculo & LTspice & Error \\
+        \midrule
+        ID & 35 mA & 34.603 mA & 1.13\% \\
+        VGS (M1 y M2) & 2.595 V & 2.730 V & 5.2\% \\
+        VG & 2.595 V & 2.730 V & 5.2\% \\
+        VD (M1) & 2.730 V & 2.595 V & 5.2\% \\
+        VDS (M1 y M2) & 2.595 V & 2.730 V & 5.2\% \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+La simulación del espejo de corriente entrega $ID=34.603\text{ mA}$ 1.1\% menor que los 35 mA de diseño, lo que confirma la elección de $R=RL=330~\Omega$ y VDD = 14.15 V.
+Las tensiones VGS, VG, VD y VDS valen 2.730 V, un 5.2\% más que los 2.595 V calculados, porque el transistor simulado necesita más VGS para conducir la misma corriente que la predicha con $\Vtm$ y $\knm$, que se extrajeron a corrientes menores y no incluyen efectos como la resistencia serie de fuente.
+
+\subsubsection{Zout:}
+
+En el circuito espejo de corriente no hay Zin y sí Zout ya que el espejo no tiene entrada de señal: la compuerta de M2 se conecta al drenador de M1 y solo fija la polarización, así que no hay un puerto de entrada ni una ganancia que definir. Sí tiene un puerto de salida, el drenador de M2, que es donde se conecta la carga. Por eso Zout (la resistencia de salida de la fuente de corriente, ro de M2) sí se puede calcular.
+
+En la simulación se reemplazó R3 por una fuente de tensión variable (Vtest) y se barrió de 0 a 14.15 V con .dc. En cada punto se midió la corriente que entrega la fuente y la tensión en el drenador de M2, y con eso se graficó Iout contra Vout.
+
+\begin{figure}[htbp]
+    \centering
+    % Cambia 'figura_salida.png' por el nombre real de tu archivo de imagen
+    \includegraphics[width=\columnwidth]{Pa_sacar_Zout_fuente_corriente_Iout_vs_vout.png} 
+    \caption{Característica de salida de la fuente de corriente.}
+    \label{fig:caracteristica_salida}
+\end{figure}
+
+Zout es la inversa de la pendiente de esa curva en saturación: $Zout = \Delta V_{out} / \Delta I_{out}$.
+Aquí la corriente no cambió (34.603 mA) en 12.85 V, así que $\Delta I \approx 0$ y $Zout \to \infty$.
+Coincide con el cálculo, que supone $r_o \to \infty$.
+
+\subsubsection{Curva de transferencia}
+
+El espejo de corriente no tiene entrada ni salida en tensión, por lo que no existe una curva Vin contra Vout. La curva de transferencia equivalente es Iout contra Iref (I1), cuya pendiente es la ganancia de corriente (idealmente 1). En la simulación, Iout sigue la recta ideal hasta $\approx 38\text{ mA}$; después M2 sale de saturación y la corriente se limita a $VDD/R \approx 42.9\text{ mA}$. El punto de diseño (35 mA) queda en la zona lineal.
+
+\begin{figure}[htbp]
+    \centering
+    % Cambia 'figura_transferencia.png' por el nombre real de tu archivo de imagen
+    \includegraphics[width=\columnwidth]{curva_transferencia_espejo.png} 
+    \caption{Curva de transferencia, espejo de corriente (2N7000).}
+    \label{fig:curva_transferencia}
+\end{figure}
+
+Para obtener la curva se usó un barrido en DC (.dc I1 0 50m 0.5m) en LTspice, variando la fuente de corriente de referencia I1 de 0 a 50 mA en pasos de 0,5 mA. El circuito se alimenta con $VCC=14,15\text{ V y}$ usa dos MOSFET 2N7000 con una carga $R3=330~\Omega$. La corriente de salida se mide como la corriente por R3, usando la fuente V2 de 0 V como amperímetro, y se grafica Iout contra I1.
+
+El espejo es válido mientras $VDS2 \ge V_{OV}$ es decir, hasta Iref $\approx 39\text{ mA}$ con VDD = 14.15 V y R = 330 $\Omega$. La corriente de diseño de 35 mA queda dentro, con un margen de 4 mA.
+
+Por otro lado no se presenta diagrama de Bode porque el espejo de corriente es un circuito de polarización que trabaja en continua (DC), su función es copiar una corriente de referencia, no amplificar ni filtrar una señal en función de la frecuencia.
+
 %==================================================================
 \section{Montaje}
 %==================================================================
